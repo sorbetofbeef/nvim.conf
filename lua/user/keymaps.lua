@@ -9,35 +9,36 @@ local keymap = vim.keymap.set
 --Remap space as leader key
 keymap("", "<Space>", "<Nop>", { silent = true })
 vim.g.mapleader = " "
-local opts = {
-  silent = true,
-  noremap = true
-}
 
--- Normal --
--- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
+local function standard_maps ()
+  local opts = {
+    silent = true,
+    noremap = true
+  }
 
--- Resize with arrows
-keymap("n", "<C-Up>", "<cmd>resize -2<CR>", opts)
-keymap("n", "<C-Down>", "<cmd>resize +2<CR>", opts)
-keymap("n", "<C-Left>", "<cmd>vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", "<cmd>vertical resize +2<CR>", opts)
+  -- Normal --
+  -- Better window navigation
+  keymap("n", "<C-h>", "<C-w>h", opts)
+  keymap("n", "<C-j>", "<C-w>j", opts)
+  keymap("n", "<C-k>", "<C-w>k", opts)
+  keymap("n", "<C-l>", "<C-w>l", opts)
 
--- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>", opts)
-keymap("n", "<S-h>", ":bprevious<CR>", opts)
+  -- Resize with arrows
+  keymap("n", "<C-Up>", "<cmd>resize -2<CR>", opts)
+  keymap("n", "<C-Down>", "<cmd>resize +2<CR>", opts)
+  keymap("n", "<C-Left>", "<cmd>vertical resize -2<CR>", opts)
+  keymap("n", "<C-Right>", "<cmd>vertical resize +2<CR>", opts)
 
--- Better paste
--- keymap("n", "p", "_dP", opts)
+  -- Navigate buffers
+  keymap("n", "<S-l>", ":bnext<CR>", opts)
+  keymap("n", "<S-h>", ":bprevious<CR>", opts)
 
-
-keymap("i", "jk", "<ESC>", opts)
-keymap("v", "<", "<gv", opts)
-keymap("v", ">", ">gv", opts)
+  -- Better paste
+  -- keymap("n", "p", "_dP", opts)
+  keymap("i", "jk", "<ESC>", opts)
+  keymap("v", "<", "<gv", opts)
+  keymap("v", ">", ">gv", opts)
+end
 
 local plug_maps = function()
 	local opts = {
@@ -95,3 +96,4 @@ local plug_maps = function()
 end
 
 plug_maps()
+standard_maps()

@@ -10,5 +10,5 @@ wk.setup({
     spacing = 3, -- spacing between columns
     align = "center", -- align columns left, center or right
   },
-  ignore_missing = true, -- enable this to hide mappings for which you didn't specify a label
+  ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
 })

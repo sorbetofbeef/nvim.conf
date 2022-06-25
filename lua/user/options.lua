@@ -38,3 +38,5 @@ vim.opt.fillchars.eob=" "
 vim.opt.shortmess:append "c"
 vim.opt.whichwrap:append("<,>,[,],h,l")
 vim.opt.iskeyword:append("-")
+vim.ui.select = require("popui.ui-overrider")
+vim.ui.input = require("popui.input-overrider")

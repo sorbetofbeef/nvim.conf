@@ -5,7 +5,6 @@ end
 
 local servers = {
   "gopls",
-  "rust_analyzer",
   "sumneko_lua",
   "cssls",
   "html",
