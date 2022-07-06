@@ -1,3 +1,4 @@
+-- Neovim Options --
 vim.opt.backup = false                          -- creates a backup file
 vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
@@ -25,7 +26,7 @@ vim.opt.shiftwidth = 2                          -- the number of spaces inserted
 vim.opt.tabstop = 2                             -- insert 2 spaces for a tab
 vim.opt.cursorline = true                       -- highlight the current line
 vim.opt.number = true                           -- set numbered lines
-vim.opt.laststatus = 3
+vim.opt.laststatus = 2
 vim.opt.showcmd = false
 vim.opt.ruler = false
 vim.opt.numberwidth = 4                         -- set number column width to 2 {default 4}
@@ -33,10 +34,15 @@ vim.opt.signcolumn = "yes"                      -- always show the sign column, 
 vim.opt.wrap = false                            -- display lines as one long line
 vim.opt.scrolloff = 8                           -- is one of my fav
 vim.opt.sidescrolloff = 8
-vim.opt.guifont = "monospace:h17"               -- the font used in graphical neovim applications
 vim.opt.fillchars.eob=" "
 vim.opt.shortmess:append "c"
 vim.opt.whichwrap:append("<,>,[,],h,l")
 vim.opt.iskeyword:append("-")
-vim.ui.select = require("popui.ui-overrider")
-vim.ui.input = require("popui.input-overrider")
+
+-- GUI Options
+vim.opt.guifont = "Fixedsys Excelsior,Symbols Nerd Font:h12"               -- the font used in graphical neovim applications
+
+-- Neovide Global Options --
+vim.g.neovide_transparency = 0.85
+vim.g.neovide_no_idle = true
+

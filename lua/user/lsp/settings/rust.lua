@@ -3,8 +3,8 @@ if not status_ok then
   return
 end
 
-local lsp_status_ok, handlers = pcall(require, "user.lsp.handlers")
-if not lsp_status_ok then
+local handler_status_ok, handlers = pcall(require, "user.lsp.handlers")
+if not handler_status_ok then
   return
 end
 
@@ -14,17 +14,27 @@ local liblldb_path = extension_path .. 'lldb/lib/liblldb.dylib'
 
 local rust_opts = {
   tools = {
+    on_initialized = function ()
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "CursorHold", "InsertLeave" }, {
+        pattern = { "*.rs" },
+        callback = function()
+          vim.lsp.codelens.refresh()
+        end,
+      })
+    end,
     autoSetHints = true,
     hover_with_actions = true,
-    runnables = { use_telescope = true },
-    debuggables = { use_telescope = true },
+    -- runnables = { use_telescope = false },
+    -- debuggables = { use_telescope = false },
     inlay_hints = {
-      show_parameter_hints = false,
-      parameter_hints_prefix = "",
-      other_hints_prefix = "",
+      show_parameter_hints = true,
+      show_variable_name = true,
+      parameter_hints_prefix = " << ",
+      other_hints_prefix = " >> ",
     },
     hover_actions = {
-      border = "single",
+      border = "rounded",
+      auto_focus = true,
     },
   },
   dap = {
@@ -35,35 +45,36 @@ local rust_opts = {
     --name = "rt_lldb"
     --}
   },
-  runnables = { use_telescope = true },
-  debuggables = { use_telescope = true },
+  -- runnables = { use_telescope = true },
+  -- debuggables = { use_telescope = true },
   server = {
-    --cmd = {"/home/sharks/source/dotfiles/misc/misc/rust-analyzer-wrapper"},
     on_attach = handlers.on_attach,
-    capabilities = handlers.updated_capabilities,
+    capabilities = handlers.capabilities,
+    --cmd = {"/home/sharks/source/dotfiles/misc/misc/rust-analyzer-wrapper"},
     settings = {
       -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
       ["rust-analyzer"] = {
         updates = { channel = "stable" },
         assist = {
-          importGroup = true,
-          importMergeBehaviour = "full",
-          importPrefix = "by_crate",
+          expressionFillDefault = "todo",
+          --[[ importGroup = true,
+          importGranularity = "module",
+          importPrefix = "self", ]]
         },
 
-        callInfo = {
+        --[[ callInfo = {
           full = true,
-        },
+        }, ]]
 
         cargo = {
-          allFeatures = true,
+          features = "all",
           autoreload = true,
           loadOutDirsFromCheck = true,
         },
 
         checkOnSave = {
           command = "clippy",
-          allFeatures = true,
+          features = "all",
           extraArgs = { "--tests" },
         },
 
@@ -92,6 +103,13 @@ local rust_opts = {
           linksInHover = true,
         },
 
+        imports = {
+          granularity = {
+            enable = true,
+          },
+          enableExperimental = true,
+        },
+
         inlayHints = {
           chainingHints = true,
           parameterHints = true,
@@ -116,7 +134,7 @@ local rust_opts = {
         },
       }, -- ["rust-analyzer"]
     }, -- settings
-  }, -- lsp server
+  } -- lsp server
 }
 
 rt.setup(rust_opts)

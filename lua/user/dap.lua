@@ -24,19 +24,20 @@ dap_install.config("codelldb", {})
 -- If you want to use this for Rust and C, add something like this:
 
 dapui.setup {
-  sidebar = {
+
+  layout = {
     elements = {
       {
         id = "scopes",
         size = 0.25, -- Can be float or integer > 1
+        position = "right",
       },
-      { id = "breakpoints", size = 0.25 },
+      {
+        id = "breakpoints",
+        size = 0.25,
+        position = "right",
+      },
     },
-    size = 40,
-    position = "right", -- Can be "left", "right", "top", "bottom"
-  },
-  tray = {
-    elements = {},
   },
 }
 

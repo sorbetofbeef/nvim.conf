@@ -13,6 +13,8 @@ local servers = {
   "bashls",
   "jsonls",
   "yamlls",
+  "taplo",
+  "rust_analyzer",
 }
 
 lsp_installer.setup()
@@ -40,5 +42,11 @@ for _, server in pairs(servers) do
     opts = vim.tbl_deep_extend("force", pyright_opts, opts)
   end
 
+  if server == "rust_analyzer" then
+    require("user.lsp.settings.rust")
+    goto continue
+  end
+
   lspconfig[server].setup(opts)
+  ::continue::
 end

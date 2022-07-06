@@ -5,13 +5,17 @@ end
 
 configs.setup({
 	ensure_installed = "all", -- one of "all" or a list of languages
-	ignore_install = { "" }, -- List of parsers to ignore installing
+	ignore_install = { "php", "phpdoc" }, -- List of parsers to ignore installing
 	highlight = {
 		enable = true, -- false will disable the whole extension
-		disable = { "css" }, -- list of language that will be disabled
+		disable = { "markdown" }, -- list of language that will be disabled
 	},
 	autopairs = {
 		enable = true,
 	},
-	indent = { enable = true, disable = { "python", "css" } },
+	indent = { enable = true, disable = { "python", "css", "rust" } },
+  autotag = {
+    enable = true,
+    disable = { "xml", "markdown" },
+  }
 })

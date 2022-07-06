@@ -29,13 +29,30 @@ local function standard_maps ()
   keymap("n", "<C-Left>", "<cmd>vertical resize -2<CR>", opts)
   keymap("n", "<C-Right>", "<cmd>vertical resize +2<CR>", opts)
 
-  -- Navigate buffers
-  keymap("n", "<S-l>", ":bnext<CR>", opts)
-  keymap("n", "<S-h>", ":bprevious<CR>", opts)
+  keymap("i", "<C-k>", "<Up>", opts)
+  keymap("i", "<C-j>", "<Down>", opts)
+  keymap("i", "<C-h>", "<Left>", opts)
+  keymap("i", "<C-l>", "<Right>", opts)
 
-  -- Better paste
+  keymap("n", "<C-s>", "<cmd>vsplit<cr>", opts)
+
+  -- Buffers --
+  keymap("n", "gl", ":bnext<CR>", opts)
+  keymap("n", "gh", ":bprevious<CR>", opts)
+
+  -- Tabs --
+  keymap("n", "gj", ":tabnext<CR>", opts)
+  keymap("n", "gk", ":tabprevious<CR>", opts)
+  keymap("n", "gt", ":tabnew<CR>", opts)
+
+  -- Movement --
   -- keymap("n", "p", "_dP", opts)
+  -- keymap("n", "j", "gj", opts)
+  -- keymap("n", "k", "gk", opts)
   keymap("i", "jk", "<ESC>", opts)
+  keymap("v", "jk", "<ESC>", opts)
+  keymap("x", "jk", "<ESC>", opts)
+
   keymap("v", "<", "<gv", opts)
   keymap("v", ">", ">gv", opts)
 end
@@ -50,6 +67,7 @@ local plug_maps = function()
 		-- Plugins --
 		-- NvimTree
 		e = { "<cmd>NvimTreeToggle<CR>", "NvimTree" },
+		b = { "<cmd>Telescope buffers<CR>", "Buffers" },
 
 		-- Telescope
 		f = {
@@ -57,12 +75,16 @@ local plug_maps = function()
 			f = { "<cmd>Telescope find_files<CR>", "Find File" },
 			t = { "<cmd>Telescope live_grep<CR>", "Find Text" },
 			p = { "<cmd>Telescope projects<CR>", "Find Projects" },
-			b = { "<cmd>Telescope buffers<CR>", "Find Buffers" },
 			k = { "<cmd>Telescope keymaps<CR>", "Find Keymaps" },
 		},
 
-		-- Git
-		g = { "<cmd>lua _LAZYGIT_TOGGLE()<CR>", "LazyGit" },
+    -- Symbol Outline 
+    s = {
+      name = "Symbols Panel",
+      o = { "<cmd>SymbolsOutline<CR>", "Toggle" },
+      -- o = { "", "" },
+      -- o = { "", "" },
+    },
 
 		-- DAP
 		d = {
@@ -91,6 +113,15 @@ local plug_maps = function()
 		-- Comment
 		-- c = { "<cmd>lua require('Comment.api').toggle_current_linewise()<CR>", "Comment Line", {opts = "g" } },
 		-- b = { '<ESC><CMD>lua require("Comment.api").toggle_linewise_op(vim.fn.visualmode())<CR>', "Comment Block", { { opts = "g"}, { mode = "v" } } }
+
+    t = {
+      name = "Terminal",
+      t = {":ToggleTerm<CR>", "Term"},
+      T = {":ToggleTermToggleAll<CR>", "Term"},
+      f = {"<cmd>lua _FLOAT_TOGGLE()<CR>", "Float Term"},
+      g = {"<cmd>lua _LAZYGIT_TOGGLE()<CR>", "Lazygit"},
+      h = {"<cmd>lua _HTOP_TOGGLE()<CR>", "htop"},
+    }
 	}
 	wk.register(mappings, opts)
 end
