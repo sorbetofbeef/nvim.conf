@@ -106,7 +106,10 @@ return packer.startup(function(use)
 
   -- Rust
   use { 'simrat39/rust-tools.nvim' }
-  use { 'Saecki/crates.nvim'}
+  use { 'saecki/crates.nvim'}
+
+  -- Flutter
+  use {'akinsho/flutter-tools.nvim' }
 
   -- SQL
   use { 'nanotee/sqls.nvim'}

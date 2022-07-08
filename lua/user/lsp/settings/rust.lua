@@ -35,6 +35,8 @@ local rust_opts = {
     hover_actions = {
       border = "rounded",
       auto_focus = true,
+      width = 60,
+      height = 30
     },
   },
   dap = {
@@ -48,6 +50,7 @@ local rust_opts = {
   -- runnables = { use_telescope = true },
   -- debuggables = { use_telescope = true },
   server = {
+    cmd = { os.getenv "HOME" .. "/.local/bin/rust-analyzer" },
     on_attach = handlers.on_attach,
     capabilities = handlers.capabilities,
     --cmd = {"/home/sharks/source/dotfiles/misc/misc/rust-analyzer-wrapper"},

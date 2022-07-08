@@ -1,3 +1,5 @@
+local M = {}
+
 local status_ok, wk = pcall(require, "which-key")
 if not status_ok then
 	return
@@ -49,6 +51,22 @@ local function standard_maps ()
   -- keymap("n", "p", "_dP", opts)
   -- keymap("n", "j", "gj", opts)
   -- keymap("n", "k", "gk", opts)
+-- Sane movement defaults that works on long wrapped lines
+  local expr = { expr = true, noremap = false, silent = false }
+  keymap('n', 'j', '(v:count ? \'j\' : \'gj\')', expr)
+  keymap('n', 'k', '(v:count ? \'k\' : \'gk\')', expr)
+  keymap('', '<Down>', '(v:count ? \'j\' : \'gj\')', expr)
+  keymap('', '<Up>', '(v:count ? \'k\' : \'gk\')', expr)
+
+  keymap('n', 'x', '"_x') -- delete char without yank
+  keymap('x', 'x', '"_x') -- delete visual selection without yank
+
+  -- paste in visual mode and keep available
+  keymap('x', 'p', [['pgv"'.v:register.'y`>']], expr)
+  keymap('x', 'P', [['Pgv"'.v:register.'y`>']], expr)
+  -- select last inserted text
+  keymap('n', 'gV', [['`[' . strpart(getregtype(), 0, 1) . '`]']], expr)
+
   keymap("i", "jk", "<ESC>", opts)
   keymap("v", "jk", "<ESC>", opts)
   keymap("x", "jk", "<ESC>", opts)
@@ -71,7 +89,8 @@ local plug_maps = function()
 
 		-- Telescope
 		f = {
-			name = "Telescope",
+			name = "Find",
+      a = { "<cmd>Alpha<CR>", "Go Home"},
 			f = { "<cmd>Telescope find_files<CR>", "Find File" },
 			t = { "<cmd>Telescope live_grep<CR>", "Find Text" },
 			p = { "<cmd>Telescope projects<CR>", "Find Projects" },
@@ -79,12 +98,7 @@ local plug_maps = function()
 		},
 
     -- Symbol Outline 
-    s = {
-      name = "Symbols Panel",
-      o = { "<cmd>SymbolsOutline<CR>", "Toggle" },
-      -- o = { "", "" },
-      -- o = { "", "" },
-    },
+    s = { "<cmd>SymbolsOutline<CR>", "Symbols Panel" },
 
 		-- DAP
 		d = {
@@ -117,7 +131,6 @@ local plug_maps = function()
     t = {
       name = "Terminal",
       t = {":ToggleTerm<CR>", "Term"},
-      T = {":ToggleTermToggleAll<CR>", "Term"},
       f = {"<cmd>lua _FLOAT_TOGGLE()<CR>", "Float Term"},
       g = {"<cmd>lua _LAZYGIT_TOGGLE()<CR>", "Lazygit"},
       h = {"<cmd>lua _HTOP_TOGGLE()<CR>", "htop"},
@@ -126,5 +139,32 @@ local plug_maps = function()
 	wk.register(mappings, opts)
 end
 
+M.flutter_maps = function ()
+	local opts = {
+		mode = "n",
+		prefix = "<leader>",
+	}
+  local mappings = {
+    L = {
+      name = "Flutter",
+      r = { "<cmd>FlutterRun<CR>", "Run" },
+      d = { "<cmd>FlutterDevices<CR>", "Devices" },
+      e = { "<cmd>FlutterEmulators<CR>", "Emulators" },
+      R = { "<cmd>FlutterReload<CR>", "Reload" },
+      ['<C-R>'] = { "<cmd>FlutterRestart<CR>", "Restart" },
+      q = { "<cmd>FlutterQuit<CR>", "Quit" },
+      D = { "<cmd>FlutterDetach<CR>", "Detach" },
+      o = { "<cmd>FlutterOutlineToggle<CR>", "Outline Toggle" },
+      t = { "<cmd>FlutterDevTools<CR>", "Dev Tools" },
+      y = { "<cmd>FlutterCopyProfileUrl<CR>", "Copy Profile URL" },
+      l = { "<cmd>FlutterLspRestart<CR>", "LSP Restart" },
+    }
+  }
+
+  wk.register(mappings, opts)
+end
+
+
 plug_maps()
 standard_maps()
+return M

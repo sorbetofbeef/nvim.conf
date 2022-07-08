@@ -10,7 +10,7 @@ vim.opt.ignorecase = true                       -- ignore case in search pattern
 vim.opt.mouse = "a"                             -- allow the mouse to be used in neovim
 vim.opt.pumheight = 10                          -- pop up menu height
 vim.opt.showmode = false                        -- we don't need to see things like -- INSERT -- anymore
-vim.opt.showtabline = 0                         -- always show tabs
+vim.opt.showtabline = 2                         -- always show tabs
 vim.opt.smartcase = true                        -- smart case
 vim.opt.smartindent = true                      -- make indenting smarter again
 vim.opt.splitbelow = true                       -- force all horizontal splits to go below current window
@@ -38,6 +38,30 @@ vim.opt.fillchars.eob=" "
 vim.opt.shortmess:append "c"
 vim.opt.whichwrap:append("<,>,[,],h,l")
 vim.opt.iskeyword:append("-")
+
+vim.opt.wildignorecase = true -- Ignore case when completing file names and directories
+vim.opt.wildcharm = 26 -- equals set wildcharm=<C-Z>, used in the mapping section
+
+-- Binary
+vim.opt.wildignore = {
+    '*.aux,*.out,*.toc',
+    '*.o,*.obj,*.dll,*.jar,*.pyc,__pycache__,*.rbc,*.class',
+    -- media
+    '*.ai,*.bmp,*.gif,*.ico,*.jpg,*.jpeg,*.png,*.psd,*.webp',
+    '*.avi,*.m4a,*.mp3,*.oga,*.ogg,*.wav,*.webm',
+    '*.eot,*.otf,*.ttf,*.woff',
+    '*.doc,*.pdf',
+    -- archives
+    '*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz',
+    -- temp/system
+    '*.*~,*~ ',
+    '*.swp,.lock,.DS_Store,._*,tags.lock',
+    -- version control
+    '.git,.svn',
+}
+vim.opt.wildoptions = 'pum'
+vim.opt.pumblend = 7 -- Make popup window translucent
+vim.opt.pumheight = 20 -- Limit the amount of autocomplete items shown
 
 -- GUI Options
 vim.opt.guifont = "Fixedsys Excelsior,Symbols Nerd Font:h12"               -- the font used in graphical neovim applications

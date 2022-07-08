@@ -1,4 +1,4 @@
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+vim.api.nvim_create_autocmd({ "BufWinEnter, BufEnter" }, {
   pattern = { "Cargo.toml" },
   callback = function()
     local status_ok, which_key = pcall(require, "which-key")

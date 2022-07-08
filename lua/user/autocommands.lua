@@ -19,6 +19,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- ]]
 --   end,
 -- })
+
 if vim.fn.has('nvim-0.8') == 1 then
   vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost" }, {
     callback = function()
@@ -41,12 +42,10 @@ vim.api.nvim_create_autocmd({ "BufEnter, BufWinEnter" }, {
   command = "TabRename New Tab"
 })
 
-local function new_tab()
-  vim.api.nvim_create_autocmd({ "BufEnter, BufWinEnter" }, {
-    pattern = { "*" },
-    command = "TabRename New Tab"
-  })
-end
+vim.api.nvim_create_autocmd({ "BufEnter, BufWinEnter" }, {
+  pattern = { "*.dart" },
+  command = "lua require('user.keymaps').flutter_maps()"
+})
 
 vim.cmd "autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif"
 
