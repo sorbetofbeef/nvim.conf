@@ -15,8 +15,8 @@ end
 
 dap_install.setup {}
 
-dap_install.config("python", {})
 dap_install.config("lua", {})
+dap_install.config("dart", {})
 dap_install.config("go", {})
 dap_install.config("codelldb", {})
 -- add other configs here

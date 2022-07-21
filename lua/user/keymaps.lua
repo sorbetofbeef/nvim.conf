@@ -83,14 +83,16 @@ local plug_maps = function()
 
 	local mappings = {
 		-- Plugins --
+    -- Alpha
+    h = { "<cmd>Alpha<CR>", "Go Home"},
 		-- NvimTree
-		e = { "<cmd>NvimTreeToggle<CR>", "NvimTree" },
-		b = { "<cmd>Telescope buffers<CR>", "Buffers" },
+		-- e = { "<cmd>Telescope file_browser<CR>", "Explorer" },
+		e = { "<cmd>NvimTreeToggle<CR>", "Explorer" },
 
 		-- Telescope
+		b = { "<cmd>Telescope buffers<CR>", "Buffers" },
 		f = {
 			name = "Find",
-      a = { "<cmd>Alpha<CR>", "Go Home"},
 			f = { "<cmd>Telescope find_files<CR>", "Find File" },
 			t = { "<cmd>Telescope live_grep<CR>", "Find Text" },
 			p = { "<cmd>Telescope projects<CR>", "Find Projects" },
@@ -98,7 +100,7 @@ local plug_maps = function()
 		},
 
     -- Symbol Outline 
-    s = { "<cmd>SymbolsOutline<CR>", "Symbols Panel" },
+    o = { "<cmd>SymbolsOutline<CR>", "Symbols Panel" },
 
 		-- DAP
 		d = {
@@ -114,7 +116,7 @@ local plug_maps = function()
 		},
 
 		-- Clear highlights
-		["h"] = { "<cmd>nohlsearch<CR>", "which_key_ignore" },
+		["<ESC>"] = { "<cmd>nohlsearch<CR>", "which_key_ignore" },
 
 		-- Close buffers
 		["C"] = { "<cmd>Bdelete!<CR>", "which_key_ignore" },
@@ -136,34 +138,171 @@ local plug_maps = function()
       h = {"<cmd>lua _HTOP_TOGGLE()<CR>", "htop"},
     }
 	}
+
 	wk.register(mappings, opts)
 end
 
-M.flutter_maps = function ()
+M.lsp_g_keymaps = function(bufnr)
+	local opts = {
+		mode = "n",
+		prefix = "",
+		buffer = bufnr,
+	}
+	local mappings = {
+		g = {
+			name = "LSP GoTo",
+			D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
+			d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
+			I = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Implementation" },
+			r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
+			e = { ":lua require'popui.diagnostics-navigator'()<CR>", "Diagnostics" },
+		},
+	}
+	wk.register(mappings, opts)
+end
+
+M.lsp_l_keymaps = function(bufnr)
 	local opts = {
 		mode = "n",
 		prefix = "<leader>",
+		buffer = bufnr,
+	}
+	local mappings = {
+		["<C-K>"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "which_key_ignore" },
+		l = {
+			name = "Lsp Actions",
+      s = { "<cmd>Telescope luasnip<CR>", "Snippets" },
+			f = { "<cmd>lua vim.lsp.buf.format({async = true})<cr>", "Formatting" },
+			i = { "<cmd>LspInfo<cr>", "Info" },
+			I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
+			j = { "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", "Next Diagnositic" },
+			k = { "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", "Prev Diagnositic" },
+			r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+			q = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Daignostic List" },
+			a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
+		},
+	}
+	wk.register(mappings, opts)
+end
+
+M.flutter_maps = function (bufnr)
+	local opts = {
+		mode = "n",
+		prefix = "<leader>",
+    buffer = bufnr,
 	}
   local mappings = {
-    L = {
+    p = {
       name = "Flutter",
-      r = { "<cmd>FlutterRun<CR>", "Run" },
+      R = { "<cmd>FlutterRun<CR>", "Run" },
       d = { "<cmd>FlutterDevices<CR>", "Devices" },
       e = { "<cmd>FlutterEmulators<CR>", "Emulators" },
-      R = { "<cmd>FlutterReload<CR>", "Reload" },
-      ['<C-R>'] = { "<cmd>FlutterRestart<CR>", "Restart" },
+      ['<C-R>'] = { "<cmd>FlutterReload<CR>", "Reload" },
+      r = { "<cmd>FlutterRestart<CR>", "Restart" },
       q = { "<cmd>FlutterQuit<CR>", "Quit" },
       D = { "<cmd>FlutterDetach<CR>", "Detach" },
       o = { "<cmd>FlutterOutlineToggle<CR>", "Outline Toggle" },
       t = { "<cmd>FlutterDevTools<CR>", "Dev Tools" },
       y = { "<cmd>FlutterCopyProfileUrl<CR>", "Copy Profile URL" },
       l = { "<cmd>FlutterLspRestart<CR>", "LSP Restart" },
+      a = { "<cmd>Telescope flutter<CR>", "Flutter Tools" },
     }
   }
 
   wk.register(mappings, opts)
 end
 
+M.rust_maps = function (bufnr)
+  local opts = {
+    mode = "n", -- NORMAL mode
+    prefix = "<leader>",
+    buffer = bufnr, -- Global mappings. Specify a buffer number for buffer local mappings
+    silent = true, -- use `silent` when creating keymaps
+    noremap = true, -- use `noremap` when creating keymaps
+    nowait = true, -- use `nowait` when creating keymaps
+  }
+
+  local mappings = {
+    p = {
+      name = "Rust",
+      t = { "<cmd>RustToggleInlayHints<Cr>", "Toggle Hints" },
+      r = { "<cmd>RustRunnables<Cr>", "Runnables" },
+      m = { "<cmd>RustExpandMacro<Cr>", "Expand Macro" },
+      c = { "<cmd>RustOpenCargo<Cr>", "Open Cargo" },
+      p = { "<cmd>RustParentModule<Cr>", "Parent Module" },
+      -- j = { "<cmd>RustJoinLines<Cr>", "Join Lines" },
+      -- s = { "<cmd>RustStartStandaloneServerForBuffer<Cr>", "Start Server Buf" },
+      d = { "<cmd>RustDebuggables<Cr>", "Debuggables" },
+      v = { "<cmd>RustViewCrateGraph<Cr>", "View Crate Graph" },
+      R = {
+        "<cmd>lua require('rust-tools/workspace_refresh')._reload_workspace_from_cargo_toml()<Cr>",
+        "Reload Workspace",
+      },
+      S = { "<cmd>RustSSR<Cr>", "SSR" },
+      o = { "<cmd>RustOpenExternalDocs<Cr>", "Open External Docs" },
+      -- h = { "<cmd>RustSetInlayHints<Cr>", "Enable Hints" },
+      -- H = { "<cmd>RustDisableInlayHints<Cr>", "Disable Hints" },
+      -- a = { "<cmd>RustHoverActions<Cr>", "Hover Actions" },
+      -- a = { "<cmd>RustHoverRange<Cr>", "Hover Range" },
+      -- j = { "<cmd>RustMoveItemDown<Cr>", "Move Item Down" },
+      -- k = { "<cmd>RustMoveItemUp<Cr>", "Move Item Up" },
+    },
+  }
+
+  wk.register(mappings, opts)
+end
+
+M.rust_doc_mapping = function(bufnr)
+	local opts = {
+		mode = "n",
+		prefix = "",
+		buffer = bufnr,
+	}
+	local mappings = {
+		K = { ":RustHoverActions<CR>", "Hover Actions" },
+	}
+	wk.register(mappings, opts)
+end
+
+M.go_keymaps = function(bufnr)
+	local opts = {
+		mode = "n",
+		prefix = "<leader>",
+		buffer = bufnr,
+	}
+	local mappings = {
+		g = {
+			name = "Rust",
+			r = { ":GoRun<CR>", "Go Run" },
+			d = { ":GoDebug<CR>", "Go Debug" },
+		},
+	}
+	wk.register(mappings, opts)
+end
+
+M.go_doc_mapping = function(bufnr)
+	local opts = {
+		mode = "n",
+		prefix = "",
+		buffer = bufnr,
+	}
+	local mappings = {
+		K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover Actions" },
+	}
+	wk.register(mappings, opts)
+end
+
+M.lsp_doc_mapping = function(bufnr)
+	local opts = {
+		mode = "n",
+		prefix = "",
+		buffer = bufnr,
+	}
+	local mappings = {
+		K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover Docs" },
+	}
+	wk.register(mappings, opts)
+end
 
 plug_maps()
 standard_maps()

@@ -17,7 +17,7 @@ vim.opt.splitbelow = true                       -- force all horizontal splits t
 vim.opt.splitright = true                       -- force all vertical splits to go to the right of current window
 vim.opt.swapfile = false                        -- creates a swapfile
 vim.opt.termguicolors = true                    -- set term gui colors (most terminals support this)
-vim.opt.timeoutlen = 200                       -- time to wait for a mapped sequence to complete (in milliseconds)
+vim.opt.timeoutlen = 100                       -- time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.undofile = true                         -- enable persistent undo
 vim.opt.updatetime = 300                        -- faster completion (4000ms default)
 vim.opt.writebackup = false                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
@@ -26,15 +26,15 @@ vim.opt.shiftwidth = 2                          -- the number of spaces inserted
 vim.opt.tabstop = 2                             -- insert 2 spaces for a tab
 vim.opt.cursorline = true                       -- highlight the current line
 vim.opt.number = true                           -- set numbered lines
-vim.opt.laststatus = 2
+-- vim.opt.laststatus = 2
 vim.opt.showcmd = false
 vim.opt.ruler = false
 vim.opt.numberwidth = 4                         -- set number column width to 2 {default 4}
 vim.opt.signcolumn = "yes"                      -- always show the sign column, otherwise it would shift the text each time
 vim.opt.wrap = false                            -- display lines as one long line
-vim.opt.scrolloff = 8                           -- is one of my fav
-vim.opt.sidescrolloff = 8
-vim.opt.fillchars.eob=" "
+vim.opt.scrolloff = 4                           -- is one of my fav
+vim.opt.sidescrolloff = 4
+-- vim.opt.fillchars.eob=" "
 vim.opt.shortmess:append "c"
 vim.opt.whichwrap:append("<,>,[,],h,l")
 vim.opt.iskeyword:append("-")
@@ -64,7 +64,7 @@ vim.opt.pumblend = 7 -- Make popup window translucent
 vim.opt.pumheight = 20 -- Limit the amount of autocomplete items shown
 
 -- GUI Options
-vim.opt.guifont = "Fixedsys Excelsior,Symbols Nerd Font:h12"               -- the font used in graphical neovim applications
+vim.opt.guifont = "PragmataPro Liga:h10"               -- the font used in graphical neovim applications
 
 -- Neovide Global Options --
 vim.g.neovide_transparency = 0.85

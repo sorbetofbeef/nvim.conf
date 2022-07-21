@@ -15,10 +15,11 @@ end
 
 flutter_tools.setup {
   ui = {
-    notification_style = 'native'
+    notification_style = 'native',
   },
   debugger = {
     enabled = true,
+    run_via_dap = true,
   },
   decorations = {
     statusline = {
@@ -27,15 +28,20 @@ flutter_tools.setup {
     },
   },
   dev_tools = {
-    autostart = true,
+    autostart = false,
   },
   flutter_path = "/Users/me/.local/share/flutter/bin/flutter",
   lsp = {
-    on_attach = handlers.on_attach,
+    color = {
+      enabled = true,
+      background = true,
+    },
+    on_attach = function (client, bufnr)
+      require("user.keymaps").flutter_maps(bufnr)
+      handlers.on_attach(client, bufnr)
+    end,
     capabilities = handlers.capabilities,
   },
 }
-
-telescope.load_extension("flutter")
 
 

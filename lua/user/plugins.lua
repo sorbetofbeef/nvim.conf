@@ -46,88 +46,100 @@ return packer.startup(function(use)
   use { 'moll/vim-bbye' }
   use { 'lewis6991/impatient.nvim' }
 
-
 -- UI --
-
+  -- PopOvers/PopUps
   use {'hood/popui.nvim' }
   use {'RishabhRD/popfix' }
-  use { 'goolord/alpha-nvim' }
-  use { 'kyazdani42/nvim-web-devicons' }
+  use { 'karb94/neoscroll.nvim' }
+  use { 'folke/trouble.nvim'}
+  -- Statusline/Tabline
   use { 'nanozuki/tabby.nvim' }
   use { 'feline-nvim/feline.nvim' }
-  use { 'karb94/neoscroll.nvim' }
+  -- Overlays
   use { 'lukas-reineke/indent-blankline.nvim' }
-
+  use { 'goolord/alpha-nvim' }
+  --Icons
+  use { 'kyazdani42/nvim-web-devicons' }
   -- Colorschemes
+  use { 'rebelot/kanagawa.nvim' }
   use { 'folke/tokyonight.nvim' }
   use { 'lunarvim/darkplus.nvim' }
-  use { 'ray-x/starry.nvim'}
-  use { 'frenzyexists/aquarium-vim'}
-  use { 'EdenEast/nightfox.nvim'}
-
+  use { 'ray-x/starry.nvim' }
+  use { 'frenzyexists/aquarium-vim' }
+  use { 'EdenEast/nightfox.nvim' }
+  use { 'kvrohit/rasmus.nvim' }
+  use { 'marko-cerovac/material.nvim' }
 
 -- Editing --
-  use { 'windwp/nvim-ts-autotag' }
-  use { 'numToStr/Comment.nvim' }
-  use { 'windwp/nvim-autopairs' }
   use { 'kyazdani42/nvim-tree.lua' }
+  use { 'ms-jpq/chadtree', branch = "chad" }
   use { 'ahmedkhalf/project.nvim' }
   use { 'akinsho/toggleterm.nvim' }
+  use { 'JoosepAlviste/nvim-ts-context-commentstring' }
   -- Mappings
   use { 'folke/which-key.nvim' }
   use { 'mg979/vim-visual-multi' }
-
-
+  -- Notes/Organization
+  use { "nvim-neorg/neorg" }
   -- Navigation/Browsing
-  use { 'JoosepAlviste/nvim-ts-context-commentstring' }
   use { 'simrat39/symbols-outline.nvim' }
-  use { 'christianchiarulli/nvim-gps', branch = 'text_hl' }
-
+--  use { 'christianchiarulli/nvim-gps', branch = 'text_hl' }
+  use { 'numToStr/Comment.nvim' }
+  -- Telescope
+  use { 'nvim-telescope/telescope.nvim', tag = '0.1.0', requires={{'nvim-lua/plenary.nvim'}}}
+  use { 'nvim-telescope/telescope-ui-select.nvim' }
+  use { 'nvim-telescope/telescope-project.nvim' }
+  use { 'nvim-telescope/telescope-file-browser.nvim' }
+  use { 'benfowler/telescope-luasnip.nvim' }
 
 -- Development --
-
-  -- cmp Plugins
+  -- Auto-Completions
+  -- cmp
   use { 'hrsh7th/nvim-cmp' }
   use { 'hrsh7th/cmp-buffer' }
   use { 'hrsh7th/cmp-path' }
   use { 'saadparwaiz1/cmp_luasnip' }
   use { 'hrsh7th/cmp-nvim-lsp' }
   use { 'hrsh7th/cmp-nvim-lua' }
-
-  -- snippets
+  use { 'hrsh7th/cmp-nvim-lsp-signature-help' }
+  use { 'KadoBOT/cmp-plugins' }
+  -- coq
+  -- use { 'ms-jpq/coq_nvim' }
+  -- use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
+  -- use { 'ms-jpq/coq.thirdparty', branch = '3p'}
+  -- Snippets
   use { 'L3MON4D3/LuaSnip' }
   use { 'rafamadriz/friendly-snippets' }
-
   -- LSP
   use { 'neovim/nvim-lspconfig' }
   use { 'williamboman/nvim-lsp-installer' }
-  use { 'jose-elias-alvarez/null-ls.nvim' }
   use { 'RRethy/vim-illuminate' }
-
   -- Rust
   use { 'simrat39/rust-tools.nvim' }
   use { 'saecki/crates.nvim'}
-
   -- Flutter
   use {'akinsho/flutter-tools.nvim' }
-
   -- SQL
   use { 'nanotee/sqls.nvim'}
-
-  -- Telescope
-  use { 'nvim-telescope/telescope.nvim' }
-
   -- Treesitter
   use { 'nvim-treesitter/nvim-treesitter' }
-
+  use { 'windwp/nvim-ts-autotag' }
+  use { 'windwp/nvim-autopairs' }
   -- Git
   use { 'lewis6991/gitsigns.nvim' }
-
   -- DAP
   use { 'mfussenegger/nvim-dap' }
   use { 'rcarriga/nvim-dap-ui' }
   use { 'ravenxrz/DAPInstall.nvim' }
   use { 'jbyuki/one-small-step-for-vimkind' }
+  -- null-ls
+  use { 'jose-elias-alvarez/null-ls.nvim' }
+  use { "ThePrimeagen/refactoring.nvim" }
+
+  use {
+    "SmiteshP/nvim-navic",
+    requires =  "neovim/nvim-lspconfig"
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

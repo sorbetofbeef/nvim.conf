@@ -1,17 +1,40 @@
---[[ require("tabby").setup({
-  tabline = require("tabby.presets").tab_only
-})
-]]
--- Colors
+-- Tabby
+-- https://github.com/UserEast/nightfox.nvim/tree/main/mics/tabby.lua
+--
+-- This file is a complete example of creating the tabby configuration shown in the readme of
+-- nightfox. This configuration generates its own highlight groups from the currently applied
+-- colorscheme. These highlight groups are regenreated on colorscheme changes.
+--
+-- Required plugins:
+--    - `nanozuki/tabby.nvim`
+--
+-- This file is required to be in your `lua` folder of your config.  Your colorscheme should also
+-- be applied before this file is sourced. This file cannot be located `lua/tabby.lua` as this
+-- would clash with the actual plugin require path.
+--
+--
+-- # Example:
+--
+-- ```lua
+-- vim.cmd("colorscheme nightfox")
+-- require('user.ui.tabby')
+-- ```
+--
+-- This assumes that this file is located at `lua/user/ui/tabby.lua`
+
 local fmt = string.format
+
+----------------------------------------------------------------------------------------------------
+-- Colors
+
 ---Convert color number to hex string
 ---@param n number
 ---@return string
 local hex = function(n)
   if n then
-    return fmt("#%06x", n)
+  return fmt("#%06x", n)
+---@diagnostic disable-next-line: missing-return
   end
-  return ''
 end
 
 ---Parse `style` string into nvim_set_hl options
@@ -111,12 +134,13 @@ _G._genreate_user_tabline_highlights = function()
 
   local groups = {
     -- tabline
-    UserTLHead = { fg = pal.fill.bg, bg = pal.cyan },
-    UserTLHeadSep = { fg = pal.cyan, bg = pal.fill.bg },
+    UserTLHead = { fg = pal.sel.fg, bg = pal.cyan },
+    UserTLHeadSep = { fg = pal.cyan, bg = pal.sel.fg },
     UserTLActive = { fg = pal.sel.fg, bg = pal.sel.bg, bold = true },
-    UserTLActiveSep = { fg = pal.sel.bg, bg = pal.fill.bg },
-    UserTLBoldLine = { fg = pal.tab.fg, bg = pal.tab.bg, bold = true },
-    UserTLLineSep = { fg = pal.tab.bg, bg = pal.fill.bg },
+    UserTLFill = { fg = pal.sel.fg, bg = pal.tab.fg },
+    UserTLActiveSep = { fg = pal.sel.bg, bg = pal.sel.fg },
+    UserTLBoldLine = { fg = pal.sel.fg, bg = pal.tab.fg, bold = true },
+    UserTLLineSep = { fg = pal.tab.fg, bg = pal.sel.fg },
   }
 
   set_highlights(vim.tbl_extend("force", colors, groups))
@@ -171,7 +195,7 @@ local line = {
     label = function(winid)
       return {
         "  " .. filename.unique(winid) .. " ",
-        hl = "TabLine",
+        hl = "UserTLFill",
       }
     end,
     left_sep = { "", hl = "UserTLLineSep" },
@@ -181,7 +205,7 @@ local line = {
     label = function(winid)
       return {
         "  " .. filename.unique(winid) .. " ",
-        hl = "TabLine",
+        hl = "UserTLFill",
       }
     end,
     left_sep = { "", hl = "UserTLLineSep" },

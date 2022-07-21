@@ -12,6 +12,14 @@ local extension_path = vim.env.HOME .. '/.local/share/nvim/dapinstall/codelldb/e
 local codelldb_path = extension_path .. 'adapter/codelldb'
 local liblldb_path = extension_path .. 'lldb/lib/liblldb.dylib'
 
+local keymaps = function (bufnr)
+  local wk_status_ok, maps = pcall(require, "user.keymaps")
+  if wk_status_ok then
+    return
+  end
+  maps.rust_maps(bufnr)
+end
+
 local rust_opts = {
   tools = {
     on_initialized = function ()
@@ -51,7 +59,10 @@ local rust_opts = {
   -- debuggables = { use_telescope = true },
   server = {
     cmd = { os.getenv "HOME" .. "/.local/bin/rust-analyzer" },
-    on_attach = handlers.on_attach,
+    on_attach = function (client, bufnr)
+      keymaps(bufnr)
+      handlers.on_attach(client, bufnr)
+    end,
     capabilities = handlers.capabilities,
     --cmd = {"/home/sharks/source/dotfiles/misc/misc/rust-analyzer-wrapper"},
     settings = {

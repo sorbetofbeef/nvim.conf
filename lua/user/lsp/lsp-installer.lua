@@ -14,6 +14,13 @@ local servers = {
   "jsonls",
   "yamlls",
   "taplo",
+  "marksman",
+  "sqls",
+  "emmet_ls",
+  "dockerls",
+  "vimls",
+  "graphql",
+  "svelte",
   "rust_analyzer",
 }
 

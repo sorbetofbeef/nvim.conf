@@ -8,6 +8,8 @@ if not snip_status_ok then
 	return
 end
 
+local icons = require("user.icons")
+
 require("luasnip/loaders/from_vscode").lazy_load()
 
 local check_backspace = function()
@@ -15,34 +17,34 @@ local check_backspace = function()
 	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
 end
 
-local kind_icons = {
-	Text = "",
-	Method = "",
-	Function = "",
-	Constructor = "",
-	Field = "",
-	Variable = "",
-	Class = "",
-	Interface = "",
-	Module = "",
-	Property = "",
-	Unit = "",
-	Value = "",
-	Enum = "",
-	Keyword = "",
-	Snippet = "",
-	Color = "",
-	File = "",
-	Reference = "",
-	Folder = "",
-	EnumMember = "",
-	Constant = "",
-	Struct = "",
-	Event = "",
-	Operator = "",
-	TypeParameter = "",
+--[[ local kind_icons = {
+	Text = " ",
+	Method = " ",
+	Function = " ",
+	Constructor = " ",
+	Field = " ",
+	Variable = " ",
+	Class = " ",
+	Interface = " ",
+	Module = " ",
+	Property = " ",
+	Unit = " ",
+	Value = " ",
+	Enum = " ",
+	Keyword = " ",
+	Snippet = " ",
+	Color = " ",
+	File = " ",
+	Reference = " ",
+	Folder = " ",
+	EnumMember = " ",
+	Constant = " ",
+	Struct = " ",
+	Event = " ",
+	Operator = " ",
+	TypeParameter = " ",
 }
-
+]]
 cmp.setup({
 	snippet = {
 		expand = function(args)
@@ -95,14 +97,17 @@ cmp.setup({
 	formatting = {
 		fields = { "kind", "abbr", "menu" },
 		format = function(entry, vim_item)
-			vim_item.kind = kind_icons[vim_item.kind]
+			vim_item.kind = icons.kind[vim_item.kind]
 			vim_item.menu = ({
-				nvim_lsp = "",
-				nvim_lua = "",
-				luasnip = "",
-				buffer = "",
-				path = "",
-				emoji = "",
+				nvim_lsp = " ",
+				nvim_lua = " ",
+				luasnip = " ",
+				nvim_lsp_signature_help = " ",
+        crates = " ",
+        plugins = " ",
+				buffer = " ",
+				path = " ",
+				emoji = " ",
 			})[entry.source.name]
 			return vim_item
 		end,
@@ -111,7 +116,9 @@ cmp.setup({
 		{ name = "nvim_lsp" },
 		{ name = "nvim_lua" },
 		{ name = "luasnip" },
-    { name = "crates" },
+    { name = 'nvim_lsp_signature_help' },
+		{ name = "crates" },
+    { name = "plugins" },
 		{ name = "buffer" },
 		{ name = "path" },
 	},
