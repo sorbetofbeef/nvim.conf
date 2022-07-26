@@ -95,7 +95,7 @@ cmp.setup({
 		}),
 	}),
 	formatting = {
-		fields = { "kind", "abbr", "menu" },
+		fields = { "abbr", "kind", "menu" },
 		format = function(entry, vim_item)
 			vim_item.kind = icons.kind[vim_item.kind]
 			vim_item.menu = ({
@@ -124,13 +124,13 @@ cmp.setup({
 	},
 	confirm_opts = {
 		behavior = cmp.ConfirmBehavior.Replace,
-		select = false,
+		select = true,
 	},
 	window = {
 		completion = cmp.config.window.bordered(),
 		documentation = cmp.config.window.bordered(),
 	},
 	experimental = {
-		ghost_text = true,
+		ghost_text = false,
 	},
 })

@@ -40,16 +40,17 @@ packer.init {
 
 -- Install your plugins here
 return packer.startup(function(use)
-  -- My plugins here
+  -- Dependencies
   use { 'wbthomason/packer.nvim' }
   use { 'nvim-lua/plenary.nvim' }
   use { 'moll/vim-bbye' }
   use { 'lewis6991/impatient.nvim' }
+  use { "kkharji/sqlite.lua" }
+
+  use { 'beauwilliams/statusline.lua' }
 
 -- UI --
   -- PopOvers/PopUps
-  use {'hood/popui.nvim' }
-  use {'RishabhRD/popfix' }
   use { 'karb94/neoscroll.nvim' }
   use { 'folke/trouble.nvim'}
   -- Statusline/Tabline
@@ -72,7 +73,6 @@ return packer.startup(function(use)
 
 -- Editing --
   use { 'kyazdani42/nvim-tree.lua' }
-  use { 'ms-jpq/chadtree', branch = "chad" }
   use { 'ahmedkhalf/project.nvim' }
   use { 'akinsho/toggleterm.nvim' }
   use { 'JoosepAlviste/nvim-ts-context-commentstring' }
@@ -85,6 +85,7 @@ return packer.startup(function(use)
   use { 'simrat39/symbols-outline.nvim' }
 --  use { 'christianchiarulli/nvim-gps', branch = 'text_hl' }
   use { 'numToStr/Comment.nvim' }
+  use { 'abecodes/tabout.nvim' }
   -- Telescope
   use { 'nvim-telescope/telescope.nvim', tag = '0.1.0', requires={{'nvim-lua/plenary.nvim'}}}
   use { 'nvim-telescope/telescope-ui-select.nvim' }
@@ -104,9 +105,9 @@ return packer.startup(function(use)
   use { 'hrsh7th/cmp-nvim-lsp-signature-help' }
   use { 'KadoBOT/cmp-plugins' }
   -- coq
-  -- use { 'ms-jpq/coq_nvim' }
-  -- use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
-  -- use { 'ms-jpq/coq.thirdparty', branch = '3p'}
+  --[[ use { 'ms-jpq/coq_nvim' }
+  use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
+  use { 'ms-jpq/coq.thirdparty', branch = '3p'} ]]
   -- Snippets
   use { 'L3MON4D3/LuaSnip' }
   use { 'rafamadriz/friendly-snippets' }

@@ -32,16 +32,41 @@ end
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
 local Terminal = require("toggleterm.terminal").Terminal
-local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
-local htop = Terminal:new({cmd = "htop", hidden = true })
-local float_term = Terminal:new({direction = "float"})
+local lazygit = Terminal:new({ cmd = "lazygit", count=8, direction = "tab", hidden = true })
+local lazydocker = Terminal:new({ cmd = "lazydocker", count=7, direction = "tab", hidden = true })
+local htop = Terminal:new({cmd = "htop", count=6, direction = "tab", hidden = true })
+local term_one = Terminal:new({ count = 1, hidden = true })
+local term_two = Terminal:new({ count = 2, hidden = true })
+local term_three = Terminal:new({ count = 3, hidden = true })
+local term_four = Terminal:new({ count = 4, hidden = true })
+local term_five = Terminal:new({ count = 5, hidden = true })
 
 function _LAZYGIT_TOGGLE()
 	lazygit:toggle()
 end
 
-function _FLOAT_TOGGLE()
-	float_term:toggle()
+function _LAZYDOCKER_TOGGLE()
+	lazydocker:toggle()
+end
+
+function _TERM_ONE_TOGGLE()
+	term_one:toggle()
+end
+
+function _TERM_TWO_TOGGLE()
+	term_two:toggle()
+end
+
+function _TERM_THREE_TOGGLE()
+	term_three:toggle()
+end
+
+function _TERM_FOUR_TOGGLE()
+	term_four:toggle()
+end
+
+function _TERM_FIVE_TOGGLE()
+	term_five:toggle()
 end
 
 function _HTOP_TOGGLE()

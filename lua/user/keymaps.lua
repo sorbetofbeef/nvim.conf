@@ -117,13 +117,19 @@ local plug_maps = function()
 
 		-- Clear highlights
 		["<ESC>"] = { "<cmd>nohlsearch<CR>", "which_key_ignore" },
+    -- LSP Info
+    l = {
+      name = "LSP",
+			i = { "<cmd>LspInfo<cr>", "Info" },
+			I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
+    },
 
 		-- Close buffers
 		["C"] = { "<cmd>Bdelete!<CR>", "which_key_ignore" },
 		["c"] = { "<cmd>Bdelete<CR>", "which_key_ignore" },
 		["Q"] = { "<cmd>quit!<CR>", "which_key_ignore" },
 		["q"] = { "<cmd>quit<CR>", "which_key_ignore" },
-		["W"] = { "<cmd>wqa<CR>", "which_key_ignore" },
+		["W"] = { "<cmd>wqa!<CR>", "which_key_ignore" },
 		["w"] = { "<cmd>wa<CR>", "which_key_ignore" },
 
 		-- Comment
@@ -133,8 +139,13 @@ local plug_maps = function()
     t = {
       name = "Terminal",
       t = {":ToggleTerm<CR>", "Term"},
-      f = {"<cmd>lua _FLOAT_TOGGLE()<CR>", "Float Term"},
+      ["1"] = {"<cmd>lua _TERM_ONE_TOGGLE()<CR>", "Term 1"},
+      ["2"] = {"<cmd>lua _TERM_TWO_TOGGLE()<CR>", "Term 2"},
+      ["3"] = {"<cmd>lua _TERM_THREE_TOGGLE()<CR>", "Term 3"},
+      ["4"] = {"<cmd>lua _TERM_FOUR_TOGGLE()<CR>", "Term 4"},
+      ["5"] = {"<cmd>lua _TERM_FIVE_TOGGLE()<CR>", "Term 5"},
       g = {"<cmd>lua _LAZYGIT_TOGGLE()<CR>", "Lazygit"},
+      d = {"<cmd>lua _LAZYDOCKER_TOGGLE()<CR>", "Lazydocker"},
       h = {"<cmd>lua _HTOP_TOGGLE()<CR>", "htop"},
     }
 	}
@@ -145,18 +156,15 @@ end
 M.lsp_g_keymaps = function(bufnr)
 	local opts = {
 		mode = "n",
-		prefix = "",
+		prefix = "g",
 		buffer = bufnr,
 	}
 	local mappings = {
-		g = {
-			name = "LSP GoTo",
-			D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
-			d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
-			I = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Implementation" },
-			r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
-			e = { ":lua require'popui.diagnostics-navigator'()<CR>", "Diagnostics" },
-		},
+    D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
+    d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
+    I = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Implementation" },
+    r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
+    e = { ":lua require'popui.diagnostics-navigator'()<CR>", "Diagnostics" },
 	}
 	wk.register(mappings, opts)
 end
@@ -168,15 +176,14 @@ M.lsp_l_keymaps = function(bufnr)
 		buffer = bufnr,
 	}
 	local mappings = {
-		["<C-K>"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "which_key_ignore" },
+    k = { "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", "which_key_ignore" },
+    j = { "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", "which_key_ignore" },
+    ["<Space>"] = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Line Diagnostics" },
 		l = {
 			name = "Lsp Actions",
       s = { "<cmd>Telescope luasnip<CR>", "Snippets" },
 			f = { "<cmd>lua vim.lsp.buf.format({async = true})<cr>", "Formatting" },
-			i = { "<cmd>LspInfo<cr>", "Info" },
-			I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
-			j = { "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", "Next Diagnositic" },
-			k = { "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", "Prev Diagnositic" },
+      k = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
 			r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
 			q = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Daignostic List" },
 			a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
@@ -271,8 +278,8 @@ M.go_keymaps = function(bufnr)
 		buffer = bufnr,
 	}
 	local mappings = {
-		g = {
-			name = "Rust",
+		p = {
+			name = "Go",
 			r = { ":GoRun<CR>", "Go Run" },
 			d = { ":GoDebug<CR>", "Go Debug" },
 		},
@@ -287,7 +294,7 @@ M.go_doc_mapping = function(bufnr)
 		buffer = bufnr,
 	}
 	local mappings = {
-		K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover Actions" },
+		K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover Docs" },
 	}
 	wk.register(mappings, opts)
 end

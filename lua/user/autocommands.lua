@@ -29,10 +29,10 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufEnter, BufWinEnter" }, {
-  pattern = { "*" },
-  command = "TabRename New Tab"
-})
+-- vim.api.nvim_create_autocmd({ "BufEnter, BufWinEnter" }, {
+--   pattern = { "*" },
+--   command = "TabRename New Tab"
+-- })
 
 --[[ vim.api.nvim_create_autocmd({ "BufEnter, BufWinEnter" }, {
   pattern = { "*.dart" },
@@ -55,8 +55,3 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "CursorHold" }, {
-  callback = function()
-    vim.diagnostic.open_float(nil, { focusable = false })
-  end,
-})

@@ -112,7 +112,7 @@ vim.opt.fillchars:append({
 require'kanagawa'.setup({ globalStatus = true, ... })
 ]]
 -- vim.cmd("colorscheme kanagawa")
-vim.g.material_style = "darker"
+vim.g.material_style = "lighter"
 --local colors = require("material.colors")
 
 require("material").setup({
@@ -134,7 +134,12 @@ require("material").setup({
   },
   contrast_filetypes = {
     "Outline",
-    "NvimTree"
+    "NvimTree",
+    "dapui_scopes",
+    "dapui_stacks",
+    "dapui_watches",
+    "dapui_breakpoints",
+    "dapui_console",
   },
   disable = {
     background = false,

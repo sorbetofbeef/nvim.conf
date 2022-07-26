@@ -12,17 +12,8 @@ local themes = require('telescope.themes')
 telescope.setup {
   extensions = {
     ["ui-select"] = {
-      themes.get_cursor({ winblend=30 }),
-    },
-    ["projects"] = {
       themes.get_cursor({ winblend=10 }),
-    },
-    ["luasnip"] = {
-      themes.get_cursor({ winblend=30 }),
-    },
-    ["flutter"] = {
-      themes.get_cursor({ winblend=30 }),
-    },
+    }
   },
   defaults = {
     prompt_prefix = " ",
@@ -46,4 +37,3 @@ telescope.setup {
 telescope.load_extension("ui-select")
 telescope.load_extension("project")
 telescope.load_extension("luasnip")
-telescope.load_extension("flutter")

@@ -3,7 +3,7 @@ if not status_ok then
   return
 end
 
-local null_status_ok, null_ls = pcall(require, "null-ls")
+local null_status_ok, _ = pcall(require, "null-ls")
 if not null_status_ok then
   return
 end
@@ -21,6 +21,6 @@ crates.setup {
   },
   null_ls = {
     enabled = true,
-    name = "Crates",
+    name = "crates.lua",
   },
 }

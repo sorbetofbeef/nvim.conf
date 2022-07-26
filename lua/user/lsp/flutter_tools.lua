@@ -16,10 +16,10 @@ end
 flutter_tools.setup {
   ui = {
     notification_style = 'native',
+    border = 'rounded',
   },
   debugger = {
-    enabled = true,
-    run_via_dap = true,
+    enabled = false,
   },
   decorations = {
     statusline = {
@@ -39,9 +39,9 @@ flutter_tools.setup {
     on_attach = function (client, bufnr)
       require("user.keymaps").flutter_maps(bufnr)
       handlers.on_attach(client, bufnr)
+      telescope.load_extension("flutter")
     end,
     capabilities = handlers.capabilities,
   },
 }
-
 
