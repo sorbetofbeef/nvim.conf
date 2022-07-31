@@ -134,13 +134,14 @@ _G._genreate_user_tabline_highlights = function()
 
   local groups = {
     -- tabline
+    UserTLFill = { fg = pal.cyan, bg = pal.fill.bg },
     UserTLHead = { fg = pal.sel.fg, bg = pal.cyan },
-    UserTLHeadSep = { fg = pal.cyan, bg = pal.sel.fg },
+    UserTLHeadSep = { fg = pal.cyan, bg = pal.fill.bg },
     UserTLActive = { fg = pal.sel.fg, bg = pal.sel.bg, bold = true },
-    UserTLFill = { fg = pal.sel.fg, bg = pal.tab.fg },
-    UserTLActiveSep = { fg = pal.sel.bg, bg = pal.sel.fg },
-    UserTLBoldLine = { fg = pal.sel.fg, bg = pal.tab.fg, bold = true },
-    UserTLLineSep = { fg = pal.tab.fg, bg = pal.sel.fg },
+    UserTLActiveSep = { fg = pal.sel.bg, bg = pal.fill.bg },
+    UserTLBoldTab = { fg = pal.sel.bg, bg = pal.tab.fg, bold = true },
+    UserTLLineSep = { fg = pal.fill.fg, bg = pal.fill.bg },
+    UserTLWin = { fg = pal.tab.fg, bg = pal.fill.bg },
   }
 
   set_highlights(vim.tbl_extend("force", colors, groups))
@@ -165,7 +166,7 @@ local cwd = function()
 end
 
 local line = {
-  hl = "TabLineFill",
+  hl = "UserTLFill",
   layout = "active_wins_at_tail",
   head = {
     { cwd, hl = "UserTLHead" },
@@ -195,17 +196,17 @@ local line = {
     label = function(winid)
       return {
         "  " .. filename.unique(winid) .. " ",
-        hl = "UserTLFill",
+        hl = "UserTLActive",
       }
     end,
-    left_sep = { "", hl = "UserTLLineSep" },
-    right_sep = { "", hl = "UserTLLineSep" },
+    left_sep = { "", hl = "UserTLActiveSep" },
+    right_sep = { "", hl = "UserTLActiveSep" },
   },
   win = {
     label = function(winid)
       return {
         "  " .. filename.unique(winid) .. " ",
-        hl = "UserTLFill",
+        hl = "UserTLWin",
       }
     end,
     left_sep = { "", hl = "UserTLLineSep" },

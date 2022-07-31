@@ -13,6 +13,9 @@ telescope.setup {
   extensions = {
     ["ui-select"] = {
       themes.get_cursor({ winblend=10 }),
+    },
+    ["projects"] = {
+      themes.get_ivy(),
     }
   },
   defaults = {
@@ -37,3 +40,4 @@ telescope.setup {
 telescope.load_extension("ui-select")
 telescope.load_extension("project")
 telescope.load_extension("luasnip")
+telescope.load_extension("flutter")

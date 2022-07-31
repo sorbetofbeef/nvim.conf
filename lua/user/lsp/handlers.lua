@@ -1,7 +1,11 @@
-local map_status_ok, map = pcall(require, "user.keymaps")
 local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status_cmp_ok then
 	return
+end
+
+local km_status_ok, keymaps = pcall(require, "user.keymaps")
+if not km_status_ok then
+  return
 end
 
 local M = {}
@@ -30,7 +34,8 @@ M.setup = function()
       border = "rounded"
     },
     diagnostic = {
-      virtual_text = true, -- disable virtual text
+      virtual_text = false, -- disable virtual text
+      virtual_lines = true,
       signs = true,
       update_in_insert = false,
       underline = true,
@@ -44,59 +49,12 @@ M.setup = function()
 	}
 
 	vim.diagnostic.config(config.diagnostic)
+
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, config.float)
 
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, config.float)
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, config.diagnostic)
-end
-
-local g_keymaps = function(bufnr)
-  if not map_status_ok then
-    return
-  end
-
-  map.lsp_g_keymaps(bufnr)
-end
-
-local l_keymaps = function(bufnr)
-  if not map_status_ok then
-    return
-  end
-
-  map.lsp_l_keymaps(bufnr)
-end
-
-local rust_doc_mapping = function(bufnr)
-  if not map_status_ok then
-    return
-  end
-
-  map.rust_doc_mapping(bufnr)
-end
-
-local go_keymaps = function(bufnr)
-  if not map_status_ok then
-    return
-  end
-
-  map.go_keymaps(bufnr)
-end
-
-local go_doc_mapping = function(bufnr)
-  if not map_status_ok then
-    return
-  end
-
-  map.go_doc_mapping(bufnr)
-end
-
-local doc_mapping = function(bufnr)
-  if not map_status_ok then
-    return
-  end
-
-  map.lsp_doc_mapping(bufnr)
 end
 
 local function attach_navic(client, bufnr)
@@ -108,6 +66,14 @@ local function attach_navic(client, bufnr)
   navic.attach(client, bufnr)
 end
 
+local function attach_illuminate(client)
+	local status_ok, illuminate = pcall(require, "illuminate")
+	if not status_ok then
+		return
+	end
+	illuminate.on_attach(client)
+end
+
 --[[ local function attach_ariel()
   local status_ok, ariel = pcall(require, "ariel")
   if not status_ok then
@@ -116,7 +82,6 @@ end
 end ]]
 
 M.on_attach = function(client, bufnr)
-  attach_navic(client, bufnr)
 
 	if client.name == "tsserver" then
 		client.server_capabilities.document_formatting = false
@@ -130,23 +95,9 @@ M.on_attach = function(client, bufnr)
 		client.server_capabilities.experimental = true
 	end
 
-	g_keymaps(bufnr)
-	l_keymaps(bufnr)
-
-	if client.name == "rust_analyzer" then
-		rust_doc_mapping(bufnr)
-	elseif client.name == "gopls" then
-		go_keymaps(bufnr)
-		go_doc_mapping(bufnr)
-	else
-		doc_mapping(bufnr)
-	end
-
-	local status_ok, illuminate = pcall(require, "illuminate")
-	if not status_ok then
-		return
-	end
-	illuminate.on_attach(client)
+  keymaps.attach(client, bufnr)
+  attach_navic(client, bufnr)
+  attach_illuminate(client)
 end
 
 return M

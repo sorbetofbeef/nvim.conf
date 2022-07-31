@@ -21,7 +21,6 @@ local servers = {
   "vimls",
   "graphql",
   "svelte",
-  "rust_analyzer",
 }
 
 lsp_installer.setup()

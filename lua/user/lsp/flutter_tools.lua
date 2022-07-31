@@ -37,9 +37,8 @@ flutter_tools.setup {
       background = true,
     },
     on_attach = function (client, bufnr)
-      require("user.keymaps").flutter_maps(bufnr)
       handlers.on_attach(client, bufnr)
-      telescope.load_extension("flutter")
+      require("user.keymaps").flutter_maps(bufnr)
     end,
     capabilities = handlers.capabilities,
   },

@@ -1,5 +1,3 @@
-local M = {}
-
 local status_ok, wk = pcall(require, "which-key")
 if not status_ok then
 	return
@@ -12,7 +10,7 @@ local keymap = vim.keymap.set
 keymap("", "<Space>", "<Nop>", { silent = true })
 vim.g.mapleader = " "
 
-local function standard_maps ()
+local _standard_maps = function ()
   local opts = {
     silent = true,
     noremap = true
@@ -48,10 +46,7 @@ local function standard_maps ()
   keymap("n", "gt", ":tabnew<CR>", opts)
 
   -- Movement --
-  -- keymap("n", "p", "_dP", opts)
-  -- keymap("n", "j", "gj", opts)
-  -- keymap("n", "k", "gk", opts)
--- Sane movement defaults that works on long wrapped lines
+  -- Sane movement defaults that works on long wrapped lines
   local expr = { expr = true, noremap = false, silent = false }
   keymap('n', 'j', '(v:count ? \'j\' : \'gj\')', expr)
   keymap('n', 'k', '(v:count ? \'k\' : \'gk\')', expr)
@@ -75,7 +70,7 @@ local function standard_maps ()
   keymap("v", ">", ">gv", opts)
 end
 
-local plug_maps = function()
+local _plug_maps = function()
 	local opts = {
 		mode = "n",
 		prefix = "<leader>",
@@ -94,6 +89,7 @@ local plug_maps = function()
 		f = {
 			name = "Find",
 			f = { "<cmd>Telescope find_files<CR>", "Find File" },
+			h = { "<cmd>Telescope help_tags<CR>", "Find File" },
 			t = { "<cmd>Telescope live_grep<CR>", "Find Text" },
 			p = { "<cmd>Telescope projects<CR>", "Find Projects" },
 			k = { "<cmd>Telescope keymaps<CR>", "Find Keymaps" },
@@ -132,10 +128,6 @@ local plug_maps = function()
 		["W"] = { "<cmd>wqa!<CR>", "which_key_ignore" },
 		["w"] = { "<cmd>wa<CR>", "which_key_ignore" },
 
-		-- Comment
-		-- c = { "<cmd>lua require('Comment.api').toggle_current_linewise()<CR>", "Comment Line", {opts = "g" } },
-		-- b = { '<ESC><CMD>lua require("Comment.api").toggle_linewise_op(vim.fn.visualmode())<CR>', "Comment Block", { { opts = "g"}, { mode = "v" } } }
-
     t = {
       name = "Terminal",
       t = {":ToggleTerm<CR>", "Term"},
@@ -153,7 +145,7 @@ local plug_maps = function()
 	wk.register(mappings, opts)
 end
 
-M.lsp_g_keymaps = function(bufnr)
+local lsp_g_keymaps = function(bufnr)
 	local opts = {
 		mode = "n",
 		prefix = "g",
@@ -169,7 +161,7 @@ M.lsp_g_keymaps = function(bufnr)
 	wk.register(mappings, opts)
 end
 
-M.lsp_l_keymaps = function(bufnr)
+local lsp_l_keymaps = function(bufnr)
 	local opts = {
 		mode = "n",
 		prefix = "<leader>",
@@ -178,7 +170,8 @@ M.lsp_l_keymaps = function(bufnr)
 	local mappings = {
     k = { "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", "which_key_ignore" },
     j = { "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", "which_key_ignore" },
-    ["<Space>"] = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Line Diagnostics" },
+    ["<Space>"] = { "<cmd>lua vim.diagnostic.open_float()<CR>", "which_key_ignore" },
+
 		l = {
 			name = "Lsp Actions",
       s = { "<cmd>Telescope luasnip<CR>", "Snippets" },
@@ -192,34 +185,7 @@ M.lsp_l_keymaps = function(bufnr)
 	wk.register(mappings, opts)
 end
 
-M.flutter_maps = function (bufnr)
-	local opts = {
-		mode = "n",
-		prefix = "<leader>",
-    buffer = bufnr,
-	}
-  local mappings = {
-    p = {
-      name = "Flutter",
-      R = { "<cmd>FlutterRun<CR>", "Run" },
-      d = { "<cmd>FlutterDevices<CR>", "Devices" },
-      e = { "<cmd>FlutterEmulators<CR>", "Emulators" },
-      ['<C-R>'] = { "<cmd>FlutterReload<CR>", "Reload" },
-      r = { "<cmd>FlutterRestart<CR>", "Restart" },
-      q = { "<cmd>FlutterQuit<CR>", "Quit" },
-      D = { "<cmd>FlutterDetach<CR>", "Detach" },
-      o = { "<cmd>FlutterOutlineToggle<CR>", "Outline Toggle" },
-      t = { "<cmd>FlutterDevTools<CR>", "Dev Tools" },
-      y = { "<cmd>FlutterCopyProfileUrl<CR>", "Copy Profile URL" },
-      l = { "<cmd>FlutterLspRestart<CR>", "LSP Restart" },
-      a = { "<cmd>Telescope flutter<CR>", "Flutter Tools" },
-    }
-  }
-
-  wk.register(mappings, opts)
-end
-
-M.rust_maps = function (bufnr)
+local rust_maps = function (bufnr)
   local opts = {
     mode = "n", -- NORMAL mode
     prefix = "<leader>",
@@ -259,7 +225,7 @@ M.rust_maps = function (bufnr)
   wk.register(mappings, opts)
 end
 
-M.rust_doc_mapping = function(bufnr)
+local rust_doc_mapping = function(bufnr)
 	local opts = {
 		mode = "n",
 		prefix = "",
@@ -271,7 +237,7 @@ M.rust_doc_mapping = function(bufnr)
 	wk.register(mappings, opts)
 end
 
-M.go_keymaps = function(bufnr)
+local go_keymaps = function(bufnr)
 	local opts = {
 		mode = "n",
 		prefix = "<leader>",
@@ -287,7 +253,7 @@ M.go_keymaps = function(bufnr)
 	wk.register(mappings, opts)
 end
 
-M.go_doc_mapping = function(bufnr)
+local _go_doc_mapping = function(bufnr)
 	local opts = {
 		mode = "n",
 		prefix = "",
@@ -299,7 +265,7 @@ M.go_doc_mapping = function(bufnr)
 	wk.register(mappings, opts)
 end
 
-M.lsp_doc_mapping = function(bufnr)
+local _lsp_doc_mapping = function(bufnr)
 	local opts = {
 		mode = "n",
 		prefix = "",
@@ -311,6 +277,69 @@ M.lsp_doc_mapping = function(bufnr)
 	wk.register(mappings, opts)
 end
 
-plug_maps()
-standard_maps()
+-- Exported functions
+local M = {}
+
+M.flutter_maps = function (bufnr)
+	local opts = {
+		mode = "n",
+		prefix = "<leader>",
+    buffer = bufnr,
+	}
+  local mappings = {
+    p = {
+      name = "Flutter",
+      R = { "<cmd>FlutterRun<CR>", "Run" },
+      d = { "<cmd>FlutterDevices<CR>", "Devices" },
+      e = { "<cmd>FlutterEmulators<CR>", "Emulators" },
+      ['<C-R>'] = { "<cmd>FlutterReload<CR>", "Reload" },
+      r = { "<cmd>FlutterRestart<CR>", "Restart" },
+      q = { "<cmd>FlutterQuit<CR>", "Quit" },
+      D = { "<cmd>FlutterDetach<CR>", "Detach" },
+      o = { "<cmd>FlutterOutlineToggle<CR>", "Outline Toggle" },
+      t = { "<cmd>FlutterDevTools<CR>", "Dev Tools" },
+      y = { "<cmd>FlutterCopyProfileUrl<CR>", "Copy Profile URL" },
+      l = { "<cmd>FlutterLspRestart<CR>", "LSP Restart" },
+      a = { "<cmd>Telescope flutter commands<CR>", "Flutter Tools" },
+    }
+  }
+
+  wk.register(mappings, opts)
+end
+
+--@desc The lsp function allows the LSP handler to access the keymapping fucntions by client.name
+M.attach = function(client, bufnr)
+  local m = {
+    g = lsp_g_keymaps,
+    l = lsp_l_keymaps,
+    -- flutter is handled by flutter_tools' dart lsp config
+    -- f = flutter_maps,
+    r = rust_maps,
+    r_docs = rust_doc_mapping,
+    go = go_keymaps,
+    go_docs = _go_doc_mapping,
+    docs = _lsp_doc_mapping,
+  }
+
+  m.g(bufnr)
+  m.l(bufnr)
+
+	if client.name == "rust_analyzer" then
+    m.r(bufnr)
+    m.r_docs(bufnr)
+	elseif client.name == "gopls" then
+		m.go(bufnr)
+		m.go_doc(bufnr)
+	elseif client.name == "dart" then
+		m.go(bufnr)
+		m.go_doc(bufnr)
+	else
+		m.docs(bufnr)
+	end
+end
+
+-- Function Calls
+_plug_maps()
+_standard_maps()
+
 return M

@@ -64,9 +64,9 @@ vim.opt.pumblend = 7 -- Make popup window translucent
 vim.opt.pumheight = 20 -- Limit the amount of autocomplete items shown
 
 -- GUI Options
-vim.opt.guifont = "Ellograph CF,Hack Nerd Font Mono:h12"
+vim.opt.guifont = "Cartograph CF,Hack Nerd Font:h10"
 
 -- Neovide Global Options --
-vim.g.neovide_transparency = 0.90
--- vim.g.neovide_no_idle = true
+vim.g.neovide_transparency = 0.80
+vim.g.neovide_no_idle = true
 

@@ -456,6 +456,7 @@ table.insert(components.active[1], {
     return navic.get_location()
   end,
   enabled = function() return navic.is_available() end,
+  hl = "Comment"
 })
 
 feline.setup()

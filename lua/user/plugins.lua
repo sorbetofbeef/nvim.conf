@@ -47,7 +47,7 @@ return packer.startup(function(use)
   use { 'lewis6991/impatient.nvim' }
   use { "kkharji/sqlite.lua" }
 
-  use { 'beauwilliams/statusline.lua' }
+  -- use { 'beauwilliams/statusline.lua' }
 
 -- UI --
   -- PopOvers/PopUps
@@ -115,6 +115,16 @@ return packer.startup(function(use)
   use { 'neovim/nvim-lspconfig' }
   use { 'williamboman/nvim-lsp-installer' }
   use { 'RRethy/vim-illuminate' }
+  -- Diagnostics
+  -- null-ls
+  use { 'jose-elias-alvarez/null-ls.nvim' }
+  use { "ThePrimeagen/refactoring.nvim" }
+  use({
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+    end,
+  })
   -- Rust
   use { 'simrat39/rust-tools.nvim' }
   use { 'saecki/crates.nvim'}
@@ -133,9 +143,6 @@ return packer.startup(function(use)
   use { 'rcarriga/nvim-dap-ui' }
   use { 'ravenxrz/DAPInstall.nvim' }
   use { 'jbyuki/one-small-step-for-vimkind' }
-  -- null-ls
-  use { 'jose-elias-alvarez/null-ls.nvim' }
-  use { "ThePrimeagen/refactoring.nvim" }
 
   use {
     "SmiteshP/nvim-navic",
