@@ -95,6 +95,7 @@ M.on_attach = function(client, bufnr)
 		client.server_capabilities.experimental = true
 	end
 
+
   keymaps.attach(client, bufnr)
   attach_navic(client, bufnr)
   attach_illuminate(client)

@@ -1,5 +1,5 @@
 local M = {}
-M.setup = function() 
+M.setup = function()
   require('kanagawa').setup({
     undercurl = true,           -- enable undercurls
     commentStyle = { italic = true },

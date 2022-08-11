@@ -100,9 +100,9 @@ cmp.setup({
 			vim_item.kind = icons.kind[vim_item.kind]
 			vim_item.menu = ({
 				nvim_lsp = " ",
-				nvim_lua = " ",
-				luasnip = " ",
-				nvim_lsp_signature_help = " ",
+				nvim_lua = " ",
+				luasnip = " ",
+				nvim_lsp_signature_help = " ",
         crates = " ",
         plugins = " ",
 				buffer = " ",
@@ -112,6 +112,7 @@ cmp.setup({
 			return vim_item
 		end,
 	},
+
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "nvim_lua" },

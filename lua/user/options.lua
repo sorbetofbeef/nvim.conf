@@ -1,7 +1,7 @@
 -- Neovim Options --
 vim.opt.backup = false                          -- creates a backup file
 vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
-vim.opt.cmdheight = 2                           -- more space in the neovim command line for displaying messages
+vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
 vim.opt.fileencoding = "utf-8"                  -- the encoding written to a file
@@ -64,9 +64,10 @@ vim.opt.pumblend = 7 -- Make popup window translucent
 vim.opt.pumheight = 20 -- Limit the amount of autocomplete items shown
 
 -- GUI Options
-vim.opt.guifont = "Cartograph CF,Hack Nerd Font:h10"
+vim.opt.linespace = 0
+vim.opt.guifont = "Cascadia Code PL,Symbols Nerd Font:h10"
 
 -- Neovide Global Options --
-vim.g.neovide_transparency = 0.80
+vim.g.neovide_transparency = 1.00
 vim.g.neovide_no_idle = true
 

@@ -21,6 +21,7 @@ local servers = {
   "vimls",
   "graphql",
   "svelte",
+  "dartls",
 }
 
 lsp_installer.setup()
@@ -50,6 +51,10 @@ for _, server in pairs(servers) do
 
   if server == "rust_analyzer" then
     require("user.lsp.settings.rust")
+    goto continue
+  end
+  if server == "dartls" then
+    require("user.lsp.flutter_tools")
     goto continue
   end
 

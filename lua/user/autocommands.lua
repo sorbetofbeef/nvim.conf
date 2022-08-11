@@ -36,7 +36,11 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 --[[ vim.api.nvim_create_autocmd({ "BufEnter, BufWinEnter" }, {
   pattern = { "*.dart" },
-  command = "lua require('user.keymaps').flutter_maps()"
+  callback = function (bufnr)
+    
+    vim.lsp.buf_attach_client()
+    require('user.keymaps').flutter_maps(bufnr)
+  end
 }) ]]
 
 vim.cmd "autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif"

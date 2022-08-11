@@ -43,3 +43,7 @@ luac.out
 plugin/packer_compiled.lua
 java-debug/
 vscode-java-test/
+
+.DS_Store
+plugin/
+lua/user/themes/{dawn,tera,nord,day,dusk}fox.lua

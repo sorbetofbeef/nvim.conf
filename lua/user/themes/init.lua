@@ -1,9 +1,25 @@
-require("user.themes.nightfox").setup()
--- setup must be called before loading
-local colorscheme = "terafox"
+local M = {}
 
-local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
-if not status_ok then
-  return
+M.setup = function (themeName)
+  local themes = {
+    "nightfox",
+    "dayfox",
+    "nordfox",
+    "dawnfox",
+    "duskfox",
+    "terafox",
+    "kannagawa",
+    "material",
+    "rasmus",
+    "starry",
+    "tokyonight",
+  }
+  for _, theme in ipairs(themes) do
+    if theme == themeName then
+      require("user.themes." .. themeName).setup()
+    end
+  end
 end
+
+return M
 

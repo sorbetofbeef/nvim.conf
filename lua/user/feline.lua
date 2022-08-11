@@ -219,13 +219,13 @@ local vi = {
 }
 
 local icons = {
-  locker = "", -- #f023
+  locker = " ", -- #f023
   page = "☰", -- 2630
   line_number = "", -- e0a1
-  connected = "", -- f817
-  dos = "", -- e70f
-  unix = "", -- f17c
-  mac = "", -- f179
+  connected = " ", -- f817
+  dos = " ", -- e70f
+  unix = " ", -- f17c
+  mac = " ", -- f179
   mathematical_L = "𝑳",
   vertical_bar = "┃",
   vertical_bar_thin = "│",
@@ -242,7 +242,7 @@ local icons = {
   slant_left_2_thin = "",
   slant_right_2 = "",
   slant_right_2_thin = "",
-  left_rounded = "",
+  left_rounded = " ",
   left_rounded_thin = "",
   right_rounded = "",
   right_rounded_thin = "",
@@ -272,7 +272,7 @@ end
 
 ---Get the path of the file relative to the cwd
 ---@return string
-local function file_info()
+--[[ local function file_info()
   local list = {}
   if vim.bo.readonly then
     table.insert(list, "🔒")
@@ -285,7 +285,7 @@ local function file_info()
   table.insert(list, vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":~:."))
 
   return table.concat(list, " ")
-end
+end ]]
 
 -- Create a table that contians every status line commonent
 local c = {
@@ -294,11 +294,11 @@ local c = {
       return fmt(" %s ", vi.text[vim.fn.mode()])
     end,
     hl = vi_mode_hl,
-    right_sep = { str = " ", hl = vi_sep_hl },
+    right_sep = { str = "█", hl = vi_sep_hl },
   },
   gitbranch = {
     provider = "git_branch",
-    icon = " ",
+    icon = "  ",
     hl = "UserSLGitBranch",
     right_sep = { str = "  ", hl = "UserSLGitBranch" },
     enabled = function()
@@ -314,8 +314,8 @@ local c = {
   fileinfo = {
     provider = { name = "file_info", opts = { type = "relative" } },
     hl = "UserSLAlt",
-    left_sep = { str = " ", hl = "UserSLAltSep" },
-    right_sep = { str = " ", hl = "UserSLAltSep" },
+    left_sep = { str = "█", hl = "UserSLAltSep" },
+    right_sep = { str = "█", hl = "UserSLAltSep" },
   },
   file_enc = {
     provider = function()
@@ -349,36 +349,36 @@ local c = {
       return vim.tbl_count(vim.lsp.buf_get_clients(0)) == 0 and "" or " ◦ "
     end,
     hl = "UserSLStatus",
-    left_sep = { str = "", hl = "UserSLStatusBg", always_visible = true },
-    right_sep = { str = "", hl = "UserSLErrorStatus", always_visible = true },
+    left_sep = { str = " █", hl = "UserSLStatusBg", always_visible = true },
+    right_sep = { str = " █", hl = "UserSLErrorStatus", always_visible = true },
   },
   lsp_error = {
     provider = function()
       return get_diag("ERROR")
     end,
     hl = "UserSLError",
-    right_sep = { str = "", hl = "UserSLWarnError", always_visible = true },
+    right_sep = { str = " █", hl = "UserSLWarnError", always_visible = true },
   },
   lsp_warn = {
     provider = function()
       return get_diag("WARN")
     end,
     hl = "UserSLWarn",
-    right_sep = { str = "", hl = "UserSLInfoWarn", always_visible = true },
+    right_sep = { str = " █", hl = "UserSLInfoWarn", always_visible = true },
   },
   lsp_info = {
     provider = function()
       return get_diag("INFO")
     end,
     hl = "UserSLInfo",
-    right_sep = { str = "", hl = "UserSLHintInfo", always_visible = true },
+    right_sep = { str = " █", hl = "UserSLHintInfo", always_visible = true },
   },
   lsp_hint = {
     provider = function()
       return get_diag("HINT")
     end,
     hl = "UserSLHint",
-    right_sep = { str = "", hl = "UserSLFtHint", always_visible = true },
+    right_sep = { str = " █", hl = "UserSLFtHint", always_visible = true },
   },
 
   in_fileinfo = {
@@ -389,10 +389,10 @@ local c = {
     provider = "position",
     hl = "StatusLine",
   },
-  file_winbar = {
-    provider = file_info,
+  --[[ file_winbar = {
+    provider = "file_info",
     hl = "Comment",
-  },
+  }, ]]
 }
 
 local active = {

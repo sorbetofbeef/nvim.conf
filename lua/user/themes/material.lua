@@ -2,7 +2,6 @@ local M = {}
 
 M.setup = function()
   vim.g.material_style = "lighter"
-  
   require("material").setup({
     contrast = {
       sidebars = false,

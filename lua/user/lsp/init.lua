@@ -1,7 +1,7 @@
-local status_ok, _ = pcall(require, "lspconfig")
+--[[ local status_ok, _ = pcall(require, "lspconfig")
 if not status_ok then
   return
-end
+end ]]
 
 local installer_status_ok, _ = pcall(require, "user.lsp.lsp-installer")
 if not installer_status_ok then
@@ -19,10 +19,10 @@ if not null_status_ok then
   return
 end
 
-local flutter_status_ok, _ = pcall(require, "user.lsp.flutter_tools")
+--[[ local flutter_status_ok, _ = pcall(require, "user.lsp.flutter_tools")
 if not flutter_status_ok then
   return
-end
+end ]]
 
 local refactor_status_ok, _ = pcall(require, "user.lsp.refactoring")
 if not refactor_status_ok then
