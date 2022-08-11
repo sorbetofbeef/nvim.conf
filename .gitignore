@@ -44,6 +44,10 @@ plugin/packer_compiled.lua
 java-debug/
 vscode-java-test/
 
-.DS_Store
 plugin/
-lua/user/themes/{dawn,tera,nord,day,dusk}fox.lua
+.DS_Store
+lua/user/themes/terafox.lua
+lua/user/themes/nordfox.lua
+lua/user/themes/duskfox.lua
+lua/user/themes/dayfox.lua
+lua/user/themes/dawnfox.lua
