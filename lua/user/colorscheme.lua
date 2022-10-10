@@ -1,9 +1,8 @@
-local themeName = "dayfox"
-require("user.themes").setup(themeName)
--- setup must be called before loading
+local current_theme = require("user.themes.current_theme")
 
-local status_ok, _ = pcall(vim.cmd, "colorscheme " .. themeName)
-if not status_ok then
-  return
-end
+local colorscheme = current_theme.main
+local sub_theme = current_theme.variant
 
+local theme = require("user.themes")
+
+theme.setup(colorscheme, sub_theme)

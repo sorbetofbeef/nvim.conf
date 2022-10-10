@@ -59,6 +59,8 @@ local rust_opts = {
       ["rust-analyzer"] = {
         updates = { channel = "stable" },
         assist = {
+          importEnforceGranularity = true,
+          importPrefix = "crate",
           expressionFillDefault = "todo",
           --[[ importGroup = true,
           importGranularity = "module",
@@ -70,7 +72,7 @@ local rust_opts = {
         }, ]]
 
         cargo = {
-          features = "all",
+          allFeatures = true,
           autoreload = true,
           loadOutDirsFromCheck = true,
         },
@@ -114,6 +116,10 @@ local rust_opts = {
         },
 
         inlayHints = {
+          lifetimeElisionHints = {
+            enable = true,
+            useParameterNames = true,
+          },
           chainingHints = true,
           parameterHints = true,
           typeHints = true,

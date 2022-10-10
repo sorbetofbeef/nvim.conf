@@ -1,4 +1,4 @@
-require('lspconfig').jsonls.setup {
+return {
   settings = {
     json = {
       schemas = require('schemastore').json.schemas(),

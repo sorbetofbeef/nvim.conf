@@ -14,8 +14,19 @@ configs.setup({
 		enable = true,
 	},
 	indent = { enable = true, disable = { "python", "css", "rust" } },
-  autotag = {
-    enable = true,
-    disable = { "xml", "markdown" },
-  }
+	autotag = {
+		enable = true,
+		disable = { "xml", "markdown" },
+	},
+	context_commentstring = {
+		enable = true,
+    enable_autocmd = false,
+		config = {
+			dart = { __default = "// %s", __multiline = "/* %s */" },
+		},
+	},
+})
+
+require('ts_context_commentstring.internal').update_commentstring({
+  key = '__multiline',
 })

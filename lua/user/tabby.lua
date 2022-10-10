@@ -135,13 +135,13 @@ _G._genreate_user_tabline_highlights = function()
   local groups = {
     -- tabline
     UserTLFill = { fg = pal.cyan, bg = pal.fill.bg },
-    UserTLHead = { fg = pal.sel.fg, bg = pal.cyan },
+    UserTLHead = { fg = pal.sel.bg, bg = pal.cyan },
     UserTLHeadSep = { fg = pal.cyan, bg = pal.fill.bg },
     UserTLActive = { fg = pal.sel.fg, bg = pal.sel.bg, bold = true },
     UserTLActiveSep = { fg = pal.sel.bg, bg = pal.fill.bg },
-    UserTLBoldTab = { fg = pal.tab.bg, bg = pal.fill.fg, bold = true },
-    UserTLLineSep = { fg = pal.fill.fg, bg = pal.fill.bg },
-    UserTLWin = { fg = pal.tab.bg, bg = pal.sel.fg },
+    UserTLBoldTab = { fg = pal.tab.fg, bg = pal.tab.bg, bold = true },
+    UserTLLineSep = { fg = pal.tab.bg, bg = pal.fill.bg },
+    UserTLWin = { fg = pal.tab.fg, bg = pal.tab.bg },
   }
 
   set_highlights(vim.tbl_extend("force", colors, groups))
@@ -159,7 +159,7 @@ vim.api.nvim_create_autocmd({ "SessionLoadPost", "ColorScheme" }, {
 ----------------------------------------------------------------------------------------------------
 -- Feline
 
-local filename = require("tabby.filename")
+local filename = require("tabby.module.filename")
 
 local cwd = function()
   return "   " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. " "
@@ -170,7 +170,7 @@ local line = {
   layout = "active_wins_at_tail",
   head = {
     { cwd, hl = "UserTLHead" },
-    { "█", hl = "UserTLHeadSep" },
+    { "", hl = "UserTLHeadSep" },
   },
   active_tab = {
     label = function(tabid)
@@ -179,8 +179,8 @@ local line = {
         hl = "UserTLActive",
       }
     end,
-    left_sep = { "█", hl = "UserTLActiveSep" },
-    right_sep = { "█", hl = "UserTLActiveSep" },
+    left_sep = { "", hl = "UserTLActiveSep" },
+    right_sep = { "", hl = "UserTLActiveSep" },
   },
   inactive_tab = {
     label = function(tabid)
@@ -189,8 +189,8 @@ local line = {
         hl = "UserTLWin",
       }
     end,
-    left_sep = { "█", hl = "UserTLLineSep" },
-    right_sep = { "█", hl = "UserTLLineSep" },
+    left_sep = { "", hl = "UserTLLineSep" },
+    right_sep = { "", hl = "UserTLLineSep" },
   },
   top_win = {
     label = function(winid)
@@ -199,8 +199,8 @@ local line = {
         hl = "UserTLActive",
       }
     end,
-    left_sep = { "█", hl = "UserTLActiveSep" },
-    right_sep = { "█", hl = "UserTLActiveSep" },
+    left_sep = { "", hl = "UserTLActiveSep" },
+    right_sep = { "", hl = "UserTLActiveSep" },
   },
   win = {
     label = function(winid)
@@ -209,11 +209,11 @@ local line = {
         hl = "UserTLWin",
       }
     end,
-    left_sep = { "█", hl = "UserTLLineSep" },
-    right_sep = { "█", hl = "UserTLLineSep" },
+    left_sep = { "", hl = "UserTLLineSep" },
+    right_sep = { "", hl = "UserTLLineSep" },
   },
   tail = {
-    { "█", hl = "UserTLHeadSep" },
+    { "", hl = "UserTLHeadSep" },
     { "   ", hl = "UserTLHead" },
   },
 }

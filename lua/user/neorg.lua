@@ -18,6 +18,7 @@ neorg.setup {
         index = "index.norg"
       },
     },
+    --[[ ["core.neorg.treesitter"] = {}, ]]
     ["core.norg.concealer"] = {},
     ["core.gtd.base"] = {
       config = {
@@ -34,6 +35,7 @@ neorg.setup {
     },
     ["core.integrations.nvim-cmp"] = {},
     ["core.norg.qol.toc"] = {},
+    ["core.integrations.treesitter"] = {},
     ["core.export.markdown"] = {},
   }
 }

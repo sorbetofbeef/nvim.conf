@@ -1,7 +1,9 @@
 local M = {}
 
-M.setup = function()
-  vim.g.material_style = "lighter"
+M.setup = function(subTheme)
+
+  vim.g.material_style = subTheme
+
   require("material").setup({
     contrast = {
       sidebars = false,
@@ -21,6 +23,7 @@ M.setup = function()
     },
     contrast_filetypes = {
       "Outline",
+      "neo-tree",
       -- "NvimTree",
       "dapui_scopes",
       "dapui_stacks",
@@ -54,6 +57,8 @@ M.setup = function()
   		mini = true,
   	},
   })
+
+  vim.cmd("colorscheme material")
 end
 
 return M

@@ -1,6 +1,11 @@
 local M = {}
 
-M.setup = function()
+M.setup = function(subTheme)
+
+  if subTheme == nil then
+    subTheme = "nightfox"
+  end
+
   require("nightfox").setup({
     options = {
       -- Compiled file's destination location
@@ -63,6 +68,7 @@ M.setup = function()
     },
   })
 
+  vim.cmd("colorscheme " .. subTheme)
 end
 
 return M

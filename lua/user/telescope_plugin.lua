@@ -5,18 +5,17 @@ end
 
 local actions = require("telescope.actions")
 local trouble = require("trouble.providers.telescope")
-local builtin = require('telescope.builtin')
-local themes = require('telescope.themes')
+local builtin = require("telescope.builtin")
+local themes = require("telescope.themes")
 
-
-telescope.setup {
+telescope.setup({
   extensions = {
     ["ui-select"] = {
-      themes.get_cursor({ winblend=10 }),
+      themes.get_cursor({ winblend = 10 }),
     },
     ["projects"] = {
       themes.get_ivy(),
-    }
+    },
   },
   defaults = {
     prompt_prefix = " ",
@@ -35,7 +34,48 @@ telescope.setup {
       n = { ["<c-t>"] = trouble.open_with_trouble },
     },
   },
-}
+  pickers = {
+    live_grep = {
+      theme = "dropdown",
+    },
+    grep_string = {
+      theme = "dropdown",
+    },
+    find_files = {
+      theme = "dropdown",
+      previewer = false,
+    },
+    buffers = {
+      theme = "dropdown",
+      previewer = false,
+      initial_mode = "normal",
+    },
+    planets = {
+      show_pluto = true,
+      show_moon = true,
+    },
+    colorscheme = {
+      theme = "dropdown",
+      -- enable_preview = true,
+    },
+    lsp_references = {
+      theme = "cursor",
+      initial_mode = "normal",
+    },
+    lsp_definitions = {
+      theme = "cursor",
+      initial_mode = "normal",
+    },
+    lsp_declarations = {
+      theme = "cursor",
+      initial_mode = "normal",
+    },
+    lsp_implementations = {
+      theme = "cursor",
+      initial_mode = "normal",
+    },
+  },
+})
 
 telescope.load_extension("ui-select")
 telescope.load_extension("project")
