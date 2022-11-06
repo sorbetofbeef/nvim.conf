@@ -5,9 +5,9 @@ if not okay then
   return
 end
 
-M.setup = function(subTheme)
+M.setup = function(variant)
 
-  vim.g.catppuccin_flavour = subTheme
+  vim.g.catppuccin_flavour = variant
 
   cat.setup({
     term_colors = true,

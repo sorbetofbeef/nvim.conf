@@ -86,10 +86,10 @@ require("neo-tree").setup({
       nowait = true,
     },
     mappings = {
-      ["<space>"] = {
+      --[[ ["<space>"] = {
           "toggle_node",
           nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use 
-      },
+      }, ]]
       ["<2-LeftMouse>"] = "open",
       ["<cr>"] = "open",
       ["o"] = "open",
@@ -164,7 +164,7 @@ require("neo-tree").setup({
     follow_current_file = false, -- This will find and focus the file in the active buffer every
                                  -- time the current file is changed while the tree is open.
     group_empty_dirs = false, -- when true, empty folders will be grouped together
-    hijack_netrw_behavior = "enabled",    -- netrw left alone, neo-tree does not handle opening dirs
+    hijack_netrw_behavior = "open_default",    -- netrw left alone, neo-tree does not handle opening dirs
                                             -- in whatever position is specified in window.position
                           -- "open_current",  -- netrw disabled, opening a directory opens within the
                              -- "open_default", -- netrw disabled, opening a directory opens neo-tree                -- window like netrw would, regardless of window.position

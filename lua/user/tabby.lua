@@ -107,7 +107,7 @@ local function generate_pallet_from_colorscheme()
   return pallet
 end
 
----Generate user highlight groups based on the curent applied colorscheme
+---Generate user highlight groups based on the current applied colorscheme
 ---
 ---NOTE: This is a global because I dont known where this file will be in your config
 ---and it is needed for the autocmd below
@@ -134,14 +134,20 @@ _G._genreate_user_tabline_highlights = function()
 
   local groups = {
     -- tabline
-    UserTLFill = { fg = pal.cyan, bg = pal.fill.bg },
-    UserTLHead = { fg = pal.sel.bg, bg = pal.cyan },
-    UserTLHeadSep = { fg = pal.cyan, bg = pal.fill.bg },
-    UserTLActive = { fg = pal.sel.fg, bg = pal.sel.bg, bold = true },
-    UserTLActiveSep = { fg = pal.sel.bg, bg = pal.fill.bg },
+    UserTLFill = { fg = pal.blue, bg = pal.black },
+
+    UserTLHead = { fg = pal.black, bg = pal.blue },
+    UserTLHeadSep = { fg = pal.black, bg = pal.blue},
+
+    UserTLActive = { fg = pal.black, bg = pal.yellow, bold = true },
+    UserTLActiveSep = { fg = pal.yellow, bg = pal.black },
+    UserTLActiveSepTail = { fg = pal.black, bg = pal.yellow },
+
+    UserTLWin = { fg = pal.blue, bg = pal.black },
+    UserTLLineSep = { fg = pal.black, bg = pal.black },
+    UserTLLineSepTail = { fg = pal.black, bg = pal.black },
+
     UserTLBoldTab = { fg = pal.tab.fg, bg = pal.tab.bg, bold = true },
-    UserTLLineSep = { fg = pal.tab.bg, bg = pal.fill.bg },
-    UserTLWin = { fg = pal.tab.fg, bg = pal.tab.bg },
   }
 
   set_highlights(vim.tbl_extend("force", colors, groups))
@@ -170,50 +176,50 @@ local line = {
   layout = "active_wins_at_tail",
   head = {
     { cwd, hl = "UserTLHead" },
-    { "", hl = "UserTLHeadSep" },
+    { "", hl = "UserTLHeadSep" },
   },
   active_tab = {
     label = function(tabid)
       return {
-        " " .. tabid .. " ",
+        "   " .. tabid .. " ",
         hl = "UserTLActive",
       }
     end,
-    left_sep = { "", hl = "UserTLActiveSep" },
-    right_sep = { "", hl = "UserTLActiveSep" },
+    left_sep = { "", hl = "UserTLActiveSep" },
+    right_sep = { "", hl = "UserTLActiveSepTail" },
   },
   inactive_tab = {
     label = function(tabid)
       return {
-        " " .. tabid .. " ",
+        "   " .. tabid .. " ",
         hl = "UserTLWin",
       }
     end,
-    left_sep = { "", hl = "UserTLLineSep" },
-    right_sep = { "", hl = "UserTLLineSep" },
+    left_sep = { "", hl = "UserTLLineSep" },
+    right_sep = { "", hl = "UserTLLineSepTail" },
   },
   top_win = {
     label = function(winid)
       return {
-        " " .. filename.unique(winid) .. " ",
+        "   " .. filename.unique(winid) .. " ",
         hl = "UserTLActive",
       }
     end,
-    left_sep = { "", hl = "UserTLActiveSep" },
-    right_sep = { "", hl = "UserTLActiveSep" },
+    left_sep = { "", hl = "UserTLActiveSepTail" },
+    right_sep = { "", hl = "UserTLActiveSep" },
   },
   win = {
     label = function(winid)
       return {
-        "  " .. filename.unique(winid) .. " ",
+        "   " .. filename.unique(winid) .. " ",
         hl = "UserTLWin",
       }
     end,
-    left_sep = { "", hl = "UserTLLineSep" },
-    right_sep = { "", hl = "UserTLLineSep" },
+    left_sep = { "", hl = "UserTLLineSepTail" },
+    right_sep = { "", hl = "UserTLLineSep" },
   },
   tail = {
-    { "", hl = "UserTLHeadSep" },
+    { "", hl = "UserTLHeadSep" },
     { "   ", hl = "UserTLHead" },
   },
 }

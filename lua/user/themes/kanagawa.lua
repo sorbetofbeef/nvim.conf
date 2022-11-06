@@ -1,9 +1,5 @@
 local M = {}
-M.setup = function(subTheme)
-
-  if subTheme == nil then
-    subTheme = "kanagawa"
-  end
+M.setup = function(_)
 
   require('kanagawa').setup({
     undercurl = true,           -- enable undercurls
@@ -32,7 +28,7 @@ M.setup = function(subTheme)
       verthoriz = '╋',
   })
 
-  vim.cmd("colorscheme"..subTheme)
+  vim.cmd("colorscheme kanagawa")
 end
 
 return M

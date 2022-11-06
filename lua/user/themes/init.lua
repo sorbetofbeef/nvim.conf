@@ -1,10 +1,10 @@
 local M = {}
 
-M.setup = function(themeName, subTheme)
+M.setup = function(theme_name, variant)
 	local themes = {
 		"nightfox",
     "catppuccin",
-		"kannagawa",
+		"kanagawa",
 		"material",
 		"rasmus",
 		"starry",
@@ -12,11 +12,17 @@ M.setup = function(themeName, subTheme)
     "aquarium",
     "onedarkpro",
     "melange",
+    "mellow",
+    "tokyonight",
+    "ayu",
+    "apprentice",
+    "poimandres",
+    "doom_one",
 	}
 
 	for _, theme in ipairs(themes) do
-		if theme == themeName then
-			require("user.themes." .. themeName).setup(subTheme)
+		if theme == theme_name then
+			require("user.themes." .. theme_name).setup(variant)
 			break
 		end
 	end

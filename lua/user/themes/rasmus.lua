@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function()
+M.setup = function(_)
   vim.g.rasmus_italic_keywords = false
   vim.g.rasmus_italic_comments = true
   vim.g.rasmus_italic_functions = true
@@ -14,6 +14,7 @@ M.setup = function()
   vim.g.rasmus_bold_variables = true
 
   vim.g.rasmus_transparent = false
+  vim.cmd("colorscheme rasmus")
 end
 
 return M

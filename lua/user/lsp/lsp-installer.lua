@@ -3,15 +3,11 @@ if not status_ok then
 	return
 end
 
-local luadev_ok, lua_dev = pcall(require, "lua-dev")
-if not luadev_ok then
+local lsp_status_ok, mason_config = pcall(require, "mason-lspconfig")
+if not lsp_status_ok then
 	return
 end
 
-local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status_ok then
-	return
-end
 
 local servers = {
 	"gopls",
@@ -32,10 +28,39 @@ local servers = {
 	"graphql",
 	"svelte",
 	"dartls",
+  "rust_analyzer"
 }
 
-lua_dev.setup({})
-mason.setup()
+local mason_servers = {
+	"gopls",
+	"sumneko_lua",
+	"cssls",
+	"html",
+	"pyright",
+	"bashls",
+	"jsonls",
+	"yamlls",
+	"taplo",
+	"marksman",
+	"sqls",
+	"emmet_ls",
+	"dockerls",
+	"vimls",
+	"graphql",
+	"svelte",
+}
+
+mason.setup({})
+mason_config.setup({
+  ensure_installed = mason_servers
+})
+
+local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
+if not lspconfig_status_ok then
+	return
+end
+
+
 local opts = {}
 
 for _, server in pairs(servers) do
@@ -45,6 +70,11 @@ for _, server in pairs(servers) do
 	}
 
 	if server == "sumneko_lua" then
+    local luadev_ok, neodev = pcall(require, "neodev")
+    if not luadev_ok then
+      return
+    end
+    neodev.setup()
 		local sumneko_opts = require("user.lsp.settings.sumneko_lua")
 		opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
 	end
@@ -58,6 +88,11 @@ for _, server in pairs(servers) do
 		require("user.lsp.settings.rust")
 		goto continue
 	end
+
+	if server == "tsserver" then
+    require("user.lsp.settings.tsserver")
+    goto continue
+  end
 
 	if server == "dartls" then
     require("user.lsp.flutter_tools")
@@ -78,6 +113,11 @@ for _, server in pairs(servers) do
 		local jsonls_opts = require("user.lsp.settings.jsonls")
 		opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
 	end
+
+  if server == "tsserver" then
+    local tsserver_opts = require("user.lsp.settings.tsserver")
+    opts = vim.tbl_deep_extend("force", tsserver_opts, opts)
+  end
 
 	lspconfig[server].setup(opts)
 	::continue::

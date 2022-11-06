@@ -1,5 +1,4 @@
 local okay, onedarkpro = pcall(require, "onedarkpro")
-
 if not okay then
 	return
 end

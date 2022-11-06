@@ -1,6 +1,6 @@
 local M = {}
 
 M.variant = "light"
-M.main = "onedarkpro"
+M.main = "doom_one"
 
 return M

@@ -6,9 +6,10 @@ end
 local i = require("user.icons").kind
 
 local opts = {
-  auto_preview = false,
-  relative_width = false,
-  width = 25,
+  auto_preview = true,
+  relative_width = true,
+  width = 15,
+  position = 'right',
   symbols = {
     File = {icon = i.File, hl = "TSURI"},
     Module = {icon = i.Module, hl = "TSNamespace"},
@@ -37,7 +38,7 @@ local opts = {
     Operator = {icon = i.Operator, hl = "TSOperator"},
     TypeParameter = {icon = i.TypeParameter, hl = "TSParameter"}
   },
-  autofold_depth = 2,
+  autofold_depth = 1,
 }
 
 outline.setup(opts)

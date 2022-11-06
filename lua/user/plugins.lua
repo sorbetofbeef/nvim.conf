@@ -60,7 +60,7 @@ return packer.startup(function(use)
 	})
 
 	-- use { 'beauwilliams/statusline.lua' }
-  -- use({ "MunifTanjim/nui.nvim" })
+	-- use({ "MunifTanjim/nui.nvim" })
 
 	-- UI --
 	-- PopOvers/PopUps
@@ -81,6 +81,37 @@ return packer.startup(function(use)
 		end,
 	})
 	use({ "j-hui/fidget.nvim" })
+	use({
+		"s1n7ax/nvim-window-picker",
+		tag = "v1.*",
+		config = function()
+			require("window-picker").setup({
+				include_current_win = true,
+				use_winbar = "always", -- "always" | "never" | "smart"
+				filter_rules = {
+					-- filter using buffer options
+					bo = {
+						-- if the file type is one of following, the window will be ignored
+						filetype = { "Outline", "NvimTree", "neo-tree", "notify" },
+
+						-- if the buffer type is one of following, the window will be ignored
+						buftype = { "terminal" },
+					},
+
+					-- filter using window options
+					wo = {},
+
+					-- if the file path contains one of following names, the window
+					-- will be ignored
+					file_path_contains = {},
+
+					-- if the file name contains one of following names, the window will be
+					-- ignored
+					file_name_contains = {},
+				},
+			})
+		end,
+	})
 	--Icons
 	use({ "kyazdani42/nvim-web-devicons" })
 	-- Colorschemes
@@ -91,11 +122,16 @@ return packer.startup(function(use)
 	use({ "EdenEast/nightfox.nvim" })
 	use({ "kvrohit/rasmus.nvim" })
 	use({ "marko-cerovac/material.nvim" })
-	use({ "shaunsingh/oxocarbon.nvim", run = "./install.sh" })
 	use({ "frenzyexists/aquarium-vim" })
 	use({ "olimorris/onedarkpro.nvim" })
 	use({ "savq/melange" })
+	use({ "kvrohit/mellow.nvim" })
 	use({ "catppuccin/nvim", as = "catppuccin" })
+	use({ "adisen99/apprentice.nvim", requires = { "rktjmp/lush.nvim" } })
+	use({ "Shatur/neovim-ayu" })
+	use({ "olivercederborg/poimandres.nvim" })
+	use({ "NTBBloodbath/doom-one.nvim" })
+	use({ "lukas-reineke/headlines.nvim" })
 
 	-- Editing --
 	use({
@@ -129,11 +165,12 @@ end,
 	use({ "mg979/vim-visual-multi" })
 	-- Notes/Organization
 	use({ "nvim-neorg/neorg" })
+	use({ "max397574/neorg-kanban" })
 	-- Navigation/Browsing
 	use({ "simrat39/symbols-outline.nvim" })
-	--  use { 'christianchiarulli/nvim-gps', branch = 'text_hl' }
 	use({ "numToStr/Comment.nvim" })
 	use({ "abecodes/tabout.nvim" })
+	use({ "ThePrimeagen/harpoon" })
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim", tag = "0.1.0", requires = { { "nvim-lua/plenary.nvim" } } })
 	use({ "nvim-telescope/telescope-ui-select.nvim" })
@@ -150,7 +187,7 @@ end,
 	use({ "saadparwaiz1/cmp_luasnip" })
 	use({ "hrsh7th/cmp-nvim-lsp" })
 	use({ "hrsh7th/cmp-nvim-lua" })
-	use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
+	-- use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
 	use({ "KadoBOT/cmp-plugins" })
 	use({ "f3fora/cmp-spell" })
 	-- coq
@@ -186,7 +223,9 @@ end,
 	-- SQL
 	use({ "nanotee/sqls.nvim" })
 	-- Neovim LuaDev
-	use({ "folke/lua-dev.nvim" })
+	use({ "folke/neodev.nvim" })
+	-- TypeScript
+	use({ "jose-elias-alvarez/typescript.nvim" })
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter" })
 	use({ "nvim-treesitter/nvim-treesitter-context" })
@@ -201,6 +240,9 @@ end,
 	use({ "rcarriga/nvim-dap-ui" })
 	use({ "ravenxrz/DAPInstall.nvim" })
 	use({ "jbyuki/one-small-step-for-vimkind" })
+
+	use({ "lvimuser/lsp-inlayhints.nvim" })
+	use({ "ray-x/lsp_signature.nvim" })
 
 	use({
 		"SmiteshP/nvim-navic",

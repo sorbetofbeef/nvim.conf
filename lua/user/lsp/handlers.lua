@@ -18,7 +18,7 @@ local M = {}
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 M.capabilities.textDocument.completion.completionItem.additionalTextEdits = true
-M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
+M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 -- M.capabilities = coq.lsp_ensure_capabilities({M.capabilities})
 
 --[[ local lsp_formatting = function(bufnr)
@@ -82,9 +82,6 @@ M.setup = function()
 	vim.diagnostic.config(config.diagnostic)
 
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, config.float)
-
-	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, config.float)
-
 	vim.lsp.handlers["textDocument/publishDiagnostics"] =
 		vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, config.diagnostic)
 end
@@ -112,32 +109,32 @@ end
     
   end
 end ]]
-local symbolHighlight = function(client, bufnr)
-	if client.resolved_capabilities.document_highlight then
-		vim.cmd([[
-    hi! LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-    hi! LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-    hi! LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-  ]])
-		vim.api.nvim_create_augroup("lsp_document_highlight", {
-			clear = false,
-		})
-		vim.api.nvim_clear_autocmds({
-			buffer = bufnr,
-			group = "lsp_document_highlight",
-		})
-		vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-			group = "lsp_document_highlight",
-			buffer = bufnr,
-			callback = vim.lsp.buf.document_highlight,
-		})
-		vim.api.nvim_create_autocmd("CursorMoved", {
-			group = "lsp_document_highlight",
-			buffer = bufnr,
-			callback = vim.lsp.buf.clear_references,
-		})
-	end
-end
+-- local symbolHighlight = function(client, bufnr)
+-- 	if client.server_capabilities.document_highlight then
+-- 		vim.cmd([[
+--     hi! LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+--     hi! LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+--     hi! LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+--   ]])
+-- 		vim.api.nvim_create_augroup("lsp_document_highlight", {
+-- 			clear = false,
+-- 		})
+-- 		vim.api.nvim_clear_autocmds({
+-- 			buffer = bufnr,
+-- 			group = "lsp_document_highlight",
+-- 		})
+-- 		vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+-- 			group = "lsp_document_highlight",
+-- 			buffer = bufnr,
+-- 			callback = vim.lsp.buf.document_highlight,
+-- 		})
+-- 		vim.api.nvim_create_autocmd("CursorMoved", {
+-- 			group = "lsp_document_highlight",
+-- 			buffer = bufnr,
+-- 			callback = vim.lsp.buf.clear_references,
+-- 		})
+-- 	end
+-- end
 
 M.on_attach = function(client, bufnr)
 	--[[ if client.supports_method("textDocument/formatting") then
@@ -166,7 +163,6 @@ M.on_attach = function(client, bufnr)
 	keymaps.attach(client, bufnr)
 	attach_navic(client, bufnr)
 	attach_illuminate(client)
-  symbolHighlight(client, bufnr)
 end
 
 -- function M.enable_format_on_save()

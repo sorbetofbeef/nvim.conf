@@ -37,6 +37,7 @@ neorg.setup {
     ["core.norg.qol.toc"] = {},
     ["core.integrations.treesitter"] = {},
     ["core.export.markdown"] = {},
+    ["external.kanban"] = {},
   }
 }
 

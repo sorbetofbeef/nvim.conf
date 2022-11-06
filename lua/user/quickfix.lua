@@ -57,7 +57,7 @@ bqf.setup({
         delay_syntax = 80,
         border_chars = {'┃', '┃', '━', '━', '┏', '┓', '┗', '┛', '█'},
         show_title = false,
-        should_preview_cb = function(bufnr, winid)
+        should_preview_cb = function(bufnr, qwinid)
             local ret = true
             local bufname = vim.api.nvim_buf_get_name(bufnr)
             local fsize = vim.fn.getfsize(bufname)

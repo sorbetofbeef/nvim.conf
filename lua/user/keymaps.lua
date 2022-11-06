@@ -11,7 +11,7 @@ local M = {}
 local keymap = vim.keymap.set
 
 --Remap space as leader key
-keymap("", "<Space>", "<Nop>", { silent = true })
+keymap("n", "<Space>", "<Nop>", { silent = true })
 vim.g.mapleader = " "
 
 local standard_maps = function()
@@ -67,11 +67,29 @@ local standard_maps = function()
 	keymap("n", "gV", [['`[' . strpart(getregtype(), 0, 1) . '`]']], expr)
 
 	keymap("i", "jk", "<ESC>", opts)
-	keymap("v", "jk", "<ESC>", opts)
 	keymap("x", "jk", "<ESC>", opts)
 
-	keymap("v", "<", "<gv", opts)
-	keymap("v", ">", ">gv", opts)
+	keymap("x", "<", "<gv", opts)
+	keymap("x", ">", ">gv", opts)
+end
+
+local bracket_maps = function()
+	local opts = {
+		mode = "n",
+	}
+
+	local mappings = {
+		["["] = {
+      name = "which_key_ignore",
+			h = { "<cmd>lua require('harpoon.ui').nav_prev()<cr>", "Harpoon Backward" },
+		},
+		["]"] = {
+      name = "which_key_ignore",
+			h = { "<cmd>lua require('harpoon.ui').nav_next()<cr>", "Harpoon Forward" },
+		},
+	}
+
+	wk.register(mappings, opts)
 end
 
 local plug_maps = function()
@@ -83,11 +101,15 @@ local plug_maps = function()
 	local mappings = {
 		-- Plugins --
 		-- Alpha
-		h = { "<cmd>Alpha<CR>", "Go Home" },
+		["<c-h>"] = { "<cmd>Alpha<CR>", "Go Home" },
 		-- NvimTree
-		-- e = { "<cmd>Telescope file_browser<CR>", "Explorer" },
-		-- e = { "<cmd>Neotree toggle<CR>", "Explorer" },
-		e = { "<cmd>NvimTreeToggle<CR>", "Explorer" },
+		e = { "<cmd>Neotree toggle<CR>", "Explorer" },
+		-- Harpoon
+		h = {
+			name = "Harpoon",
+			a = { "<cmd>lua require('harpoon.mark').add_file()<cr>", "Add File" },
+			h = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", "Menu" },
+		},
 
 		-- Telescope
 		b = { "<cmd>Telescope buffers<CR>", "Buffers" },
@@ -123,7 +145,7 @@ local plug_maps = function()
 		l = {
 			name = "LSP",
 			i = { "<cmd>LspInfo<cr>", "Info" },
-			I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
+			I = { "<cmd>Mason<cr>", "Mason UI" },
 		},
 
 		-- Close buffers
@@ -149,7 +171,8 @@ local plug_maps = function()
 
 		d = {
 			name = "Trouble",
-			q = { ":Trouble quickfix", "Qucikfix List" },
+			q = { ":Trouble quickfix<cr>", "Qucikfix List" },
+			d = { ":Trouble quickfix<cr>", "Qucikfix List" },
 		},
 	}
 
@@ -181,7 +204,7 @@ local lsp_l_keymaps = function(bufnr)
 	local mappings = {
 		k = { "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", "which_key_ignore" },
 		j = { "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", "which_key_ignore" },
-		["<Space>"] = { "<cmd>lua vim.diagnostic.open_float()<CR>", "which_key_ignore" },
+		["<Space>"] = { "<cmd>Trouble document_diagnostics<CR>", "which_key_ignore" },
 
 		l = {
 			name = "Lsp Actions",
@@ -325,5 +348,6 @@ end
 -- Function Calls
 plug_maps()
 standard_maps()
+bracket_maps()
 
 return M

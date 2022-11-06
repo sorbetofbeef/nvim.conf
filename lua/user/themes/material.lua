@@ -1,8 +1,8 @@
 local M = {}
 
-M.setup = function(subTheme)
+M.setup = function(variant)
 
-  vim.g.material_style = subTheme
+  vim.g.material_style = variant
 
   require("material").setup({
     contrast = {

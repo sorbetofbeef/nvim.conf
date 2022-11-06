@@ -453,6 +453,12 @@ local components = {
 }
 
 table.insert(components.active[1], {
+	provider = "file_info",
+  right_sep =  { str="   ", hl="Comment"},
+	hl = "Comment",
+})
+
+table.insert(components.active[1], {
 	provider = function()
 		return navic.get_location()
 	end,

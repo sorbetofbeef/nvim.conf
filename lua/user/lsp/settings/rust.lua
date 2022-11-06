@@ -23,14 +23,10 @@ local rust_opts = {
       })
     end,
     autoSetHints = true,
-    hover_with_actions = true,
     -- runnables = { use_telescope = false },
     -- debuggables = { use_telescope = false },
     inlay_hints = {
-      show_parameter_hints = true,
-      show_variable_name = true,
-      parameter_hints_prefix = " << ",
-      other_hints_prefix = " >> ",
+      auto = false,
     },
     hover_actions = {
       border = "rounded",
