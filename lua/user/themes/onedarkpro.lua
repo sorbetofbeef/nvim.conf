@@ -5,7 +5,6 @@ end
 
 local M = {}
 M.setup = function(variant)
-
 	onedarkpro.setup({
 		options = {
 			bold = true,
@@ -14,12 +13,12 @@ M.setup = function(variant)
 			undercurl = true,
 			cursorline = true,
 			terminal_colors = true,
-			window_unfocused_color = true,
+			highlight_inactive_windows = true,
 		},
 	})
 
-  vim.o.background = variant
-  vim.cmd("colorscheme onedarkpro")
+	vim.o.background = variant
+	vim.cmd("colorscheme one" .. variant)
 end
 
 return M

@@ -80,4 +80,6 @@ telescope.setup({
 telescope.load_extension("ui-select")
 telescope.load_extension("project")
 telescope.load_extension("luasnip")
-telescope.load_extension("flutter")
+
+local flutter_okay, _ = pcall(telescope.load_extension, "flutter")
+if not flutter_okay then return end

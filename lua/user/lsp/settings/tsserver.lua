@@ -1,4 +1,5 @@
 local handlers = require("user.lsp.handlers")
+
 local ok, ts = pcall(require, "typescript")
 if not ok then
 	return
@@ -7,6 +8,9 @@ end
 local opts = {
 	settings = {
 		typescript = {
+      implicitProjectConfig = {
+        experimentalDecorators = true,
+      },
 			inlayHints = {
 				includeInlayParameterNameHints = "all",
 				includeInlayParameterNameHintsWhenArgumentMatchesName = false,
@@ -18,6 +22,9 @@ local opts = {
 			},
 		},
 		javascript = {
+      implicitProjectConfig = {
+        experimentalDecorators = true,
+      },
 			inlayHints = {
 				includeInlayParameterNameHints = "all",
 				includeInlayParameterNameHintsWhenArgumentMatchesName = false,

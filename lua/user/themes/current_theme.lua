@@ -1,6 +1,6 @@
 local M = {}
 
-M.variant = "light"
-M.main = "doom_one"
+M.variant = "dark"
+M.main = "aquarium"
 
 return M

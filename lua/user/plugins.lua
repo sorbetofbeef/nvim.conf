@@ -112,6 +112,7 @@ return packer.startup(function(use)
 			})
 		end,
 	})
+
 	--Icons
 	use({ "kyazdani42/nvim-web-devicons" })
 	-- Colorschemes
@@ -132,8 +133,30 @@ return packer.startup(function(use)
 	use({ "olivercederborg/poimandres.nvim" })
 	use({ "NTBBloodbath/doom-one.nvim" })
 	use({ "lukas-reineke/headlines.nvim" })
+	use({ "Yazeed1s/minimal.nvim" })
+	use({ "kvrohit/substrata.nvim" })
+	use({ "rose-pine/neovim", as = "rose-pine" })
+	use({ "shaunsingh/nord.nvim" })
+	use({ "rockyzhang24/arctic.nvim", requires = { "rktjmp/lush.nvim" } })
+	use({ "sainnhe/edge" })
+	use({ "fenetikm/falcon" })
+	use({ "kaiuri/nvim-juliana" })
+	use({
+		"mcchrish/zenbones.nvim",
+		-- Optionally install Lush. Allows for more configuration or extending the colorscheme
+		-- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+		-- In Vim, compat mode is turned on as Lush only works in Neovim.
+		requires = "rktjmp/lush.nvim",
+	})
+	use({ "Yazeed1s/oh-lucy.nvim" })
+	use({
+		"ramojus/mellifluous.nvim",
+		requires = { "rktjmp/lush.nvim" },
+	})
+  use({"rafamadriz/neon"})
 
 	-- Editing --
+	use({ "ggandor/leap.nvim" })
 	use({
 		"kylechui/nvim-surround",
 		config = function()
@@ -189,7 +212,6 @@ end,
 	use({ "hrsh7th/cmp-nvim-lua" })
 	-- use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
 	use({ "KadoBOT/cmp-plugins" })
-	use({ "f3fora/cmp-spell" })
 	-- coq
 	--[[ use { 'ms-jpq/coq_nvim' }
   use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
@@ -199,13 +221,18 @@ end,
 	use({ "rafamadriz/friendly-snippets" })
 	-- LSP
 	--[[ use({ "neovim/nvim-lspconfig" }) ]]
-	use({ "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig" })
+	use({
+		"williamboman/mason.nvim",
+		"williamboman/mason-lspconfig.nvim",
+		"neovim/nvim-lspconfig",
+		"jayp0521/mason-null-ls.nvim",
+		"jose-elias-alvarez/null-ls.nvim",
+		"ThePrimeagen/refactoring.nvim",
+	})
 	--[[ use({ "williamboman/nvim-lsp-installer" }) ]]
 	use({ "RRethy/vim-illuminate" })
 	-- Diagnostics
 	-- null-ls
-	use({ "jose-elias-alvarez/null-ls.nvim" })
-	use({ "ThePrimeagen/refactoring.nvim" })
 	--[[ use({
 		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
 		config = function()
@@ -216,29 +243,30 @@ end,
 	-- JSON
 	use({ "b0o/SchemaStore.nvim" })
 	-- Rust
-	use({ "simrat39/rust-tools.nvim" })
-	use({ "saecki/crates.nvim" })
+	use({ "simrat39/rust-tools.nvim", ft = "rust" })
+	use({ "saecki/crates.nvim", ft = { "rust", "toml" } })
 	-- Flutter
-	use({ "akinsho/flutter-tools.nvim" })
+	use({ "akinsho/flutter-tools.nvim", ft = "dart" })
 	-- SQL
 	use({ "nanotee/sqls.nvim" })
 	-- Neovim LuaDev
 	use({ "folke/neodev.nvim" })
 	-- TypeScript
-	use({ "jose-elias-alvarez/typescript.nvim" })
+	use({
+		"jose-elias-alvarez/typescript.nvim",
+	})
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter" })
 	use({ "nvim-treesitter/nvim-treesitter-context" })
 	use({ "JoosepAlviste/nvim-ts-context-commentstring" })
 	use({ "windwp/nvim-ts-autotag" })
 	use({ "windwp/nvim-autopairs" })
-	use("David-Kunz/markid")
+	use({ "David-Kunz/markid" })
 	-- Git
 	use({ "lewis6991/gitsigns.nvim" })
 	-- DAP
 	use({ "mfussenegger/nvim-dap" })
 	use({ "rcarriga/nvim-dap-ui" })
-	use({ "ravenxrz/DAPInstall.nvim" })
 	use({ "jbyuki/one-small-step-for-vimkind" })
 
 	use({ "lvimuser/lsp-inlayhints.nvim" })
@@ -247,6 +275,13 @@ end,
 	use({
 		"SmiteshP/nvim-navic",
 		requires = "neovim/nvim-lspconfig",
+	})
+
+	use({
+		"Djancyp/outline",
+		config = function()
+			require("outline").setup()
+		end,
 	})
 
 	-- Automatically set up your configuration after cloning packer.nvim

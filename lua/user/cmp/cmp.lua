@@ -8,6 +8,7 @@ if not snip_status_ok then
 	return
 end
 
+luasnip.filetype_extend("javascript", { "javascriptreact", "javascript.jsx", "html" })
 require("luasnip/loaders/from_vscode").lazy_load()
 
 local check_backspace = function()
@@ -88,11 +89,11 @@ cmp.setup({
 		["<C-j>"] = cmp.mapping.select_next_item(),
 		["<C-b>"] = cmp.mapping.scroll_docs(-1),
 		["<C-f>"] = cmp.mapping.scroll_docs(1),
-		["<C-Space>"] = cmp.mapping.complete({ select = false }),
+		["<C-Space>"] = cmp.mapping.complete({ select = true }),
 		["<C-e>"] = cmp.mapping.abort(),
 		-- Accept currently selected item. If none selected, `select` first item.
 		-- Set `select` to `false` to only confirm explicitly selected items.
-		["<CR>"] = cmp.mapping.confirm({ select = false }),
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
@@ -150,6 +151,11 @@ cmp.setup({
 	},
 	sources = cmp.config.sources({
 		{ name = "crates", group_index = 1 },
+		{ name = "nvim_lua", group_index = 2 },
+		{ name = "luasnip", group_index = 2 },
+		{ name = "nvim_lsp_signature_help", group_index = 2 },
+		{ name = "plugins" },
+		{ name = "path" },
 		{
 			name = "nvim_lsp",
 			filter = function(entry, ctx)
@@ -164,11 +170,6 @@ cmp.setup({
 			end,
 			group_index = 2,
 		},
-		{ name = "nvim_lua", group_index = 2 },
-		{ name = "luasnip", group_index = 2 },
-		{ name = "nvim_lsp_signature_help", group_index = 2 },
-		{ name = "plugins" },
-		{ name = "path" },
 	}, {
 		{
 			name = "buffer",

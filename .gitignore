@@ -44,10 +44,4 @@ plugin/packer_compiled.lua
 java-debug/
 vscode-java-test/
 
-plugin/
 .DS_Store
-lua/user/themes/terafox.lua
-lua/user/themes/nordfox.lua
-lua/user/themes/duskfox.lua
-lua/user/themes/dayfox.lua
-lua/user/themes/dawnfox.lua

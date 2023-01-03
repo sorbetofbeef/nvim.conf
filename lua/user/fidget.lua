@@ -1,5 +1,5 @@
-require"fidget".setup{
-  window = {
-    blend = 70,
-  }
-}
+require("fidget").setup({
+	window = {
+		blend = 10,
+	},
+})

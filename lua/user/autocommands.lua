@@ -1,6 +1,6 @@
 -- Use 'q' to quit from common plugins
 vim.api.nvim_create_autocmd({ "FileType" }, {
-	pattern = { "qf", "help", "man", "lspinfo", "spectre_panel", "lir" },
+	pattern = { "qf", "help", "man", "Outline", "/^dap-.*/", "Trouble", "lspinfo", "spectre_panel", "lir" },
 	callback = function()
 		vim.cmd([[
       nnoremap <silent> <buffer> q :close<CR> 
@@ -9,44 +9,17 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	end,
 })
 
--- Remove statusline and tabline when in Alpha
--- vim.api.nvim_create_autocmd({ "User" }, {
---   pattern = { "AlphaReady" },
---   callback = function()
--- vim.cmd [[
---   set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
---   set laststatus=0 | autocmd BufUnload <buffer> set laststatus=3
--- ]]
---   end,
--- })
-
 -- Set wrap and spell in markdown and gitcommit
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "gitcommit", "markdown" },
 	callback = function()
 		vim.opt_local.wrap = true
-		vim.opt_local.spell = true
 	end,
 })
 
--- vim.api.nvim_create_autocmd({ "BufEnter, BufWinEnter" }, {
---   pattern = { "*" },
---   command = "TabRename New Tab"
--- })
-
---[[ vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "log" },
-  callback = function ()
-
-    vim.lsp.attach_client()
-    require('user.keymaps').flutter_maps(0)
-  end
-})
-]]
-
-vim.cmd(
-	"autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' .. tabpagenr() | quit | endif"
-)
+--[[ vim.cmd(
+	"autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'neo-tree filesystem [' .. tabpagenr() .. ']' | quit | endif"
+) ]]
 
 -- Fixes Autocomment
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
@@ -58,6 +31,6 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 -- Highlight Yanked Text
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 	callback = function()
-		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
+		vim.highlight.on_yank({ higroup = "Visual", timeout = 600 })
 	end,
 })

@@ -6,6 +6,7 @@ end
 local handlers = require('lsp.handlers')
 
 lsp.gopls.setup{ ]]
+
 return {
 	cmd = { "gopls" },
 	settings = {

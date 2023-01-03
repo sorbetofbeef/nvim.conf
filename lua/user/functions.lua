@@ -114,4 +114,171 @@ function M.smart_quit()
 	end
 end
 
+M.vi_hl = {
+	vi = {
+		-- Map vi mode to text name
+		text = {
+			n = " ",
+			no = " ",
+			i = " ",
+			v = "﫦",
+			V = " ",
+			[""] = " ",
+			c = " ",
+			cv = " ",
+			ce = " ",
+			R = " ",
+			Rv = " ",
+			s = " ",
+			S = " ",
+			[""] = " ",
+			t = " ",
+		},
+
+		-- Maps vi mode to highlight group color defined above
+		colors = {
+			n = "UserBlue",
+			no = "UserBlue",
+			i = "UserSLStatus",
+			v = "UserMagenta",
+			V = "UserMagenta",
+			[""] = "UserMagenta",
+			R = "UserRed",
+			Rv = "UserRed",
+			r = "UserCyan",
+			rm = "UserCyan",
+			s = "UserMagenta",
+			S = "UserMagenta",
+			[""] = "UserMagenta",
+			c = "UserYellow",
+			["!"] = "UserCyan",
+			t = "UserCyan",
+		},
+
+		-- Maps vi mode to separator highlight group defined above
+		sep = {
+			n = "UserSepBlue",
+			no = "UserSepBlue",
+			i = "UserSepWhite",
+			v = "UserSepMagenta",
+			V = "UserSepMagenta",
+			[""] = "UserSepMagenta",
+			R = "UserSepRed",
+			Rv = "UserSepRed",
+			r = "UserSepCyan",
+			rm = "UserSepCyan",
+			s = "UserSepMagenta",
+			S = "UserSepMagenta",
+			[""] = "UserSepMagenta",
+			c = "UserSepYellow",
+			["!"] = "UserSepCyan",
+			t = "UserSepCyan",
+		},
+	},
+}
+
+-- Get highlight group from vi mode
+---@return string
+function M.vi_hl:mode(m)
+	return self.vi.colors[m()] or "UserSLViBlack"
+end
+
+---@return string
+function M.vi_hl:sep(m)
+	return self.vi.sep[m()] or "UserSLBlack"
+end
+
+---@return string
+function M.vi_hl:txt(m)
+	return self.vi.text[m()] or " ?? "
+end
+
+M.change_statusbar_name = function()
+	local filetype_name_icons = {
+		lua = { name = "LUA", icon = " " },
+		sh = { name = "SHELL", icon = " " },
+		bash = { name = "BASH SHELL", icon = " " },
+		zsh = { name = "Z-SHELL", icon = " " },
+		fish = { name = "FISH SHELL", icon = " " },
+		python = { name = "PYTHON", icon = " " },
+		json = { name = "JSON", icon = " " },
+		html = { name = "HTML", icon = " " },
+		css = { name = "CSS", icon = " " },
+		go = { name = "GO", icon = " " },
+		gohtml = { name = "GO HTML TEMPLATE", icon = " " },
+		gotmpl = { name = "GO TEMPLATE", icon = " " },
+		rust = { name = "RUST", icon = " " },
+		dart = { name = "FlUTTER/DART", icon = " " },
+		toml = { name = "TOML", icon = " " },
+		yaml = { name = "YAML", icon = " " },
+		javascript = { name = "JAVASCRIPT", icon = " " },
+		typescript = { name = "TYPESCRIPT", icon = " " },
+		markdown = { name = "MARKDOWN", icon = " " },
+		vim = { name = "VIM SCRIPT", icon = " " },
+		text = { name = "TEXT", icon = " " },
+	}
+	local name_icon = {}
+	for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+		for type, name_icons in pairs(filetype_name_icons) do
+			local win_id = vim.api.nvim_tabpage_get_win(tab)
+			if vim.api.nvim_buf_get_option(0, "filetype") ~= "neo-tree" then
+				if vim.filetype.match({ buf = vim.api.nvim_win_get_buf(win_id) }) == type then
+					name_icon[tab] = { name = name_icons.name, icon = name_icons.icon }
+				end
+			end
+		end
+	end
+	if name_icon[vim.api.nvim_get_current_tabpage()] == { name = nil, icon = nil } then
+		name_icon[vim.api.nvim_get_current_tabpage()] = { name = "NEW WINDOW", icon = " " }
+	end
+
+	vim.g.sl_icons = name_icon
+	return name_icon
+end
+
+local fmt = string.format
+---Convert color number to hex string
+---@param n number
+---@return string
+local hex = function(n)
+	if n then
+		return fmt("#%06x", n)
+	end
+	return ""
+	---@diagnostic disable-next-line: missing-return
+end
+
+---Parse `style` string into nvim_set_hl options
+---@param style string
+---@return table
+local function parse_style(style)
+	if not style or style == "NONE" then
+		return {}
+	end
+
+	local result = {}
+	for token in string.gmatch(style, "([^,]+)") do
+		result[token] = true
+	end
+
+	return result
+end
+
+---Get highlight opts for a given highlight group name
+---@param name string
+---@return table
+M.get_highlight = function(name)
+	local hl = vim.api.nvim_get_hl_by_name(name, true)
+	if hl.link then
+		return M.get_highlight(hl.link)
+	end
+
+	local result = parse_style(hl.style)
+	result.fg = hl.foreground and hex(hl.foreground)
+	result.bg = hl.background and hex(hl.background)
+	result.sp = hl.special and hex(hl.special)
+
+	return result
+end
+
 return M

@@ -1,8 +1,12 @@
-local plugins_status_ok, plugins = pcall(require, 'cmp-plugins')
+local plugins_status_ok, plugins = pcall(require, "cmp-plugins")
 if not plugins_status_ok then
-  return
+	return
 end
 
 plugins.setup({
-  files = { "/User/me/.config/nvim/lua/user/plugins.lua" }
+	files = {
+		"/Users/me/.local/share/nvim/site/pack/packer/opt/.*",
+		"/Users/me/.local/share/nvim/site/pack/packer/start/.*",
+		"/Users/me/.config/nvim/lua/user/plugins.lua",
+	},
 })

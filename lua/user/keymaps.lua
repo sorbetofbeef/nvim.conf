@@ -11,7 +11,7 @@ local M = {}
 local keymap = vim.keymap.set
 
 --Remap space as leader key
-keymap("n", "<Space>", "<Nop>", { silent = true })
+-- keymap("n", "<Space>", "<Nop>", { silent = true })
 vim.g.mapleader = " "
 
 local standard_maps = function()
@@ -57,6 +57,12 @@ local standard_maps = function()
 	keymap("", "<Down>", "(v:count ? 'j' : 'gj')", expr)
 	keymap("", "<Up>", "(v:count ? 'k' : 'gk')", expr)
 
+	--[[ keymap("n", "<c-d>", "<c-d>zz", opts)
+	keymap("n", "<c-u>", "<c-u>zz", opts)
+
+	keymap("n", "<c-f>", "<c-f>zz", opts)
+	keymap("n", "<c-b>", "<c-b>zz", opts) ]]
+
 	keymap("n", "x", '"_x', opts) -- delete char without yank
 	keymap("x", "x", '"_x', opts) -- delete visual selection without yank
 
@@ -80,11 +86,11 @@ local bracket_maps = function()
 
 	local mappings = {
 		["["] = {
-      name = "which_key_ignore",
+			name = "< Harpoon",
 			h = { "<cmd>lua require('harpoon.ui').nav_prev()<cr>", "Harpoon Backward" },
 		},
 		["]"] = {
-      name = "which_key_ignore",
+			name = "Harpoon >",
 			h = { "<cmd>lua require('harpoon.ui').nav_next()<cr>", "Harpoon Forward" },
 		},
 	}
@@ -104,6 +110,8 @@ local plug_maps = function()
 		["<c-h>"] = { "<cmd>Alpha<CR>", "Go Home" },
 		-- NvimTree
 		e = { "<cmd>Neotree toggle<CR>", "Explorer" },
+		b = { "<cmd>Neotree toggle buffers<CR>", "Buffers" },
+
 		-- Harpoon
 		h = {
 			name = "Harpoon",
@@ -112,7 +120,7 @@ local plug_maps = function()
 		},
 
 		-- Telescope
-		b = { "<cmd>Telescope buffers<CR>", "Buffers" },
+		-- b = { "<cmd>Telescope buffers<CR>", "Buffers" },
 		f = {
 			name = "Find",
 			f = { "<cmd>Telescope find_files<CR>", "Find File" },
@@ -172,7 +180,7 @@ local plug_maps = function()
 		d = {
 			name = "Trouble",
 			q = { ":Trouble quickfix<cr>", "Qucikfix List" },
-			d = { ":Trouble quickfix<cr>", "Qucikfix List" },
+			d = { ":Trouble loclist<cr>", "Qucikfix List" },
 		},
 	}
 
@@ -202,17 +210,30 @@ local lsp_l_keymaps = function(bufnr)
 		buffer = bufnr,
 	}
 	local mappings = {
+
 		k = { "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", "which_key_ignore" },
 		j = { "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", "which_key_ignore" },
 		["<Space>"] = { "<cmd>Trouble document_diagnostics<CR>", "which_key_ignore" },
 
 		l = {
 			name = "Lsp Actions",
+			w = {
+				name = "Workspace Actions",
+				a = { vim.lsp.buf.add_workspace_folder, "Add Workspace Folder" },
+				r = { vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder" },
+
+				l = {
+					function()
+						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+					end,
+					"List Workspace Folders",
+				},
+			},
 			s = { "<cmd>Telescope luasnip<CR>", "Snippets" },
 			f = { "<cmd>lua vim.lsp.buf.format({async = true})<cr>", "Formatting" },
 			k = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
 			r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-			q = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Daignostic List" },
+			q = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Diagnostic List" },
 			a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
 		},
 	}
@@ -316,7 +337,7 @@ M.flutter_maps = function(bufnr)
 	wk.register(mappings, opts)
 end
 
---@desc The lsp function allows the LSP handler to access the keymapping fucntions by client.name
+--@desc The lsp function allows the LSP handler to access the keymapping functions by client.name
 M.attach = function(client, bufnr)
 	local servers = {
 		rust_analyzer = rust_maps,

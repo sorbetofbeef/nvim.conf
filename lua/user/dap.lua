@@ -8,21 +8,6 @@ if not dap_ui_status_ok then
 	return
 end
 
-local dap_install_status_ok, dap_install = pcall(require, "dap-install")
-if not dap_install_status_ok then
-	return
-end
-
-dap_install.setup({})
-
-dap_install.config("lua", {})
-dap_install.config("dart", {})
-dap_install.config("go", {})
-dap_install.config("codelldb", {})
--- add other configs here
-
--- If you want to use this for Rust and C, add something like this:
-
 dapui.setup({
 
 	layout = {

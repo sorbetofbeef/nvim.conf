@@ -1,0 +1,1 @@
+{ "name": "blog_site", "db_name": "blog_site.db", "p_type": "nextjs", "db_type": "mongodb", "packages": ["tailwindcss", "axios"] }

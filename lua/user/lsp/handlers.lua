@@ -3,11 +3,6 @@ if not status_cmp_ok then
 	return
 end
 
--- local status_cmp_ok, coq = pcall(require, "coq")
--- if not status_cmp_ok then
--- 	return
--- end
-
 local km_status_ok, keymaps = pcall(require, "user.keymaps")
 if not km_status_ok then
 	return
@@ -16,23 +11,14 @@ end
 local M = {}
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
-M.capabilities.textDocument.completion.completionItem.snippetSupport = true
-M.capabilities.textDocument.completion.completionItem.additionalTextEdits = true
+
+M.capabilities.textDocument.completion.completionItem = {
+	snippetSupport = true,
+	additionalTextEdits = true,
+}
+
 M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
--- M.capabilities = coq.lsp_ensure_capabilities({M.capabilities})
 
---[[ local lsp_formatting = function(bufnr)
-	vim.lsp.buf.format({
-		filter = function(client)
-			-- apply whatever logic you want (in this example, we'll only use null-ls)
-			return client.name == "null-ls"
-		end,
-		bufnr = bufnr,
-	})
-end
-
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-]]
 M.setup = function()
 	local signs = {
 		{ name = "DiagnosticSignError", text = " " },
@@ -57,8 +43,7 @@ M.setup = function()
 				spacing = 7,
 				update_in_insert = false,
 				severity_sort = true,
-				prefix = "<-",
-				-- prefix = " ●",
+				prefix = "<-   ",
 				source = "if_many", -- Or "always"
 				-- format = function(diag)
 				--   return diag.message .. "blah"
@@ -74,7 +59,7 @@ M.setup = function()
 				border = "rounded",
 				source = "if_many",
 				header = "",
-				prefix = "",
+				prefix = "  ",
 			},
 		},
 	}
@@ -103,97 +88,179 @@ local function attach_illuminate(client)
 	illuminate.on_attach(client)
 end
 
---[[ local function attach_ariel()
-  local status_ok, ariel = pcall(require, "ariel")
-  if not status_ok then
-    
-  end
-end ]]
--- local symbolHighlight = function(client, bufnr)
--- 	if client.server_capabilities.document_highlight then
--- 		vim.cmd([[
---     hi! LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
---     hi! LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
---     hi! LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
---   ]])
--- 		vim.api.nvim_create_augroup("lsp_document_highlight", {
--- 			clear = false,
--- 		})
--- 		vim.api.nvim_clear_autocmds({
--- 			buffer = bufnr,
--- 			group = "lsp_document_highlight",
--- 		})
--- 		vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
--- 			group = "lsp_document_highlight",
--- 			buffer = bufnr,
--- 			callback = vim.lsp.buf.document_highlight,
--- 		})
--- 		vim.api.nvim_create_autocmd("CursorMoved", {
--- 			group = "lsp_document_highlight",
--- 			buffer = bufnr,
--- 			callback = vim.lsp.buf.clear_references,
--- 		})
--- 	end
--- end
-
-M.on_attach = function(client, bufnr)
-	--[[ if client.supports_method("textDocument/formatting") then
-		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			group = augroup,
-			buffer = bufnr,
-			callback = function()
-				lsp_formatting(bufnr)
-			end,
-		})
-	end ]]
-
-	--[[ if client.name == "tsserver" then
-		client.server_capabilities.document_formatting = false
+local attach_inlay_hints = function(client, bufnr)
+	local ok, hints = pcall(require, "lsp-inlayhints")
+	if not ok then
+		return
 	end
 
-	if client.name == "sumneko_lua" then
-		client.server_capabilities.document_formatting = false
-	end ]]
+	hints.setup()
+	hints.on_attach(client, bufnr, true)
+end
 
+local attach_tab_name = function(client, bufnr, tabid, types)
+	local okay, tab_name = pcall(require, "tabby.feature.tab_name")
+	if not okay then
+		return
+	end
+	if bufnr ~= vim.api.nvim_get_current_buf() then
+		return
+	end
+	local tabname
+
+	for client_name, title_string in pairs(types) do
+		if (client.name == "tsserver") or (client.name == "tailwindcss") then
+			if vim.filetype == "javascript" or "javascriptreact" or "javascript.jsx" then
+				tabname = types.javascript
+				break
+			end
+			if vim.filetype == "typescript" or "typescript.tsx" or "typescriptreact" then
+				tabname = types.typescript
+				break
+			end
+		end
+		if (client.name == "marksman") or (client.name == "tailwindcss") then
+			if vim.filetype == "markdown" then
+				tabname = types.marksman
+				break
+			end
+		end
+
+		if client.name == client_name then
+			tabname = title_string
+			break
+		end
+
+		if client.name ~= client_name then
+			tabname = " "
+			break
+		end
+	end
+
+	if vim.lsp.buf_is_attached(bufnr, client.id) then
+		tab_name.set(tabid, tabname)
+	else
+		tabname = " "
+		tab_name.set(tabid, tabname)
+	end
+end
+
+M.crumb_name = ""
+
+local attach_bread_crumb_filetype = function(client, bufnr, clients)
+	if bufnr ~= vim.api.nvim_get_current_buf() then
+		return
+	end
+	local filetype
+
+	for client_name, title_string in pairs(clients) do
+		if (client.name == "tsserver") or (client.name == "tailwindcss") then
+			if vim.filetype == "javascript" or "javascriptreact" or "javascript.jsx" then
+				filetype = clients.javascript
+				break
+			end
+			if vim.filetype == "typescript" or "typescript.tsx" or "typescriptreact" then
+				filetype = clients.typescript
+				break
+			end
+		end
+		if (client.name == "marksman") or (client.name == "tailwindcss") then
+			filetype = clients.marksman
+			break
+		end
+
+		if client.name == client_name then
+			filetype = title_string
+			break
+		end
+
+		if client.name ~= client_name then
+			filetype = "Text"
+			break
+		end
+	end
+
+	if vim.lsp.buf_is_attached(bufnr, client.id) then
+		M.crumb_name = filetype
+	else
+		local unknown = "Text"
+		M.crumb_name = unknown
+	end
+end
+
+M.on_attach = function(client, bufnr)
 	if client.name == "rust_analyzer" then
 		client.server_capabilities.experimental = true
 	end
 
+	local client_icons = {
+		sumneko_lua = " ",
+		bashls = " ",
+		pyright = " ",
+		jsonls = " ",
+		gopls = " ",
+		rust_analyzer = " ",
+		dartls = " ",
+		taplo = "TO",
+		yamlls = "YA",
+		javascript = " ",
+		typescript = " ",
+		marksman = " ",
+	}
+
+	local client_names = {
+		sumneko_lua = "Lua",
+		bashls = "Shell",
+		pyright = "Python",
+		jsonls = "JSON",
+		gopls = "Go",
+		rust_analyzer = "Rust",
+		dartls = "Flutter/Dart",
+		taplo = "TOML",
+		yamlls = "YAML",
+		javascript = "Javascript",
+		typescript = "Typescript",
+		marksman = "Markdown",
+	}
+
+	local filetype_icons = {
+		lua = " ",
+		shell = " ",
+		python = " ",
+		json = " ",
+		go = " ",
+		rust = " ",
+		dart = " ",
+		toml = "TO",
+		yaml = "YA",
+		javascript = " ",
+		typescript = " ",
+		markdown = " ",
+	}
+
+	local filetype_names = {
+		lua = "Lua",
+		shell = "Shell",
+		python = "Python",
+		json = "JSON",
+		go = "Go",
+		rust = "Rust",
+		dart = "Flutter/Dart",
+		toml = "TOML",
+		yaml = "YAML",
+		javascript = "Javascript",
+		typescript = "Typescript",
+		markdown = "Markdown",
+	}
+
+	local tab_id = require("tabby.module.api").get_current_tab
+
+	-- attach_tab_name(client, bufnr, tab_id(), filetype_icons)
+	-- attach_bread_crumb_filetype(client, bufnr, filetype_names)
 	keymaps.attach(client, bufnr)
 	attach_navic(client, bufnr)
 	attach_illuminate(client)
+	attach_inlay_hints(client, bufnr)
 end
-
--- function M.enable_format_on_save()
--- 	vim.cmd([[
---     augroup format_on_save
---       autocmd!
---       autocmd BufWritePre * lua vim.lsp.buf.format({ async = false })
---     augroup end
---   ]])
--- 	vim.notify("Enabled format on save")
--- end
---
--- function M.disable_format_on_save()
--- 	M.remove_augroup("format_on_save")
--- 	vim.notify("Disabled format on save")
--- end
---
--- function M.toggle_format_on_save()
--- 	if vim.fn.exists("#format_on_save#BufWritePre") == 0 then
--- 		M.enable_format_on_save()
--- 	else
--- 		M.disable_format_on_save()
--- 	end
--- end
---
--- function M.remove_augroup(name)
--- 	if vim.fn.exists("#" .. name) == 1 then
--- 		vim.cmd("au! " .. name)
--- 	end
--- end
---
--- vim.cmd([[ command! LspToggleAutoFormat execute 'lua require("user.lsp.handlers").toggle_format_on_save()' ]])
 
 return M
