@@ -1,8 +1,3 @@
-local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not status_cmp_ok then
-	return
-end
-
 local km_status_ok, keymaps = pcall(require, "user.keymaps")
 if not km_status_ok then
 	return
@@ -10,14 +5,27 @@ end
 
 local M = {}
 
-M.capabilities = vim.lsp.protocol.make_client_capabilities()
+local common_capabilities = function()
+	local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+	if status_ok then
+		return cmp_nvim_lsp.default_capabilities()
+	end
 
-M.capabilities.textDocument.completion.completionItem = {
-	snippetSupport = true,
-	additionalTextEdits = true,
-}
+	local capabilities = vim.lsp.protocol.make_client_capabilities()
+	capabilities.textDocument.completion.completionItem.snippetSupport = true
+	capabilities.textDocument.completion.completionItem.resolveSupport = {
+		properties = {
+			"documentation",
+			"detail",
+			"additionalTextEdits",
+		},
+	}
 
-M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
+	return capabilities
+end
+
+M.capabilities = common_capabilities()
+
 
 M.setup = function()
 	local signs = {
@@ -98,169 +106,19 @@ local attach_inlay_hints = function(client, bufnr)
 	hints.on_attach(client, bufnr, true)
 end
 
-local attach_tab_name = function(client, bufnr, tabid, types)
-	local okay, tab_name = pcall(require, "tabby.feature.tab_name")
-	if not okay then
-		return
-	end
-	if bufnr ~= vim.api.nvim_get_current_buf() then
-		return
-	end
-	local tabname
-
-	for client_name, title_string in pairs(types) do
-		if (client.name == "tsserver") or (client.name == "tailwindcss") then
-			if vim.filetype == "javascript" or "javascriptreact" or "javascript.jsx" then
-				tabname = types.javascript
-				break
-			end
-			if vim.filetype == "typescript" or "typescript.tsx" or "typescriptreact" then
-				tabname = types.typescript
-				break
-			end
-		end
-		if (client.name == "marksman") or (client.name == "tailwindcss") then
-			if vim.filetype == "markdown" then
-				tabname = types.marksman
-				break
-			end
-		end
-
-		if client.name == client_name then
-			tabname = title_string
-			break
-		end
-
-		if client.name ~= client_name then
-			tabname = " "
-			break
-		end
-	end
-
-	if vim.lsp.buf_is_attached(bufnr, client.id) then
-		tab_name.set(tabid, tabname)
-	else
-		tabname = " "
-		tab_name.set(tabid, tabname)
-	end
-end
-
-M.crumb_name = ""
-
-local attach_bread_crumb_filetype = function(client, bufnr, clients)
-	if bufnr ~= vim.api.nvim_get_current_buf() then
-		return
-	end
-	local filetype
-
-	for client_name, title_string in pairs(clients) do
-		if (client.name == "tsserver") or (client.name == "tailwindcss") then
-			if vim.filetype == "javascript" or "javascriptreact" or "javascript.jsx" then
-				filetype = clients.javascript
-				break
-			end
-			if vim.filetype == "typescript" or "typescript.tsx" or "typescriptreact" then
-				filetype = clients.typescript
-				break
-			end
-		end
-		if (client.name == "marksman") or (client.name == "tailwindcss") then
-			filetype = clients.marksman
-			break
-		end
-
-		if client.name == client_name then
-			filetype = title_string
-			break
-		end
-
-		if client.name ~= client_name then
-			filetype = "Text"
-			break
-		end
-	end
-
-	if vim.lsp.buf_is_attached(bufnr, client.id) then
-		M.crumb_name = filetype
-	else
-		local unknown = "Text"
-		M.crumb_name = unknown
-	end
-end
-
 M.on_attach = function(client, bufnr)
 	if client.name == "rust_analyzer" then
 		client.server_capabilities.experimental = true
+		require("user.keymaps").rust_maps(bufnr)
+	end
+	if client.name == "gopls" then
+		require("user.keymaps").go_keymaps(bufnr)
 	end
 
-	local client_icons = {
-		sumneko_lua = " ",
-		bashls = " ",
-		pyright = " ",
-		jsonls = " ",
-		gopls = " ",
-		rust_analyzer = " ",
-		dartls = " ",
-		taplo = "TO",
-		yamlls = "YA",
-		javascript = " ",
-		typescript = " ",
-		marksman = " ",
-	}
-
-	local client_names = {
-		sumneko_lua = "Lua",
-		bashls = "Shell",
-		pyright = "Python",
-		jsonls = "JSON",
-		gopls = "Go",
-		rust_analyzer = "Rust",
-		dartls = "Flutter/Dart",
-		taplo = "TOML",
-		yamlls = "YAML",
-		javascript = "Javascript",
-		typescript = "Typescript",
-		marksman = "Markdown",
-	}
-
-	local filetype_icons = {
-		lua = " ",
-		shell = " ",
-		python = " ",
-		json = " ",
-		go = " ",
-		rust = " ",
-		dart = " ",
-		toml = "TO",
-		yaml = "YA",
-		javascript = " ",
-		typescript = " ",
-		markdown = " ",
-	}
-
-	local filetype_names = {
-		lua = "Lua",
-		shell = "Shell",
-		python = "Python",
-		json = "JSON",
-		go = "Go",
-		rust = "Rust",
-		dart = "Flutter/Dart",
-		toml = "TOML",
-		yaml = "YAML",
-		javascript = "Javascript",
-		typescript = "Typescript",
-		markdown = "Markdown",
-	}
-
-	local tab_id = require("tabby.module.api").get_current_tab
-
-	-- attach_tab_name(client, bufnr, tab_id(), filetype_icons)
-	-- attach_bread_crumb_filetype(client, bufnr, filetype_names)
 	keymaps.attach(client, bufnr)
 	attach_navic(client, bufnr)
 	attach_illuminate(client)
-	attach_inlay_hints(client, bufnr)
+	-- attach_inlay_hints(client, bufnr)
 end
 
 return M

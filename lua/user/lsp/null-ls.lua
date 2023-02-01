@@ -37,19 +37,30 @@ M.setup = function()
 		debug = false,
 
 		sources = {
-			formatting.prettierd.with({
-				extra_filetypes = { "toml" },
-				extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
+			formatting.prettier_d_slim,
+			formatting.eslint_d.with({
+				command = "eslint_d",
+				args = { "--fix-to-stdout", "--stdin", "--stdin-filename", "$FILENAME" },
 			}),
-			formatting.black.with({ extra_args = { "--fast" } }),
+			formatting.black.with({ extra_args = { "--quiet", "--fast" } }),
 			formatting.stylua,
 			formatting.gofumpt,
 			formatting.taplo,
 			formatting.tidy,
-			formatting.stylelint,
-			actions.eslint_d,
-			actions.refactoring,
-			diagnostics.eslint_d,
+			formatting.djlint.with({
+				filetypes = { "django", "jinja.html", "htmldjango", "gohtmltmpl", "gotexttmpl" },
+				command = "djlint",
+				args = { "--reformat", "-" },
+			}),
+			actions.eslint_d.with({
+				command = "eslint_d",
+				args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
+			}),
+			-- actions.refactoring,
+			diagnostics.eslint_d.with({
+				command = "eslint_d",
+				args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
+			}),
 			diagnostics.flake8,
 			diagnostics.revive,
 			diagnostics.tidy,

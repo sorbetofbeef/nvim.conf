@@ -9,7 +9,8 @@ if not snip_status_ok then
 end
 
 luasnip.filetype_extend("javascript", { "javascriptreact", "javascript.jsx", "html" })
-require("luasnip/loaders/from_vscode").lazy_load()
+require("luasnip.loaders.from_vscode").load({ paths = { "/Users/me/Projects/nvim/snippets/lua.json" } })
+require("luasnip.loaders.from_vscode").lazy_load()
 
 local check_backspace = function()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -170,16 +171,17 @@ cmp.setup({
 			end,
 			group_index = 2,
 		},
-	}, {
 		{
-			name = "buffer",
-			keyword_length = 3,
-			group_index = 2,
-			filter = function(_, ctx)
-				if not contains(buffer_fts, ctx.prev_context.filetype) then
-					return true
-				end
-			end,
+			{
+				name = "buffer",
+				keyword_length = 3,
+				group_index = 3,
+				filter = function(_, ctx)
+					if not contains(buffer_fts, ctx.prev_context.filetype) then
+						return true
+					end
+				end,
+			},
 		},
 	}),
 	sorting = {

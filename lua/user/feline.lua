@@ -385,22 +385,29 @@ local components = {
 	active = { {}, {} },
 }
 
-local tab_labels = require("user.functions").change_statusbar_name
+local win_labels = require("user.functions").get_win_icons
 local names = {}
 
 vim.api.nvim_create_augroup("FelineStatus", { clear = true })
-vim.api.nvim_create_autocmd({ "BufWinEnter, BufEnter, WindowEnter, FileReadPost" }, {
+vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
 	group = "FelineStatus",
 	callback = function()
-		for tab, label in pairs(tab_labels()) do
-			names[tab] = label.name
+		for win, name in pairs(win_labels()) do
+			names[win] = name
 		end
+	end,
+})
+
+vim.api.nvim_create_autocmd("WinClosed", {
+	group = "FelineStatus",
+	callback = function(file)
+		names[file] = nil
 	end,
 })
 
 table.insert(components.active[1], {
 	provider = function()
-		return fmt("%s %s ", names[vim.api.nvim_get_current_tabpage()], vi_hl:txt(vim.fn.mode))
+		return fmt("%s %s ", names[vim.api.nvim_get_current_win()], vi_hl:txt(vim.fn.mode))
 	end,
 	hl = function()
 		return vi_hl:mode(vim.fn.mode)

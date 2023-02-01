@@ -48,7 +48,6 @@ return packer.startup(function(use)
 	use({ "lewis6991/impatient.nvim" })
 	use({ "kkharji/sqlite.lua" })
 	use({ "stevearc/dressing.nvim" })
-	vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 	use({
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v2.x",
@@ -59,13 +58,11 @@ return packer.startup(function(use)
 		},
 	})
 
-	-- use { 'beauwilliams/statusline.lua' }
-	-- use({ "MunifTanjim/nui.nvim" })
-
 	-- UI --
+	-- use({ "ray-x/guihua.lua" })
+	use({ "lukas-reineke/headlines.nvim" })
+	use({ "karb94/neoscroll.nvim" })
 	-- PopOvers/PopUps
-	--[[ use({ "karb94/neoscroll.nvim" }) ]]
-	use({ "declancm/cinnamon.nvim" })
 	use({ "folke/trouble.nvim" })
 	-- Statusline/Tabline
 	use({ "nanozuki/tabby.nvim" })
@@ -84,42 +81,15 @@ return packer.startup(function(use)
 	use({
 		"s1n7ax/nvim-window-picker",
 		tag = "v1.*",
-		config = function()
-			require("window-picker").setup({
-				include_current_win = true,
-				use_winbar = "always", -- "always" | "never" | "smart"
-				filter_rules = {
-					-- filter using buffer options
-					bo = {
-						-- if the file type is one of following, the window will be ignored
-						filetype = { "Outline", "NvimTree", "neo-tree", "notify" },
-
-						-- if the buffer type is one of following, the window will be ignored
-						buftype = { "terminal" },
-					},
-
-					-- filter using window options
-					wo = {},
-
-					-- if the file path contains one of following names, the window
-					-- will be ignored
-					file_path_contains = {},
-
-					-- if the file name contains one of following names, the window will be
-					-- ignored
-					file_name_contains = {},
-				},
-			})
-		end,
 	})
 
 	--Icons
 	use({ "kyazdani42/nvim-web-devicons" })
 	-- Colorschemes
-	use({ "rebelot/kanagawa.nvim" })
 	use({ "folke/tokyonight.nvim" })
+	use({ "olivercederborg/poimandres.nvim" })
+	use({ "rebelot/kanagawa.nvim" })
 	use({ "lunarvim/darkplus.nvim" })
-	use({ "ray-x/starry.nvim" })
 	use({ "EdenEast/nightfox.nvim" })
 	use({ "kvrohit/rasmus.nvim" })
 	use({ "marko-cerovac/material.nvim" })
@@ -128,32 +98,22 @@ return packer.startup(function(use)
 	use({ "savq/melange" })
 	use({ "kvrohit/mellow.nvim" })
 	use({ "catppuccin/nvim", as = "catppuccin" })
-	use({ "adisen99/apprentice.nvim", requires = { "rktjmp/lush.nvim" } })
+	use({ "adisen99/apprentice.nvim", requires = "rktjmp/lush.nvim" })
 	use({ "Shatur/neovim-ayu" })
-	use({ "olivercederborg/poimandres.nvim" })
 	use({ "NTBBloodbath/doom-one.nvim" })
-	use({ "lukas-reineke/headlines.nvim" })
 	use({ "Yazeed1s/minimal.nvim" })
 	use({ "kvrohit/substrata.nvim" })
 	use({ "rose-pine/neovim", as = "rose-pine" })
 	use({ "shaunsingh/nord.nvim" })
-	use({ "rockyzhang24/arctic.nvim", requires = { "rktjmp/lush.nvim" } })
+	use({ "rockyzhang24/arctic.nvim", requires = "rktjmp/lush.nvim" })
 	use({ "sainnhe/edge" })
 	use({ "fenetikm/falcon" })
 	use({ "kaiuri/nvim-juliana" })
-	use({
-		"mcchrish/zenbones.nvim",
-		-- Optionally install Lush. Allows for more configuration or extending the colorscheme
-		-- If you don't want to install lush, make sure to set g:zenbones_compat = 1
-		-- In Vim, compat mode is turned on as Lush only works in Neovim.
-		requires = "rktjmp/lush.nvim",
-	})
+	use({ "mcchrish/zenbones.nvim", requires = "rktjmp/lush.nvim" })
 	use({ "Yazeed1s/oh-lucy.nvim" })
-	use({
-		"ramojus/mellifluous.nvim",
-		requires = { "rktjmp/lush.nvim" },
-	})
-  use({"rafamadriz/neon"})
+	use({ "ramojus/mellifluous.nvim", requires = "rktjmp/lush.nvim" })
+	use({ "rafamadriz/neon" })
+	use({ "bluz71/vim-nightfly-colors" })
 
 	-- Editing --
 	use({ "ggandor/leap.nvim" })
@@ -163,32 +123,15 @@ return packer.startup(function(use)
 			require("nvim-surround").setup()
 		end,
 	})
-	use({ "kyazdani42/nvim-tree.lua" })
 	use({ "ahmedkhalf/project.nvim" })
 	use({ "akinsho/toggleterm.nvim" })
-	--[[ use({ "romgrk/nvim-treesitter-context",
-    config = function()
-    require("treesitter-context").setup{
-        enable = true,
-        throttle = true,
-        max_lines = 0,
-        patterns = {
-        default = {
-        'class',
-        'function',
-        'method',
-        },
-        },
-      }
-end,
 
-  }) ]]
 	-- Mappings
 	use({ "folke/which-key.nvim" })
 	use({ "mg979/vim-visual-multi" })
 	-- Notes/Organization
-	use({ "nvim-neorg/neorg" })
-	use({ "max397574/neorg-kanban" })
+	-- use({ "nvim-neorg/neorg" })
+	-- use({ "max397574/neorg-kanban" })
 	-- Navigation/Browsing
 	use({ "simrat39/symbols-outline.nvim" })
 	use({ "numToStr/Comment.nvim" })
@@ -203,6 +146,7 @@ end,
 
 	-- Development --
 	-- Auto-Completions
+
 	-- cmp
 	use({ "hrsh7th/nvim-cmp" })
 	use({ "hrsh7th/cmp-buffer" })
@@ -212,15 +156,10 @@ end,
 	use({ "hrsh7th/cmp-nvim-lua" })
 	-- use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
 	use({ "KadoBOT/cmp-plugins" })
-	-- coq
-	--[[ use { 'ms-jpq/coq_nvim' }
-  use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
-  use { 'ms-jpq/coq.thirdparty', branch = '3p'} ]]
 	-- Snippets
 	use({ "L3MON4D3/LuaSnip" })
 	use({ "rafamadriz/friendly-snippets" })
 	-- LSP
-	--[[ use({ "neovim/nvim-lspconfig" }) ]]
 	use({
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
@@ -229,24 +168,17 @@ end,
 		"jose-elias-alvarez/null-ls.nvim",
 		"ThePrimeagen/refactoring.nvim",
 	})
-	--[[ use({ "williamboman/nvim-lsp-installer" }) ]]
 	use({ "RRethy/vim-illuminate" })
 	-- Diagnostics
-	-- null-ls
-	--[[ use({
-		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-		config = function()
-			require("lsp_lines").setup()
-			vim.diagnostic.config({ virtual_lines = false })
-		end,
-	}) ]]
 	-- JSON
 	use({ "b0o/SchemaStore.nvim" })
 	-- Rust
-	use({ "simrat39/rust-tools.nvim", ft = "rust" })
-	use({ "saecki/crates.nvim", ft = { "rust", "toml" } })
+	use({ "simrat39/rust-tools.nvim" })
+	use({ "saecki/crates.nvim" })
+	-- Go
+	use({ "ray-x/go.nvim" })
 	-- Flutter
-	use({ "akinsho/flutter-tools.nvim", ft = "dart" })
+	use({ "akinsho/flutter-tools.nvim" })
 	-- SQL
 	use({ "nanotee/sqls.nvim" })
 	-- Neovim LuaDev
@@ -268,6 +200,7 @@ end,
 	use({ "mfussenegger/nvim-dap" })
 	use({ "rcarriga/nvim-dap-ui" })
 	use({ "jbyuki/one-small-step-for-vimkind" })
+	use({ "theHamsta/nvim-dap-virtual-text" })
 
 	use({ "lvimuser/lsp-inlayhints.nvim" })
 	use({ "ray-x/lsp_signature.nvim" })

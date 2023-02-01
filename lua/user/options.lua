@@ -70,7 +70,7 @@ vim.opt.pumblend = 10 -- Make popup window translucent
 vim.opt.pumheight = 20 -- Limit the amount of autocomplete items shown
 
 -- GUI Options
-vim.opt.guifont = "Operator Mono Lig:h12"
+vim.opt.guifont = "PragmataPro Liga:h12"
 vim.opt.linespace = 0
 
 -- Neovide Global Options --
@@ -78,3 +78,24 @@ vim.g.neovide_transparency = 1.00
 vim.g.neovide_no_idle = true
 
 -- vim.g.node_host_prog = vim.fn.trim(vim.fn.system("volta which neovim-node-host"))
+
+if vim.g.neoray then
+	vim.g.guifont = "PragmataPro Liga:h12"
+	local neoray_config = {
+		"NeoraySet CursorAnimTime 0.08",
+		"NeoraySet Transparency 0.95",
+		"NeoraySet TargetTPS 120",
+		"NeoraySet ContextMenu TRUE",
+		"NeoraySet BoxDrawing TRUE",
+		"NeoraySet ImageViewer TRUE",
+		"NeoraySet WindowSize 100x40",
+		"NeoraySet WindowState centered",
+		"NeoraySet KeyFullscreen <M-C-CR>",
+		"NeoraySet KeyZoomIn <C-ScrollWheelUp>",
+		"NeoraySet KeyZoomOut <C-ScrollWheelDown>",
+	}
+
+	for _, config in ipairs(neoray_config) do
+		vim.cmd(config)
+	end
+end

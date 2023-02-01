@@ -135,7 +135,7 @@ local plug_maps = function()
 		o = { "<cmd>SymbolsOutline<CR>", "Symbols Panel" },
 
 		-- DAP
-		D = {
+		d = {
 			name = "Debug",
 			c = { "<cmd>lua require('dap').continue()<cr>", "Continue" },
 			i = { "<cmd>lua require('dap').step_into()<cr>", "Step Into" },
@@ -176,12 +176,6 @@ local plug_maps = function()
 			d = { "<cmd>lua _LAZYDOCKER_TOGGLE()<CR>", "Lazydocker" },
 			h = { "<cmd>lua _HTOP_TOGGLE()<CR>", "htop" },
 		},
-
-		d = {
-			name = "Trouble",
-			q = { ":Trouble quickfix<cr>", "Qucikfix List" },
-			d = { ":Trouble loclist<cr>", "Qucikfix List" },
-		},
 	}
 
 	wk.register(mappings, opts)
@@ -196,9 +190,9 @@ local lsp_g_keymaps = function(bufnr)
 	local mappings = {
 		D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
 		d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
-		I = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Implementation" },
+		i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Implementation" },
 		r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
-		e = { ":lua require'popui.diagnostics-navigator'()<CR>", "Diagnostics" },
+		e = { "<cmd>Trouble document_diagnostics<CR>", "Diagnostics" },
 	}
 	wk.register(mappings, opts)
 end
@@ -240,7 +234,7 @@ local lsp_l_keymaps = function(bufnr)
 	wk.register(mappings, opts)
 end
 
-local rust_maps = function(bufnr)
+M.rust_maps = function(bufnr)
 	local opts = {
 		mode = "n", -- NORMAL mode
 		prefix = "<leader>",
@@ -281,21 +275,64 @@ local rust_maps = function(bufnr)
 	wk.register(mappings, opts)
 end
 
-local go_keymaps = function(bufnr)
+M.go_keymaps = function(bufnr)
+	local normal_mode = { mode = "n" }
+	local visual_mode = { mode = "v" }
+
 	local opts = {
-		mode = "n",
 		prefix = "<leader>",
 		buffer = bufnr,
+		noremap = true,
+		nowait = true,
+		silent = true,
 	}
-	local mappings = {
-		K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover Docs" },
+	local normal_opts = vim.tbl_deep_extend("force", normal_mode, opts)
+	local visual_opts = vim.tbl_deep_extend("force", visual_mode, opts)
+
+	local normal_mappings = {
 		p = {
 			name = "Go",
-			r = { ":GoRun<CR>", "Go Run" },
-			d = { ":GoDebug<CR>", "Go Debug" },
+			a = { "<cmd>GoCodeAction<cr>", "Code Action" },
+			e = { "<cmd>GoIfErr<cr>", "Add if..err" },
+			h = {
+				name = "Helper",
+				a = { "<cmd>GoAddTag<cr>", "Add Tags" },
+				r = { "<cmd>GoRMTag<cr>", "Remove Tags" },
+				c = { "<cmd>GoCoverage<cr>", "Test Coverage" },
+				g = { "<cmd>lua require('go.comment').gen()<cr>", "Generate Comment" },
+				v = { "<cmd>GoVet<cr>", "Go vet" },
+				t = { "<cmd>GoModTidy<cr>", "Go Mod Tidy" },
+				i = { "<cmd>GoModInit<cr>", "Go Mod Init" },
+			},
+			i = { "<cmd>GoToggleInlay<cr>", "Toggle Inlay" },
+			l = { "<cmd>GoLint<cr>", "Run Linter" },
+			o = { "<cmd>GoPkgOutline<cr>", "Outline" },
+			r = { "<cmd>GoRun<cr>", "Run" },
+			s = { "<cmd>GoFillStruct<cr>", "Autofill Struct" },
+			t = {
+				name = "Tests",
+				r = { "<cmd>GoTest<cr>", "Run Tests" },
+				a = { "<cmd>GoAlt!<cr>", "Open Alt" },
+				s = { "<cmd>GoAltS!<cr>", "Open Split Alt" },
+				v = { "<cmd>GoAltV!<cr>", "Open VSplit Alt" },
+				u = { "<cmd>GoTestFunc<cr>", "Run Func Test" },
+				f = { "<cmd>GoTestFile<cr>", "Run Tests" },
+			},
+			x = {
+				name = "Code Lens",
+				l = { "<cmd>GoCodeLenAct<cr>", "Toggle Lens" },
+				a = { "<cmd>GoCodeAction<cr>", "Code Action" },
+			},
 		},
 	}
-	wk.register(mappings, opts)
+	local visual_mappings = {
+		p = {
+			-- name = "Coding",
+			j = { "<cmd>'<,'>GoJson2Struct<cr>", "Json to struct" },
+		},
+	}
+	wk.register(normal_mappings, normal_opts)
+	wk.register(visual_mappings, visual_opts)
 end
 
 local lsp_doc_mapping = function(bufnr)
@@ -338,10 +375,8 @@ M.flutter_maps = function(bufnr)
 end
 
 --@desc The lsp function allows the LSP handler to access the keymapping functions by client.name
-M.attach = function(client, bufnr)
+M.attach = function(_, bufnr)
 	local servers = {
-		rust_analyzer = rust_maps,
-		gopls = go_keymaps,
 		l = lsp_l_keymaps,
 		g = lsp_g_keymaps,
 		docs = lsp_doc_mapping,
@@ -349,20 +384,6 @@ M.attach = function(client, bufnr)
 
 	servers.g(bufnr)
 	servers.l(bufnr)
-
-	if client == "dartls" then
-		servers.dartls(bufnr)
-		servers.docs(bufnr)
-		return
-	end
-	if client == "rust_analyzer" then
-		servers.rust_analyzer(bufnr)
-		return
-	end
-	if client == "gopls" then
-		servers.gopls(bufnr)
-		return
-	end
 	servers.docs(bufnr)
 end
 

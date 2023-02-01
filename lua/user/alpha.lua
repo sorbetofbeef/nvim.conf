@@ -3,6 +3,8 @@ if not status_ok then
 	return
 end
 
+local icons = require("user.icons").documents
+
 local theta = require("alpha.themes.theta")
 local dashboard = require("alpha.themes.dashboard")
 theta.header.val = {

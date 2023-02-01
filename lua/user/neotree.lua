@@ -265,3 +265,29 @@ require("neo-tree").setup({
 		},
 	},
 })
+
+require("window-picker").setup({
+	include_current_win = true,
+	use_winbar = "always", -- "always" | "never" | "smart"
+	filter_rules = {
+		-- filter using buffer options
+		bo = {
+			-- if the file type is one of following, the window will be ignored
+			filetype = { "Outline", "NvimTree", "neo-tree", "notify" },
+
+			-- if the buffer type is one of following, the window will be ignored
+			buftype = { "terminal" },
+		},
+
+		-- filter using window options
+		wo = {},
+
+		-- if the file path contains one of following names, the window
+		-- will be ignored
+		file_path_contains = {},
+
+		-- if the file name contains one of following names, the window will be
+		-- ignored
+		file_name_contains = {},
+	},
+})

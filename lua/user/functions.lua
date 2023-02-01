@@ -193,47 +193,70 @@ function M.vi_hl:txt(m)
 	return self.vi.text[m()] or " ?? "
 end
 
+local labels = {
+	lua = { name = "LUA", icon = " " },
+	sh = { name = "SHELL", icon = " " },
+	bash = { name = "BASH SHELL", icon = " " },
+	zsh = { name = "Z-SHELL", icon = " " },
+	fish = { name = "FISH SHELL", icon = " " },
+	python = { name = "PYTHON", icon = " " },
+	json = { name = "JSON", icon = " " },
+	html = { name = "HTML", icon = " " },
+	css = { name = "CSS", icon = " " },
+	go = { name = "GO", icon = " " },
+	gohtml = { name = "GO HTML TEMPLATE", icon = " " },
+	gotmpl = { name = "GO TEMPLATE", icon = " " },
+	rust = { name = "RUST", icon = " " },
+	dart = { name = "FlUTTER/DART", icon = " " },
+	toml = { name = "TOML", icon = " " },
+	yaml = { name = "YAML", icon = " " },
+	javascript = { name = "JAVASCRIPT", icon = " " },
+	typescript = { name = "TYPESCRIPT", icon = " " },
+	markdown = { name = "MARKDOWN", icon = " " },
+	vim = { name = "VIMSCRIPT", icon = " " },
+	ini = { name = "CONFIG", icon = " " },
+	conf = { name = "CONFIG", icon = " " },
+	text = { name = "TEXT", icon = " " },
+}
+
 M.change_statusbar_name = function()
-	local filetype_name_icons = {
-		lua = { name = "LUA", icon = " " },
-		sh = { name = "SHELL", icon = " " },
-		bash = { name = "BASH SHELL", icon = " " },
-		zsh = { name = "Z-SHELL", icon = " " },
-		fish = { name = "FISH SHELL", icon = " " },
-		python = { name = "PYTHON", icon = " " },
-		json = { name = "JSON", icon = " " },
-		html = { name = "HTML", icon = " " },
-		css = { name = "CSS", icon = " " },
-		go = { name = "GO", icon = " " },
-		gohtml = { name = "GO HTML TEMPLATE", icon = " " },
-		gotmpl = { name = "GO TEMPLATE", icon = " " },
-		rust = { name = "RUST", icon = " " },
-		dart = { name = "FlUTTER/DART", icon = " " },
-		toml = { name = "TOML", icon = " " },
-		yaml = { name = "YAML", icon = " " },
-		javascript = { name = "JAVASCRIPT", icon = " " },
-		typescript = { name = "TYPESCRIPT", icon = " " },
-		markdown = { name = "MARKDOWN", icon = " " },
-		vim = { name = "VIM SCRIPT", icon = " " },
-		text = { name = "TEXT", icon = " " },
-	}
 	local name_icon = {}
 	for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
-		for type, name_icons in pairs(filetype_name_icons) do
+		for type, name_icons in pairs(labels) do
 			local win_id = vim.api.nvim_tabpage_get_win(tab)
-			if vim.api.nvim_buf_get_option(0, "filetype") ~= "neo-tree" then
+			if vim.api.nvim_buf_get_option(0, "filetype") ~= "neo-tree" or "Outline" then
 				if vim.filetype.match({ buf = vim.api.nvim_win_get_buf(win_id) }) == type then
 					name_icon[tab] = { name = name_icons.name, icon = name_icons.icon }
 				end
 			end
 		end
 	end
-	if name_icon[vim.api.nvim_get_current_tabpage()] == { name = nil, icon = nil } then
-		name_icon[vim.api.nvim_get_current_tabpage()] = { name = "NEW WINDOW", icon = " " }
+
+	return name_icon
+end
+
+local get_wins = function()
+	local tab = {}
+	for _, wins in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+		table.insert(tab, wins)
+	end
+	return tab
+end
+
+M.get_win_icons = function()
+	local win_icons = {}
+	local wins = get_wins()
+	for _, win in ipairs(wins) do
+		for type, name_icons in pairs(labels) do
+			if vim.api.nvim_buf_get_option(0, "filetype") ~= "neo-tree" or "Outline" then
+				if vim.filetype.match({ buf = vim.api.nvim_win_get_buf(win) }) == type then
+					win_icons[win] = name_icons.name
+				end
+			end
+		end
 	end
 
-	vim.g.sl_icons = name_icon
-	return name_icon
+	return win_icons
 end
 
 local fmt = string.format

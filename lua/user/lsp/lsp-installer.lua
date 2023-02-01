@@ -14,7 +14,6 @@ if not mason_null_ok then
 end
 
 local servers = {
-	"gopls",
 	"cssls",
 	"html",
 	"pyright",
@@ -34,10 +33,10 @@ local servers = {
 	"dartls",
 	"rust_analyzer",
 	"sumneko_lua",
+	"gopls",
 }
 
 local mason_servers = {
-	"gopls",
 	"sumneko_lua",
 	"cssls",
 	"html",
@@ -50,10 +49,12 @@ local mason_servers = {
 	"sqls",
 	"emmet_ls",
 	"dockerls",
+	"tsserver",
 	"vimls",
 	"graphql",
 	"svelte",
 	"tailwindcss",
+	"gopls",
 }
 
 mason.setup({})
@@ -109,8 +110,8 @@ for _, server in pairs(servers) do
 	end
 
 	if server == "gopls" then
-		local gopls_opts = require("user.lsp.settings.gopls")
-		opts = vim.tbl_deep_extend("force", gopls_opts, opts)
+		require("user.lsp.settings.go")
+		goto continue
 	end
 
 	if server == "sqls" then
@@ -141,7 +142,7 @@ local null_install = {
 	"taplo",
 	"tidy",
 	"eslint_d",
-	"prettierd",
+	"prettier_d_slim",
 	"shellcheck",
 	"flake8",
 	"revive",

@@ -1,0 +1,9 @@
+{
+  "lua": {
+    "snip1": {
+      "prefix": "lcs",
+      "body": "local M = \\{\\}\n\nM.setup = function(varient)\n\t${2} = varient\n\t${3}\n\tvim.cmd([[colorscheme ${1}]])\nend\n\nreturn M",
+      "description": "create a new colorscheme file for neovim"
+    }
+  }
+}
