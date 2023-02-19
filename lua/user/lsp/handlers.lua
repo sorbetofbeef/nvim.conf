@@ -26,7 +26,6 @@ end
 
 M.capabilities = common_capabilities()
 
-
 M.setup = function()
 	local signs = {
 		{ name = "DiagnosticSignError", text = " " },
@@ -111,14 +110,26 @@ M.on_attach = function(client, bufnr)
 		client.server_capabilities.experimental = true
 		require("user.keymaps").rust_maps(bufnr)
 	end
+
 	if client.name == "gopls" then
 		require("user.keymaps").go_keymaps(bufnr)
+	end
+
+	-- if ~client.name == "gopls" or "rust_analyzer" then
+	-- 	attach_inlay_hints(client, bufnr)
+	-- end
+
+	if client.name == "tsserver" then
+		client.server_capabilities.documentFormattingProvider = false
+	end
+
+	if client.name == "sumneko_lua" then
+		client.server_capabilities.documentFormattingProvider = false
 	end
 
 	keymaps.attach(client, bufnr)
 	attach_navic(client, bufnr)
 	attach_illuminate(client)
-	-- attach_inlay_hints(client, bufnr)
 end
 
 return M

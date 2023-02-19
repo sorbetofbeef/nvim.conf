@@ -1,4 +1,5 @@
 local M = {}
+
 M.setup = function(variant)
 	local theme
 	if variant == "light" then
@@ -6,6 +7,8 @@ M.setup = function(variant)
 	else
 		theme = "default"
 	end
+
+	vim.opt.laststatus = 3
 
 	vim.opt.fillchars:append({
 		horiz = "═",

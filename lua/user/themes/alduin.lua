@@ -1,6 +1,6 @@
 local M = {}
 M.setup = function(variant)
-	require("mellifluous").setup({ --[[...]]
+	require("mellifluous").setup({
 		dim_inactive = true,
 		color_set = variant,
 		styles = {
@@ -40,7 +40,7 @@ M.setup = function(variant)
 			},
 			startify = true,
 		},
-	}) -- optional, see configuration section.
+	})
 	vim.cmd("colorscheme mellifluous")
 end
 

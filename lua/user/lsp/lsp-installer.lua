@@ -32,12 +32,12 @@ local servers = {
 	"tsserver",
 	"dartls",
 	"rust_analyzer",
-	"sumneko_lua",
+	"lua_ls",
 	"gopls",
 }
 
 local mason_servers = {
-	"sumneko_lua",
+	"lua_ls",
 	"cssls",
 	"html",
 	"pyright",

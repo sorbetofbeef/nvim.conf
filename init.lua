@@ -1,21 +1,22 @@
+require("user.plugins")
 require("user.impatient")
 
 require("user.options")
 require("user.keymaps")
+require("user.which_key")
 require("user.autocommands")
 
-require("user.plugins")
 require("user.themes")
 require("user.headlines")
-
 require("user.treesitter")
-require("user.which_key")
+
 require("user.lsp")
 require("user.cmp")
 require("user.dap")
 require("user.navic")
 require("user.quickfix")
 require("user.neotree")
+require("user.neorg")
 
 require("user.telescope_plugin")
 require("user.autopairs")

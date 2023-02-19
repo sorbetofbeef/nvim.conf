@@ -62,7 +62,7 @@ local comma_prefix = function()
 	}
 
 	wk.register(mappings, opts)
-end ]]
+end
 
---[[ comma_prefix()
+comma_prefix()
 g_prefix() ]]

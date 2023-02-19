@@ -1,225 +1,228 @@
-local fn = vim.fn
-
--- Automatically install packer
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-	PACKER_BOOTSTRAP = fn.system({
-		"git",
-		"clone",
-		"--depth",
-		"1",
-		"https://github.com/wbthomason/packer.nvim",
-		install_path,
-	})
-	print("Installing packer close and reopen Neovim...")
-	vim.cmd([[packadd packer.nvim]])
+-- Automatically install lazy
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  -- bootstrap lazy.nvim
+  -- stylua: ignore
+  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
 end
+vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+-- Shorten function name
+
+--Remap space as leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+--Remap space as leader key
+-- vim.g.mapleader = " "
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]])
+-- vim.cmd([[
+--   augroup packer_user_config
+--     autocmd!
+--     autocmd BufWritePost plugins.lua source <afile> | PackerSync
+--   augroup end
+-- ]])
 
 -- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
+--[[ local status_ok, laz = pcall(require, "lazy")
 if not status_ok then
 	return
-end
+end ]]
 
--- Have packer use a popup window
-packer.init({
-	max_jobs = 10,
-	display = {
-		open_fn = function()
-			return require("packer.util").float({ border = "rounded" })
-		end,
+require("lazy").setup({
+	spec = {
+		{ "nvim-lua/plenary.nvim" },
+		{ "moll/vim-bbye" },
+		{ "lewis6991/impatient.nvim" },
+		{ "kkharji/sqlite.lua" },
+		{ "stevearc/dressing.nvim" },
+		{
+			"nvim-neo-tree/neo-tree.nvim",
+			branch = "v2.x",
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+				"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+				"MunifTanjim/nui.nvim",
+			},
+		},
+
+		-- UI --
+		-- { "ray-x/guihua.lua" },
+		{ "lukas-reineke/headlines.nvim" },
+		{ "karb94/neoscroll.nvim" },
+		-- PopOvers/PopUps
+		{ "folke/trouble.nvim" },
+		-- Statusline/Tabline
+		{ "nanozuki/tabby.nvim" },
+		{ "feline-nvim/feline.nvim" },
+		-- Overlays
+		{ "lukas-reineke/indent-blankline.nvim" },
+		-- { "goolord/alpha-nvim" },
+		{ "kevinhwang91/nvim-bqf", ft = "qf" },
+		{
+			"junegunn/fzf",
+			build = function()
+				vim.fn["fzf#install"]()
+			end,
+		},
+		{ "j-hui/fidget.nvim" },
+		{
+			"s1n7ax/nvim-window-picker",
+			version = "v1.*",
+		},
+
+		--Icons
+		{ "kyazdani42/nvim-web-devicons" },
+		-- Colorschemes
+		{ "folke/tokyonight.nvim", lazy = true },
+		{ "olivercederborg/poimandres.nvim", lazy = true },
+		{ "rebelot/kanagawa.nvim", lazy = true },
+		{ "lunarvim/darkplus.nvim", lazy = true },
+		{ "EdenEast/nightfox.nvim", lazy = true },
+		{ "kvrohit/rasmus.nvim", lazy = true },
+		{ "marko-cerovac/material.nvim", lazy = true },
+		{ "frenzyexists/aquarium-vim", lazy = true },
+		{ "olimorris/onedarkpro.nvim", lazy = true },
+		{ "savq/melange", lazy = true },
+		{ "kvrohit/mellow.nvim", lazy = true },
+		{ "catppuccin/nvim", name = "catppuccin", lazy = true },
+		{ "adisen99/apprentice.nvim", dependencies = "rktjmp/lush.nvim", lazy = true },
+		{ "Shatur/neovim-ayu", lazy = true },
+		{ "NTBBloodbath/doom-one.nvim", lazy = true },
+		{ "Yazeed1s/minimal.nvim", lazy = true },
+		{ "kvrohit/substrata.nvim", lazy = true },
+		{ "rose-pine/neovim", name = "rose-pine", lazy = true },
+		{ "shaunsingh/nord.nvim", lazy = true },
+		{ "rockyzhang24/arctic.nvim", dependencies = "rktjmp/lush.nvim", lazy = true },
+		{ "sainnhe/edge", lazy = true },
+		{ "fenetikm/falcon", lazy = true },
+		{ "kaiuri/nvim-juliana", lazy = true },
+		{ "mcchrish/zenbones.nvim", dependencies = "rktjmp/lush.nvim", lazy = true },
+		{ "Yazeed1s/oh-lucy.nvim", lazy = true },
+		{ "ramojus/mellifluous.nvim", dependencies = "rktjmp/lush.nvim", lazy = true },
+		{ "rafamadriz/neon", lazy = true },
+		{ "bluz71/vim-nightfly-colors", lazy = true },
+
+		-- Editing --
+		{ "ggandor/leap.nvim" },
+		{
+			"kylechui/nvim-surround",
+			config = true,
+		},
+		{ "ahmedkhalf/project.nvim" },
+		{ "akinsho/toggleterm.nvim" },
+
+		-- Mappings
+		{ "folke/which-key.nvim" },
+		{ "mg979/vim-visual-multi" },
+		-- Notes/Organization
+		{ "nvim-neorg/neorg", build = ":Neorg sync-parsers" },
+		-- Navigation/Browsing
+		{ "simrat39/symbols-outline.nvim" },
+		{ "numToStr/Comment.nvim" },
+		{ "abecodes/tabout.nvim" },
+		{ "ThePrimeagen/harpoon" },
+		-- Telescope
+		{
+			"nvim-telescope/telescope.nvim",
+			version = "0.1.0",
+			dependencies = { "nvim-lua/plenary.nvim" },
+		},
+		{ "nvim-telescope/telescope-ui-select.nvim" },
+		{ "nvim-telescope/telescope-project.nvim" },
+		{ "nvim-telescope/telescope-file-browser.nvim" },
+		{ "benfowler/telescope-luasnip.nvim" },
+
+		-- Development --
+		-- Auto-Completions
+		-- cmp
+		{ "hrsh7th/nvim-cmp" },
+		{ "hrsh7th/cmp-buffer" },
+		{ "hrsh7th/cmp-path" },
+		{ "saadparwaiz1/cmp_luasnip" },
+		{ "hrsh7th/cmp-nvim-lsp" },
+		{ "hrsh7th/cmp-nvim-lua" },
+		{ "KadoBOT/cmp-plugins" },
+		-- Snippets
+		{ "L3MON4D3/Luasnip" },
+		{ "rafamadriz/friendly-snippets" },
+		-- LSP
+		{
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"neovim/nvim-lspconfig",
+			"jayp0521/mason-null-ls.nvim",
+			"jose-elias-alvarez/null-ls.nvim",
+			"ThePrimeagen/refactoring.nvim",
+		},
+		{ "RRethy/vim-illuminate" },
+		-- Diagnostics
+		-- JSON
+		{ "b0o/Schemastore.nvim" },
+		-- Rust
+		{ "simrat39/rust-tools.nvim" },
+		{ "saecki/crates.nvim" },
+		-- Go
+		{ "ray-x/go.nvim" },
+		-- Flutter
+		{ "akinsho/flutter-tools.nvim" },
+		-- SQL
+		{ "nanotee/sqls.nvim" },
+		-- Neovim LuaDev
+		{ "folke/neodev.nvim" },
+		-- TypeScript
+		{
+			"jose-elias-alvarez/typescript.nvim",
+		},
+		-- Treesitter
+		{ "nvim-treesitter/nvim-treesitter" },
+		{ "nvim-treesitter/nvim-treesitter-context" },
+		{ "JoosepAlviste/nvim-ts-context-commentstring" },
+		{ "windwp/nvim-ts-autotag" },
+		{ "windwp/nvim-autopairs" },
+		{ "David-Kunz/markid" },
+		-- Git
+		{ "lewis6991/gitsigns.nvim" },
+		-- DAP
+		{ "mfussenegger/nvim-dap" },
+		{ "rcarriga/nvim-dap-ui" },
+		{ "jbyuki/one-small-step-for-vimkind" },
+		{ "theHamsta/nvim-dap-virtual-text" },
+
+		{ "lvimuser/lsp-inlayhints.nvim" },
+		{ "ray-x/lsp_signature.nvim" },
+
+		{
+			"SmiteshP/nvim-navic",
+			dependencies = "neovim/nvim-lspconfig",
+		},
+
+		{ "Djancyp/outline", config = true },
+	},
+	import = "user.alpha",
+	defaults = {
+		-- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
+		-- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
+		lazy = false,
+		-- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
+		-- have outdated relenamees, which may break your Neovim install.
+		version = false, -- always use the latest git commit
+		-- version = "*", -- try installing the latest stable version for plugins that support semver
+	},
+	checker = { enabled = true }, -- automatically check for plugin updates
+	performance = {
+		rtp = {
+			-- disable some rtp plugins
+			disabled_plugins = {
+				"gzip",
+				-- "matchit",
+				-- "matchparen",
+				-- "netrwPlugin",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			},
+		},
 	},
 })
-
--- Install your plugins here
-return packer.startup(function(use)
-	-- Dependencies
-	use({ "wbthomason/packer.nvim" })
-	use({ "nvim-lua/plenary.nvim" })
-	use({ "moll/vim-bbye" })
-	use({ "lewis6991/impatient.nvim" })
-	use({ "kkharji/sqlite.lua" })
-	use({ "stevearc/dressing.nvim" })
-	use({
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v2.x",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
-			"MunifTanjim/nui.nvim",
-		},
-	})
-
-	-- UI --
-	-- use({ "ray-x/guihua.lua" })
-	use({ "lukas-reineke/headlines.nvim" })
-	use({ "karb94/neoscroll.nvim" })
-	-- PopOvers/PopUps
-	use({ "folke/trouble.nvim" })
-	-- Statusline/Tabline
-	use({ "nanozuki/tabby.nvim" })
-	use({ "feline-nvim/feline.nvim" })
-	-- Overlays
-	use({ "lukas-reineke/indent-blankline.nvim" })
-	use({ "goolord/alpha-nvim" })
-	use({ "kevinhwang91/nvim-bqf", ft = "qf" })
-	use({
-		"junegunn/fzf",
-		run = function()
-			vim.fn["fzf#install"]()
-		end,
-	})
-	use({ "j-hui/fidget.nvim" })
-	use({
-		"s1n7ax/nvim-window-picker",
-		tag = "v1.*",
-	})
-
-	--Icons
-	use({ "kyazdani42/nvim-web-devicons" })
-	-- Colorschemes
-	use({ "folke/tokyonight.nvim" })
-	use({ "olivercederborg/poimandres.nvim" })
-	use({ "rebelot/kanagawa.nvim" })
-	use({ "lunarvim/darkplus.nvim" })
-	use({ "EdenEast/nightfox.nvim" })
-	use({ "kvrohit/rasmus.nvim" })
-	use({ "marko-cerovac/material.nvim" })
-	use({ "frenzyexists/aquarium-vim" })
-	use({ "olimorris/onedarkpro.nvim" })
-	use({ "savq/melange" })
-	use({ "kvrohit/mellow.nvim" })
-	use({ "catppuccin/nvim", as = "catppuccin" })
-	use({ "adisen99/apprentice.nvim", requires = "rktjmp/lush.nvim" })
-	use({ "Shatur/neovim-ayu" })
-	use({ "NTBBloodbath/doom-one.nvim" })
-	use({ "Yazeed1s/minimal.nvim" })
-	use({ "kvrohit/substrata.nvim" })
-	use({ "rose-pine/neovim", as = "rose-pine" })
-	use({ "shaunsingh/nord.nvim" })
-	use({ "rockyzhang24/arctic.nvim", requires = "rktjmp/lush.nvim" })
-	use({ "sainnhe/edge" })
-	use({ "fenetikm/falcon" })
-	use({ "kaiuri/nvim-juliana" })
-	use({ "mcchrish/zenbones.nvim", requires = "rktjmp/lush.nvim" })
-	use({ "Yazeed1s/oh-lucy.nvim" })
-	use({ "ramojus/mellifluous.nvim", requires = "rktjmp/lush.nvim" })
-	use({ "rafamadriz/neon" })
-	use({ "bluz71/vim-nightfly-colors" })
-
-	-- Editing --
-	use({ "ggandor/leap.nvim" })
-	use({
-		"kylechui/nvim-surround",
-		config = function()
-			require("nvim-surround").setup()
-		end,
-	})
-	use({ "ahmedkhalf/project.nvim" })
-	use({ "akinsho/toggleterm.nvim" })
-
-	-- Mappings
-	use({ "folke/which-key.nvim" })
-	use({ "mg979/vim-visual-multi" })
-	-- Notes/Organization
-	-- use({ "nvim-neorg/neorg" })
-	-- use({ "max397574/neorg-kanban" })
-	-- Navigation/Browsing
-	use({ "simrat39/symbols-outline.nvim" })
-	use({ "numToStr/Comment.nvim" })
-	use({ "abecodes/tabout.nvim" })
-	use({ "ThePrimeagen/harpoon" })
-	-- Telescope
-	use({ "nvim-telescope/telescope.nvim", tag = "0.1.0", requires = { { "nvim-lua/plenary.nvim" } } })
-	use({ "nvim-telescope/telescope-ui-select.nvim" })
-	use({ "nvim-telescope/telescope-project.nvim" })
-	use({ "nvim-telescope/telescope-file-browser.nvim" })
-	use({ "benfowler/telescope-luasnip.nvim" })
-
-	-- Development --
-	-- Auto-Completions
-
-	-- cmp
-	use({ "hrsh7th/nvim-cmp" })
-	use({ "hrsh7th/cmp-buffer" })
-	use({ "hrsh7th/cmp-path" })
-	use({ "saadparwaiz1/cmp_luasnip" })
-	use({ "hrsh7th/cmp-nvim-lsp" })
-	use({ "hrsh7th/cmp-nvim-lua" })
-	-- use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
-	use({ "KadoBOT/cmp-plugins" })
-	-- Snippets
-	use({ "L3MON4D3/LuaSnip" })
-	use({ "rafamadriz/friendly-snippets" })
-	-- LSP
-	use({
-		"williamboman/mason.nvim",
-		"williamboman/mason-lspconfig.nvim",
-		"neovim/nvim-lspconfig",
-		"jayp0521/mason-null-ls.nvim",
-		"jose-elias-alvarez/null-ls.nvim",
-		"ThePrimeagen/refactoring.nvim",
-	})
-	use({ "RRethy/vim-illuminate" })
-	-- Diagnostics
-	-- JSON
-	use({ "b0o/SchemaStore.nvim" })
-	-- Rust
-	use({ "simrat39/rust-tools.nvim" })
-	use({ "saecki/crates.nvim" })
-	-- Go
-	use({ "ray-x/go.nvim" })
-	-- Flutter
-	use({ "akinsho/flutter-tools.nvim" })
-	-- SQL
-	use({ "nanotee/sqls.nvim" })
-	-- Neovim LuaDev
-	use({ "folke/neodev.nvim" })
-	-- TypeScript
-	use({
-		"jose-elias-alvarez/typescript.nvim",
-	})
-	-- Treesitter
-	use({ "nvim-treesitter/nvim-treesitter" })
-	use({ "nvim-treesitter/nvim-treesitter-context" })
-	use({ "JoosepAlviste/nvim-ts-context-commentstring" })
-	use({ "windwp/nvim-ts-autotag" })
-	use({ "windwp/nvim-autopairs" })
-	use({ "David-Kunz/markid" })
-	-- Git
-	use({ "lewis6991/gitsigns.nvim" })
-	-- DAP
-	use({ "mfussenegger/nvim-dap" })
-	use({ "rcarriga/nvim-dap-ui" })
-	use({ "jbyuki/one-small-step-for-vimkind" })
-	use({ "theHamsta/nvim-dap-virtual-text" })
-
-	use({ "lvimuser/lsp-inlayhints.nvim" })
-	use({ "ray-x/lsp_signature.nvim" })
-
-	use({
-		"SmiteshP/nvim-navic",
-		requires = "neovim/nvim-lspconfig",
-	})
-
-	use({
-		"Djancyp/outline",
-		config = function()
-			require("outline").setup()
-		end,
-	})
-
-	-- Automatically set up your configuration after cloning packer.nvim
-	-- Put this at the end after all plugins
-	if PACKER_BOOTSTRAP then
-		require("packer").sync()
-	end
-end)

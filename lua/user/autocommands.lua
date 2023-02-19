@@ -1,3 +1,14 @@
+-- Dyanamicly generates augroups
+local function augroup(name)
+  return vim.api.nvim_create_augroup("user_group_" .. name, { clear = true })
+end
+
+-- Check if we need to reload the file when it changed
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+  group = augroup("checktime"),
+  command = "checktime",
+})
+
 -- Use 'q' to quit from common plugins
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "qf", "help", "man", "Outline", "/^dap-.*/", "Trouble", "lspinfo", "spectre_panel", "lir" },
@@ -30,7 +41,27 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 
 -- Highlight Yanked Text
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+  group = augroup("highlight_yank"),
 	callback = function()
 		vim.highlight.on_yank({ higroup = "Visual", timeout = 600 })
 	end,
+})
+
+vim.api.nvim_create_autocmd({ "VimResized" }, {
+  group = augroup("resize_splits"),
+  callback = function()
+    vim.cmd("tabdo wincmd =")
+  end,
+})
+
+-- Go to last loc when opening a buffer
+vim.api.nvim_create_autocmd("BufReadPost", {
+  group = augroup("last_loc"),
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
 })

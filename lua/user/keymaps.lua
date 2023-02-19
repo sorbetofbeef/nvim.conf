@@ -11,8 +11,6 @@ local M = {}
 local keymap = vim.keymap.set
 
 --Remap space as leader key
--- keymap("n", "<Space>", "<Nop>", { silent = true })
-vim.g.mapleader = " "
 
 local standard_maps = function()
 	local opts = {
@@ -27,6 +25,11 @@ local standard_maps = function()
 	keymap("n", "<C-k>", "<C-w>k", opts)
 	keymap("n", "<C-l>", "<C-w>l", opts)
 
+	-- Split handling
+	keymap("n", "<leader>sw", "<C-W>p", { desc = "Other window" })
+	keymap("n", "<leader>sS", "<C-W>s", { desc = "Split window below" })
+	keymap("n", "<leader>ss", "<C-W>v", { desc = "Split window right" })
+
 	-- Resize with arrows
 	keymap("n", "<C-Up>", "<cmd>resize -2<CR>", opts)
 	keymap("n", "<C-Down>", "<cmd>resize +2<CR>", opts)
@@ -38,16 +41,9 @@ local standard_maps = function()
 	keymap("i", "<C-h>", "<Left>", opts)
 	keymap("i", "<C-l>", "<Right>", opts)
 
-	keymap("n", "<C-s>", "<cmd>vsplit<cr>", opts)
-
 	-- Buffers --
-	keymap("n", "gl", ":bnext<CR>", opts)
-	keymap("n", "gh", ":bprevious<CR>", opts)
-
-	-- Tabs --
-	keymap("n", "gj", ":tabnext<CR>", opts)
-	keymap("n", "gk", ":tabprevious<CR>", opts)
-	keymap("n", "gt", ":tabnew<CR>", opts)
+	keymap("n", "L", ":bnext<CR>", opts)
+	keymap("n", "H", ":bprevious<CR>", opts)
 
 	-- Movement --
 	-- Sane movement defaults that works on long wrapped lines
@@ -77,6 +73,13 @@ local standard_maps = function()
 
 	keymap("x", "<", "<gv", opts)
 	keymap("x", ">", ">gv", opts)
+	-- tabs
+	keymap("n", "<tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
+	keymap("n", "<tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
+	keymap("n", "<tab>t", "<cmd>tabnew<cr>", { desc = "New Tab" })
+	keymap("n", "<tab>j", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+	keymap("n", "<tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
+	keymap("n", "<tab>k", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 end
 
 local bracket_maps = function()
@@ -111,6 +114,7 @@ local plug_maps = function()
 		-- NvimTree
 		e = { "<cmd>Neotree toggle<CR>", "Explorer" },
 		b = { "<cmd>Neotree toggle buffers<CR>", "Buffers" },
+		["<leader>"] = { '[[<c-^>"zz]]', "Last buffer" },
 
 		-- Harpoon
 		h = {
@@ -157,6 +161,7 @@ local plug_maps = function()
 		},
 
 		-- Close buffers
+		s = { name = "Split" },
 		["C"] = { "<cmd>Bdelete!<CR>", "which_key_ignore" },
 		["c"] = { "<cmd>Bdelete<CR>", "which_key_ignore" },
 		["Q"] = { "<cmd>quit!<CR>", "which_key_ignore" },
