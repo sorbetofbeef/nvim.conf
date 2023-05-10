@@ -37,7 +37,7 @@ M.setup = function()
 		debug = false,
 
 		sources = {
-			formatting.prettier_d_slim,
+			formatting.prettier,
 			formatting.eslint_d.with({
 				command = "eslint_d",
 				args = { "--fix-to-stdout", "--stdin", "--stdin-filename", "$FILENAME" },

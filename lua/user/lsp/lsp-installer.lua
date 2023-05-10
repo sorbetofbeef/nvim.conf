@@ -22,7 +22,7 @@ local servers = {
 	"yamlls",
 	"taplo",
 	"marksman",
-	"sqls",
+	"sqlls",
 	"emmet_ls",
 	"dockerls",
 	"vimls",
@@ -46,7 +46,7 @@ local mason_servers = {
 	"yamlls",
 	"taplo",
 	"marksman",
-	"sqls",
+	"sqlls",
 	"emmet_ls",
 	"dockerls",
 	"tsserver",
@@ -84,7 +84,7 @@ for _, server in pairs(servers) do
 		capabilities = handler.capabilities,
 	}
 
-	if server == "sumneko_lua" then
+	if server == "lua_ls" then
 		local sumneko_opts = require("user.lsp.settings.sumneko_lua")
 		opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
 	end
@@ -114,19 +114,14 @@ for _, server in pairs(servers) do
 		goto continue
 	end
 
-	if server == "sqls" then
-		local sqls_opts = require("user.lsp.settings.sqls")
-		opts = vim.tbl_deep_extend("force", sqls_opts, opts)
+	if server == "sqlls" then
+		local sqlls_opts = require("user.lsp.settings.sqls")
+		opts = vim.tbl_deep_extend("force", sqlls_opts, opts)
 	end
 
 	if server == "jsonls" then
 		local jsonls_opts = require("user.lsp.settings.jsonls")
 		opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
-	end
-
-	if server == "tsserver" then
-		local tsserver_opts = require("user.lsp.settings.tsserver")
-		opts = vim.tbl_deep_extend("force", tsserver_opts, opts)
 	end
 
 	lspconfig[server].setup(opts)
@@ -142,7 +137,6 @@ local null_install = {
 	"taplo",
 	"tidy",
 	"eslint_d",
-	"prettier_d_slim",
 	"shellcheck",
 	"flake8",
 	"revive",
@@ -159,3 +153,17 @@ mason_null.setup({
 	ensure_installed = null_install,
 	automatic_inststallation = true,
 })
+
+vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
+
+require("dap").dap.listeners.after.event_initialized["dapui_config"] = function()
+	require("dapui").open({})
+end
+
+require("dap").dap.listeners.before.event_terminated["dapui_config"] = function()
+	require("dapui").close({})
+end
+
+require("dap").dap.listeners.before.event_exited["dapui_config"] = function()
+	require("dapui").close({})
+end

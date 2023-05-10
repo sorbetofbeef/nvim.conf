@@ -1,13 +1,6 @@
 local M = {}
 
 M.setup = function(variant)
-	local theme
-	if variant == "light" then
-		theme = "light"
-	else
-		theme = "default"
-	end
-
 	vim.opt.laststatus = 3
 
 	vim.opt.fillchars:append({
@@ -34,8 +27,7 @@ M.setup = function(variant)
 		dimInactive = true, -- dim inactive window `:h hl-NormalNC`
 		globalStatus = true, -- adjust window separators highlight for laststatus=3
 		colors = {},
-		overrides = {},
-		theme = theme,
+		theme = variant,
 	})
 
 	vim.cmd("colorscheme kanagawa")

@@ -58,7 +58,6 @@ local standard_maps = function()
 
 	keymap("n", "<c-f>", "<c-f>zz", opts)
 	keymap("n", "<c-b>", "<c-b>zz", opts) ]]
-
 	keymap("n", "x", '"_x', opts) -- delete char without yank
 	keymap("x", "x", '"_x', opts) -- delete visual selection without yank
 
@@ -115,14 +114,12 @@ local plug_maps = function()
 		e = { "<cmd>Neotree toggle<CR>", "Explorer" },
 		b = { "<cmd>Neotree toggle buffers<CR>", "Buffers" },
 		["<leader>"] = { '[[<c-^>"zz]]', "Last buffer" },
-
 		-- Harpoon
 		h = {
 			name = "Harpoon",
 			a = { "<cmd>lua require('harpoon.mark').add_file()<cr>", "Add File" },
 			h = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", "Menu" },
 		},
-
 		-- Telescope
 		-- b = { "<cmd>Telescope buffers<CR>", "Buffers" },
 		f = {
@@ -134,10 +131,8 @@ local plug_maps = function()
 			p = { "<cmd>Telescope projects<CR>", "Find Projects" },
 			k = { "<cmd>Telescope keymaps<CR>", "Find Keymaps" },
 		},
-
 		-- Symbol Outline
 		o = { "<cmd>SymbolsOutline<CR>", "Symbols Panel" },
-
 		-- DAP
 		d = {
 			name = "Debug",
@@ -150,7 +145,6 @@ local plug_maps = function()
 			u = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" },
 			t = { "<cmd>lua require('dap').terminate()<cr>", "Terminate" },
 		},
-
 		-- Clear highlights
 		["<ESC>"] = { "<cmd>nohlsearch<CR>", "which_key_ignore" },
 		-- LSP Info
@@ -159,7 +153,6 @@ local plug_maps = function()
 			i = { "<cmd>LspInfo<cr>", "Info" },
 			I = { "<cmd>Mason<cr>", "Mason UI" },
 		},
-
 		-- Close buffers
 		s = { name = "Split" },
 		["C"] = { "<cmd>Bdelete!<CR>", "which_key_ignore" },
@@ -168,7 +161,6 @@ local plug_maps = function()
 		["q"] = { "<cmd>quit<CR>", "which_key_ignore" },
 		["W"] = { "<cmd>wqa!<CR>", "which_key_ignore" },
 		["w"] = { "<cmd>wa<CR>", "which_key_ignore" },
-
 		t = {
 			name = "Terminal",
 			t = { ":ToggleTerm<CR>", "Term" },
@@ -209,18 +201,15 @@ local lsp_l_keymaps = function(bufnr)
 		buffer = bufnr,
 	}
 	local mappings = {
-
-		k = { "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", "which_key_ignore" },
-		j = { "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", "which_key_ignore" },
-		["<Space>"] = { "<cmd>Trouble document_diagnostics<CR>", "which_key_ignore" },
-
+		k = { "<cmd>LspUI diagnostic prev<cr>", "which_key_ignore" },
+		j = { "<cmd>LspUI diagnostic next<cr>", "which_key_ignore" },
+		["<Space>"] = { "<cmd>lua vim.diagnostic.setloclist({buffer=0})<CR>", "which_key_ignore" },
 		l = {
 			name = "Lsp Actions",
 			w = {
 				name = "Workspace Actions",
 				a = { vim.lsp.buf.add_workspace_folder, "Add Workspace Folder" },
 				r = { vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder" },
-
 				l = {
 					function()
 						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
@@ -231,11 +220,37 @@ local lsp_l_keymaps = function(bufnr)
 			s = { "<cmd>Telescope luasnip<CR>", "Snippets" },
 			f = { "<cmd>lua vim.lsp.buf.format({async = true})<cr>", "Formatting" },
 			k = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-			r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-			q = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Diagnostic List" },
-			a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
+			-- r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+			r = { "<cmd>LspUI rename<cr>", "Rename" },
+			-- q = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Diagnostic List" },
+			-- a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
+			a = { "<cmd>LspUI code_action<cr>", "Code Action" },
 		},
 	}
+	wk.register(mappings, opts)
+end
+M.sqls_maps = function(bufnr)
+	local opts = {
+		mode = "n",
+		prefix = "<leader>",
+		buffer = bufnr, -- Global mappings. Specify a buffer number for buffer local mappings
+		silent = true, -- use `silent` when creating keymaps
+		noremap = true, -- use `noremap` when creating keymaps
+		nowait = true, -- use `nowait` when creating keymaps
+	}
+
+	local mappings = {
+		D = {
+			name = "Databases Options",
+			p = { "<cmd>DB postgresql://me:2319@127.0.0.1:5432/cocktails<CR>", desc = "PostgreSQL Connection" },
+			d = { ":SqlsShowDatabases<CR>", desc = "Show Databases" },
+			S = { ":SqlsShowSchemas<CR>", desc = "Show Schemas" },
+			c = { ":SqlsShowConnections<CR>", desc = "Show Connections" },
+			D = { ":SqlsSwitchDatabase<CR>", desc = "Switch Databases" },
+			C = { ":SqlsSwitchConnections<CR>", desc = "Switch Connections" },
+		},
+	}
+
 	wk.register(mappings, opts)
 end
 
@@ -347,7 +362,7 @@ local lsp_doc_mapping = function(bufnr)
 		buffer = bufnr,
 	}
 	local mappings = {
-		K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover Docs" },
+		K = { "<cmd>LspUI hover<CR>", "Hover Docs" },
 	}
 	wk.register(mappings, opts)
 end
@@ -373,6 +388,35 @@ M.flutter_maps = function(bufnr)
 			y = { "<cmd>FlutterCopyProfileUrl<CR>", "Copy Profile URL" },
 			l = { "<cmd>FlutterLspRestart<CR>", "LSP Restart" },
 			a = { "<cmd>Telescope flutter commands<CR>", "Flutter Tools" },
+		},
+	}
+
+	wk.register(mappings, opts)
+end
+
+-- TypeScript
+M.ts_maps = function(bufnr)
+	local opts = {
+		mode = "n",
+		prefix = "<leader>",
+		buffer = bufnr,
+	}
+
+	local mappings = {
+		p = {
+			name = "TypeScript",
+			R = { "", "which_key_ignore" },
+			d = { "<cmd>require('typescript').actions.removeUnused<cr>", "Remove Unused Imports" },
+			e = { "<cmd>require('typescript').actions.fixAll<cr>", "Fix Some" },
+			["<C-R>"] = { "", "which_key_ignore" },
+			r = { "<cmd>require('typescript').renameFile(source, target)<cr>", "Rename File" },
+			q = { "", "which_key_ignore" },
+			D = { "", "which_key_ignore" },
+			o = { "<cmd>require('typescript').actions.organizeImports<cr>", "Organize Imports" },
+			t = { "<cmd>require('typescript').goToSourceDefinition(winnr, opts)<cr>", "Go to Source" },
+			y = { "", "which_key_ignore" },
+			l = { "", "which_key_ignore" },
+			a = { "<cmd>require('typescript').actions.addMissingImports<cr>", "Add Missing Imports" },
 		},
 	}
 

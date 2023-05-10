@@ -95,31 +95,21 @@ local function attach_illuminate(client)
 	illuminate.on_attach(client)
 end
 
-local attach_inlay_hints = function(client, bufnr)
-	local ok, hints = pcall(require, "lsp-inlayhints")
-	if not ok then
-		return
-	end
-
-	hints.setup()
-	hints.on_attach(client, bufnr, true)
-end
-
 M.on_attach = function(client, bufnr)
 	if client.name == "rust_analyzer" then
 		client.server_capabilities.experimental = true
 		require("user.keymaps").rust_maps(bufnr)
 	end
 
+	require("sqls").on_attach(client, bufnr)
+	require("user.keymaps").sqls_maps(bufnr)
+
 	if client.name == "gopls" then
 		require("user.keymaps").go_keymaps(bufnr)
 	end
 
-	-- if ~client.name == "gopls" or "rust_analyzer" then
-	-- 	attach_inlay_hints(client, bufnr)
-	-- end
-
 	if client.name == "tsserver" then
+		require("user.keymaps").ts_maps(bufnr)
 		client.server_capabilities.documentFormattingProvider = false
 	end
 

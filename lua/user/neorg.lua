@@ -6,25 +6,25 @@ end
 neorg.setup({
 	load = {
 		["core.defaults"] = {},
-		["core.norg.dirman"] = {
+		["core.dirman"] = {
 			config = {
 				workspaces = {
-					hacking = "~/Documents/hacking",
-					rust = "~/Documents/rust",
-					flutter = "~/Documents/flutter_dart",
+					hacking = "~/docs/hacking",
+					rust = "~/docs/rust",
+					flutter = "~/docs/flutter_dart",
 					bartending = "~/Documents/bartending",
 				},
 				index = "index.norg",
 			},
 		},
-		["core.norg.concealer"] = {},
-		["core.norg.completion"] = {
+		["core.concealer"] = {},
+		["core.completion"] = {
 			config = {
 				engine = "nvim-cmp",
 			},
 		},
 		["core.integrations.nvim-cmp"] = {},
-		["core.norg.qol.toc"] = {},
+		["core.qol.toc"] = {},
 		["core.export.markdown"] = {},
 	},
 })

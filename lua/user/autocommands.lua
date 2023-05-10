@@ -1,12 +1,12 @@
 -- Dyanamicly generates augroups
 local function augroup(name)
-  return vim.api.nvim_create_augroup("user_group_" .. name, { clear = true })
+	return vim.api.nvim_create_augroup("user_group_" .. name, { clear = true })
 end
 
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-  group = augroup("checktime"),
-  command = "checktime",
+	group = augroup("checktime"),
+	command = "checktime",
 })
 
 -- Use 'q' to quit from common plugins
@@ -41,27 +41,40 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 
 -- Highlight Yanked Text
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
-  group = augroup("highlight_yank"),
+	group = augroup("highlight_yank"),
 	callback = function()
 		vim.highlight.on_yank({ higroup = "Visual", timeout = 600 })
 	end,
 })
 
 vim.api.nvim_create_autocmd({ "VimResized" }, {
-  group = augroup("resize_splits"),
-  callback = function()
-    vim.cmd("tabdo wincmd =")
-  end,
+	group = augroup("resize_splits"),
+	callback = function()
+		vim.cmd("tabdo wincmd =")
+	end,
 })
 
 -- Go to last loc when opening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
-  group = augroup("last_loc"),
-  callback = function()
-    local mark = vim.api.nvim_buf_get_mark(0, '"')
-    local lcount = vim.api.nvim_buf_line_count(0)
-    if mark[1] > 0 and mark[1] <= lcount then
-      pcall(vim.api.nvim_win_set_cursor, 0, mark)
-    end
-  end,
+	group = augroup("last_loc"),
+	callback = function()
+		local mark = vim.api.nvim_buf_get_mark(0, '"')
+		local lcount = vim.api.nvim_buf_line_count(0)
+		if mark[1] > 0 and mark[1] <= lcount then
+			pcall(vim.api.nvim_win_set_cursor, 0, mark)
+		end
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "ColorScheme", "FileType" }, {
+	pattern = "*",
+	callback = function()
+		vim.cmd([[
+      hi IndentBlanklineChar gui=nocombine guifg=#444C55
+      hi IndentBlanklineSpaceChar gui=nocombine guifg=#444C55
+      hi IndentBlanklineContextChar gui=nocombine guifg=#FB5E2A
+      " NOTE: don't use `gui=nocombine` here to have correct coloring of gitsigns.nvim.
+      hi IndentBlanklineContextStart gui=underline guisp=#FB5E2A
+    ]])
+	end,
 })

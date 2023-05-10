@@ -17,6 +17,7 @@ configs.setup({
 		"json",
 		"jsonc",
 		"gomod",
+		"gosum",
 		"svelte",
 		"lua",
 		"dockerfile",
@@ -54,9 +55,9 @@ configs.setup({
 		"markdown",
 		"llvm",
 		"scss",
-		"help",
 		"hjson",
 		"norg",
+		"norg_meta",
 		"jsdoc",
 		"fennel",
 		"http",
@@ -83,7 +84,7 @@ configs.setup({
 	},
 	context_commentstring = {
 		enable = true,
-		enable_autocmd = false,
+		enable_autocmd = true,
 		config = {
 			dart = { __default = "// %s", __multiline = "/* %s */" },
 		},

@@ -11,7 +11,7 @@ local themes = require("telescope.themes")
 telescope.setup({
 	extensions = {
 		["ui-select"] = {
-			themes.get_cursor({ previewer = true, winblend = 10, initial_mode = "normal" }),
+			themes.get_cursor({ previewer = false, winblend = 10, initial_mode = "normal" }),
 		},
 		["projects"] = {
 			themes.get_ivy({ initial_mode = "normal" }),

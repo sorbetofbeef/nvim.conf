@@ -8,12 +8,12 @@ end
 local opts = {
 	settings = {
 		typescript = {
-      implicitProjectConfig = {
-        experimentalDecorators = true,
-      },
+			implicitProjectConfig = {
+				experimentalDecorators = true,
+			},
 			inlayHints = {
 				includeInlayParameterNameHints = "all",
-				includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+				includeInlayParameterNameHintsWhenArgumentMatchesName = true,
 				includeInlayFunctionParameterTypeHints = true,
 				includeInlayVariableTypeHints = true,
 				includeInlayPropertyDeclarationTypeHints = true,
@@ -22,12 +22,12 @@ local opts = {
 			},
 		},
 		javascript = {
-      implicitProjectConfig = {
-        experimentalDecorators = true,
-      },
+			implicitProjectConfig = {
+				experimentalDecorators = true,
+			},
 			inlayHints = {
 				includeInlayParameterNameHints = "all",
-				includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+				includeInlayParameterNameHintsWhenArgumentMatchesName = true,
 				includeInlayFunctionParameterTypeHints = true,
 				includeInlayVariableTypeHints = true,
 				includeInlayPropertyDeclarationTypeHints = true,

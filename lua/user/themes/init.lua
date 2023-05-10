@@ -1,6 +1,11 @@
 local setup = function()
-	local current_theme = require("user.themes.current_theme")
-	require("user.themes." .. current_theme.main).setup(current_theme.variant)
+	require("user.themes." .. os.getenv("DARK_THEME")).setup(os.getenv("DARK_VARIANT"))
 end
 
-setup()
+if os.getenv("DARK_THEME") == "nord" then
+  return
+else
+  setup()
+end
+
+
