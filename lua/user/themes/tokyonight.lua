@@ -1,12 +1,7 @@
-local ok, tokyo = pcall(require, "tokyonight")
-if not ok then
-	return
-end
-
 local M = {}
 
 M.setup = function(variant)
-	tokyo.setup({
+	require("tokyonight").setup({
 		-- your configuration comes here
 		-- or leave it empty to use the default settings
 		style = variant, -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
@@ -41,8 +36,6 @@ M.setup = function(variant)
 		---@param colors ColorScheme
 		on_highlights = function(highlights, colors) end,
 	})
-
-	vim.cmd("colorscheme tokyonight")
 end
 
 return M

@@ -1,6 +1,1 @@
-local M = {}
-
-M.variant = "light"
-M.main = "doom_one"
-
-return M
+vim.cmd("colorscheme " .. os.getenv("DARK_THEME"))

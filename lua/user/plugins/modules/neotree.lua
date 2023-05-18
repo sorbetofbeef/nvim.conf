@@ -64,7 +64,7 @@ return {
 					},
 					{
 						source = "git_status",
-						display_name = "  ",
+						display_name = "  ",
 					},
 					{
 						source = "document_symbols",

@@ -5,12 +5,7 @@ require("user.options")
 require("user.keymaps")
 require("user.autocommands")
 
-require("user.themes")
 require("user.headlines")
-require("user.treesitter")
-
-require("user.lsp")
-require("user.cmp")
 require("user.navic")
 require("user.quickfix")
 require("user.neorg")

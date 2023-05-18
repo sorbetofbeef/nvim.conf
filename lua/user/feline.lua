@@ -328,7 +328,7 @@ local c = {
 
 local active = {
 	{ -- left
-		-- c.vimode,
+		-- c.status_cmd,
 		c.lsp_status,
 		c.lsp_error,
 		c.lsp_warn,

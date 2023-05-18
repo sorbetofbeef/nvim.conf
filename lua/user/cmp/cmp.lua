@@ -8,7 +8,6 @@ if not snip_status_ok then
 	return
 end
 
-luasnip.filetype_extend("javascript", { "javascriptreact", "javascript.jsx", "html" })
 require("luasnip.loaders.from_vscode").load({ paths = { "/Users/me/Projects/nvim/snippets/lua.json" } })
 require("luasnip.loaders.from_vscode").lazy_load()
 
