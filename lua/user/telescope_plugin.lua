@@ -13,6 +13,9 @@ telescope.setup({
 		["ui-select"] = {
 			themes.get_cursor({ previewer = false, winblend = 10, initial_mode = "normal" }),
 		},
+		["luasnip"] = {
+			themes.get_cursor({ previewer = true, winblend = 10, initial_mode = "normal" }),
+		},
 		["projects"] = {
 			themes.get_ivy({ initial_mode = "normal" }),
 		},
@@ -31,32 +34,38 @@ telescope.setup({
 				["<C-k>"] = actions.move_selection_previous,
 				["<c-t>"] = trouble.open_with_trouble,
 			},
-			n = { ["<c-t>"] = trouble.open_with_trouble },
+			n = {
+				["<c-t>"] = trouble.open_with_trouble,
+				["<C-j>"] = actions.move_selection_next,
+				["<C-k>"] = actions.move_selection_previous,
+			},
 		},
 	},
 	pickers = {
 		live_grep = {
-			theme = "dropdown",
+			themes.get_dropdown({ previewer = true, initial_mode = "normal" }),
 		},
 		grep_string = {
-			theme = "dropdown",
+			themes.get_dropdown({ previewer = true, initial_mode = "normal" }),
 		},
 		find_files = {
-			theme = "dropdown",
-			previewer = false,
+			themes.get_dropdown({ previewer = false, initial_mode = "normal" }),
 		},
 		buffers = {
-			theme = "dropdown",
-			previewer = false,
+			themes.get_dropdown({ previewer = false, initial_mode = "normal" }),
 			initial_mode = "normal",
+			mappings = {
+				n = {
+					["D"] = actions.delete_buffer,
+				},
+			},
 		},
-		planets = {
-			show_pluto = true,
-			show_moon = true,
-		},
+		-- planets = {
+		-- 	show_pluto = true,
+		-- 	show_moon = true,
+		-- },
 		colorscheme = {
-			theme = "dropdown",
-			-- enable_preview = true,
+			themes.get_dropdown({ previewer = true, initial_mode = "normal" }),
 		},
 		lsp_references = {
 			theme = "cursor",

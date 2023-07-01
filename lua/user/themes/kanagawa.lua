@@ -12,6 +12,7 @@ M.setup = function(variant)
 		vertright = "╠",
 		verthoriz = "╬",
 	})
+	vim.opt.background = ""
 
 	require("kanagawa").setup({
 		undercurl = true, -- enable undercurls

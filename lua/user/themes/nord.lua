@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function(_)
+M.setup = function(variant)
 	vim.g.nord_contrast = true
 	vim.g.nord_borders = true
 	vim.g.nord_disable_background = false
@@ -23,6 +23,7 @@ M.setup = function(_)
 		},
 	})
 
+	vim.opt.background = variant
 	require("nord").set()
 end
 

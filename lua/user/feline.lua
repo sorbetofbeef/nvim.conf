@@ -1,7 +1,7 @@
 local fmt = string.format
 
 local feline = require("feline")
-local navic = require("nvim-navic")
+-- local navic = require("nvim-navic")
 local vi_hl = require("user.functions").vi_hl
 local get_highlight = require("user.functions").get_highlight
 -- local get_filetype_name = require("user.functions").change_statusbar_name
@@ -435,16 +435,16 @@ table.insert(components.active[1], {
 	hl = "Path",
 }) ]]
 
-table.insert(components.active[1], {
-	provider = function()
-		return " " .. navic.get_location()
-	end,
-	enabled = function()
-		return navic.is_available()
-	end,
-	hl = "Breadcrumbs",
-	right_sep = { str = user_icons.ui.RightThinCircle, hl = "BreadcrumbsRightSeparator" },
-})
+-- table.insert(components.active[1], {
+-- 	provider = function()
+-- 		return " " .. navic.get_location()
+-- 	end,
+-- 	enabled = function()
+-- 		return navic.is_available()
+-- 	end,
+-- 	hl = "Breadcrumbs",
+-- 	right_sep = { str = user_icons.ui.RightThinCircle, hl = "BreadcrumbsRightSeparator" },
+-- })
 
 feline.winbar.setup({
 	force_inactive = {

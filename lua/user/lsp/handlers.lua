@@ -78,14 +78,14 @@ M.setup = function()
 		vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, config.diagnostic)
 end
 
-local function attach_navic(client, bufnr)
-	vim.g.navic_silence = true
-	local status_ok, navic = pcall(require, "nvim-navic")
-	if not status_ok then
-		return
-	end
-	navic.attach(client, bufnr)
-end
+-- local function attach_navic(client, bufnr)
+-- 	vim.g.navic_silence = true
+-- 	local status_ok, navic = pcall(require, "nvim-navic")
+-- 	if not status_ok then
+-- 		return
+-- 	end
+-- 	navic.attach(client, bufnr)
+-- end
 
 local function attach_illuminate(client)
 	local status_ok, illuminate = pcall(require, "illuminate")
@@ -118,7 +118,7 @@ M.on_attach = function(client, bufnr)
 	end
 
 	keymaps.attach(client, bufnr)
-	attach_navic(client, bufnr)
+	-- attach_navic(client, bufnr)
 	attach_illuminate(client)
 end
 

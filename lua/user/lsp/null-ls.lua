@@ -54,7 +54,13 @@ M.setup = function()
 			}),
 			actions.eslint_d.with({
 				command = "eslint_d",
-				args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
+				args = {
+					"-f",
+					"json",
+					"--stdin",
+					"--stdin-filename",
+					"$FILENAME",
+				},
 			}),
 			-- actions.refactoring,
 			diagnostics.eslint_d.with({

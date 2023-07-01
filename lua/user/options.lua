@@ -1,7 +1,7 @@
 -- Neovim Options --
 vim.opt.backup = false -- creates a backup file
 vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
-vim.opt.cmdheight = 2 -- more space in the neovim command line for displaying messages
+vim.opt.cmdheight = 0 -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = { "menu", "menuone", "noselect" } -- mostly just for cmp
 -- vim.opt.spellfile = "/Users/me/.config/nvim/spell/en.utf-8.add"
 vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
@@ -30,12 +30,12 @@ vim.opt.number = true -- set numbered lines
 vim.opt.showcmd = true
 vim.opt.showcmdloc = "statusline"
 vim.opt.ruler = false
-vim.opt.numberwidth = 1 -- set number column width to 2 {default 4}
+vim.opt.numberwidth = 4 -- set number column width to 2 {default 4}
 vim.opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
 vim.opt.wrap = false -- display lines as one long line
 vim.opt.scrolloff = 6 -- is one of my fav
 vim.opt.sidescrolloff = 4
-vim.opt.shortmess:append("c")
+vim.opt.shortmess:append("a")
 vim.opt.whichwrap:append("<,>,[,],h,l")
 vim.opt.iskeyword:append("-")
 vim.opt.rtp:append("/opt/local/share/vim/vimfiles/ftdetect")
@@ -70,12 +70,12 @@ vim.opt.pumblend = 10 -- Make popup window translucent
 vim.opt.pumheight = 20 -- Limit the amount of autocomplete items shown
 
 -- GUI Options
-vim.opt.guifont = "PragmataPro Liga:h12"
+vim.o.guifont = "PragmataPro Liga:h12"
 vim.opt.linespace = 0
 
 -- Neovide Global Options --
-vim.g.neovide_transparency = 1.00
-vim.g.neovide_no_idle = true
+-- vim.g.neovide_transparency = 1.00
+-- vim.g.neovide_no_idle = true
 
 -- vim.g.node_host_prog = vim.fn.trim(vim.fn.system("volta which neovim-node-host"))
 

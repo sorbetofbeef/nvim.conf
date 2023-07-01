@@ -50,8 +50,10 @@ local standard_maps = function()
 	local expr = { expr = true, noremap = false, silent = false }
 	keymap("n", "j", "(v:count ? 'j' : 'gj')", expr)
 	keymap("n", "k", "(v:count ? 'k' : 'gk')", expr)
-	keymap("", "<Down>", "(v:count ? 'j' : 'gj')", expr)
-	keymap("", "<Up>", "(v:count ? 'k' : 'gk')", expr)
+	keymap("i", "<C-h>", "<Left>", expr)
+	keymap("i", "<C-j>", "<Down>", expr)
+	keymap("i", "<C-k>", "<Up>", expr)
+	keymap("i", "<C-l>", "<Right>", expr)
 
 	--[[ keymap("n", "<c-d>", "<c-d>zz", opts)
 	keymap("n", "<c-u>", "<c-u>zz", opts)
@@ -62,16 +64,16 @@ local standard_maps = function()
 	keymap("x", "x", '"_x', opts) -- delete visual selection without yank
 
 	-- paste in visual mode and keep available
-	keymap("x", "p", [['pgv"'.v:register.'y`>']], expr)
-	keymap("x", "P", [['Pgv"'.v:register.'y`>']], expr)
+	keymap("v", "p", [['pgv"'.v:register.'y`>']], expr)
+	keymap("v", "P", [['Pgv"'.v:register.'y`>']], expr)
 	-- select last inserted text
 	keymap("n", "gV", [['`[' . strpart(getregtype(), 0, 1) . '`]']], expr)
 
 	keymap("i", "jk", "<ESC>", opts)
-	keymap("x", "jk", "<ESC>", opts)
+	keymap("v", "jk", "<ESC>", opts)
 
-	keymap("x", "<", "<gv", opts)
-	keymap("x", ">", ">gv", opts)
+	keymap("v", "<", "<gv", opts)
+	keymap("v", ">", ">gv", opts)
 	-- tabs
 	keymap("n", "<tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
 	keymap("n", "<tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
@@ -112,8 +114,8 @@ local plug_maps = function()
 		["<c-h>"] = { "<cmd>Alpha<CR>", "Go Home" },
 		-- NvimTree
 		e = { "<cmd>Neotree toggle<CR>", "Explorer" },
-		b = { "<cmd>Neotree toggle buffers<CR>", "Buffers" },
-		["<leader>"] = { '[[<c-^>"zz]]', "Last buffer" },
+		-- b = { "<cmd>Neotree toggle buffers<CR>", "Buffers" },
+		-- ["<leader>"] = { '[[<c-^>"zz]]', "Last buffer" },
 		-- Harpoon
 		h = {
 			name = "Harpoon",
@@ -121,7 +123,7 @@ local plug_maps = function()
 			h = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", "Menu" },
 		},
 		-- Telescope
-		-- b = { "<cmd>Telescope buffers<CR>", "Buffers" },
+		b = { "<cmd>Telescope buffers<CR>", "Buffers" },
 		f = {
 			name = "Find",
 			f = { "<cmd>Telescope find_files<CR>", "Find File" },
@@ -131,6 +133,7 @@ local plug_maps = function()
 			p = { "<cmd>Telescope projects<CR>", "Find Projects" },
 			k = { "<cmd>Telescope keymaps<CR>", "Find Keymaps" },
 		},
+		m = { "<cmd>lua require('dropbar.api').pick()<CR>", "Dropbar Jump" },
 		-- Symbol Outline
 		o = { "<cmd>SymbolsOutline<CR>", "Symbols Panel" },
 		-- DAP
@@ -203,7 +206,7 @@ local lsp_l_keymaps = function(bufnr)
 	local mappings = {
 		k = { "<cmd>LspUI diagnostic prev<cr>", "which_key_ignore" },
 		j = { "<cmd>LspUI diagnostic next<cr>", "which_key_ignore" },
-		["<Space>"] = { "<cmd>lua vim.diagnostic.setloclist({buffer=0})<CR>", "which_key_ignore" },
+		["<Space>"] = { "<cmd>Trouble workspace_diagnostics<CR>", "which_key_ignore" },
 		l = {
 			name = "Lsp Actions",
 			w = {
@@ -257,7 +260,7 @@ end
 M.rust_maps = function(bufnr)
 	local opts = {
 		mode = "n", -- NORMAL mode
-		prefix = "<leader>",
+		prefix = "<leader>l",
 		buffer = bufnr, -- Global mappings. Specify a buffer number for buffer local mappings
 		silent = true, -- use `silent` when creating keymaps
 		noremap = true, -- use `noremap` when creating keymaps
@@ -300,7 +303,7 @@ M.go_keymaps = function(bufnr)
 	local visual_mode = { mode = "v" }
 
 	local opts = {
-		prefix = "<leader>",
+		prefix = "<leader>l",
 		buffer = bufnr,
 		noremap = true,
 		nowait = true,
@@ -370,7 +373,7 @@ end
 M.flutter_maps = function(bufnr)
 	local opts = {
 		mode = "n",
-		prefix = "<leader>",
+		prefix = "<leader>l",
 		buffer = bufnr,
 	}
 	local mappings = {
@@ -398,7 +401,7 @@ end
 M.ts_maps = function(bufnr)
 	local opts = {
 		mode = "n",
-		prefix = "<leader>",
+		prefix = "<leader>l",
 		buffer = bufnr,
 	}
 
@@ -406,17 +409,17 @@ M.ts_maps = function(bufnr)
 		p = {
 			name = "TypeScript",
 			R = { "", "which_key_ignore" },
-			d = { "<cmd>require('typescript').actions.removeUnused<cr>", "Remove Unused Imports" },
-			e = { "<cmd>require('typescript').actions.fixAll<cr>", "Fix Some" },
+			d = { "<cmd>TypescriptRemoveUnused<cr>", "Remove Unused Imports" },
+			e = { "<cmd>TypescriptFixAll<cr>", "Fix Some" },
 			["<C-R>"] = { "", "which_key_ignore" },
-			r = { "<cmd>require('typescript').renameFile(source, target)<cr>", "Rename File" },
+			r = { "<cmd>TypescriptRenameFile<cr>", "Rename File" },
 			q = { "", "which_key_ignore" },
 			D = { "", "which_key_ignore" },
-			o = { "<cmd>require('typescript').actions.organizeImports<cr>", "Organize Imports" },
-			t = { "<cmd>require('typescript').goToSourceDefinition(winnr, opts)<cr>", "Go to Source" },
+			o = { "<cmd>TypescriptOrganizeImports<cr>", "Organize Imports" },
+			t = { "<cmd>TypescriptGoToSourceDefinition(winnr, opts)<cr>", "Go to Source" },
 			y = { "", "which_key_ignore" },
 			l = { "", "which_key_ignore" },
-			a = { "<cmd>require('typescript').actions.addMissingImports<cr>", "Add Missing Imports" },
+			a = { "<cmd>TypescriptAddMissingImports<cr>", "Add Missing Imports" },
 		},
 	}
 

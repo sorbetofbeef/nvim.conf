@@ -22,7 +22,7 @@ require("lazy").setup({
 		{ "kkharji/sqlite.lua" },
 		-- { "stevearc/dressing.nvim", dependencies = { "MunifTanjim/nui.nvim" }, event = "VeryLazy" },
 		-- UI --
-		{ "lukas-reineke/headlines.nvim" },
+		-- { "lukas-reineke/headlines.nvim" },
 		{ "karb94/neoscroll.nvim" },
 		-- PopOvers/PopUps
 		{ "folke/trouble.nvim" },
@@ -31,14 +31,14 @@ require("lazy").setup({
 		{ "feline-nvim/feline.nvim" },
 		-- Overlays
 		{ "lukas-reineke/indent-blankline.nvim" },
-		{ "kevinhwang91/nvim-bqf", ft = "qf" },
+		-- { "kevinhwang91/nvim-bqf", ft = "qf" },
 		{
 			"junegunn/fzf",
 			build = function()
 				vim.fn["fzf#install"]()
 			end,
 		},
-		{ "j-hui/fidget.nvim" },
+		-- { "j-hui/fidget.nvim" },
 
 		--Icons
 		{ "nvim-tree/nvim-web-devicons" },
@@ -47,7 +47,7 @@ require("lazy").setup({
 		-- Editing --
 		{ "ggandor/leap.nvim" },
 		{ "ahmedkhalf/project.nvim" },
-		{ "akinsho/toggleterm.nvim" },
+		-- { "akinsho/toggleterm.nvim" },
 
 		-- Mappings
 		{ "mg979/vim-visual-multi" },
@@ -64,7 +64,7 @@ require("lazy").setup({
 		},
 		{ "nvim-telescope/telescope-ui-select.nvim" },
 		{ "nvim-telescope/telescope-project.nvim" },
-		{ "nvim-telescope/telescope-file-browser.nvim" },
+		-- { "nvim-telescope/telescope-file-browser.nvim" },
 		{ "benfowler/telescope-luasnip.nvim" },
 
 		-- Development --
@@ -92,12 +92,12 @@ require("lazy").setup({
 		-- DAP
 		{ "jbyuki/one-small-step-for-vimkind" },
 		{ "theHamsta/nvim-dap-virtual-text" },
-		{
-			"SmiteshP/nvim-navic",
-			dependencies = "neovim/nvim-lspconfig",
-		},
+		-- {
+		-- 	"SmiteshP/nvim-navic",
+		-- 	dependencies = "neovim/nvim-lspconfig",
+		-- },
 
-		{ "Djancyp/outline", config = true },
+		-- { "Djancyp/outline", config = true },
 	},
 	defaults = {
 		-- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
