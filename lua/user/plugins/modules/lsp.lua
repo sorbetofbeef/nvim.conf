@@ -28,7 +28,6 @@ return {
 				"graphql",
 				"svelte",
 				"tailwindcss",
-				"tsserver",
 				"dartls",
 				"rust_analyzer",
 				"lua_ls",
@@ -48,8 +47,6 @@ return {
 				"sqlls",
 				"emmet_ls",
 				"dockerls",
-				"tsserver",
-				"vimls",
 				"graphql",
 				"svelte",
 				"tailwindcss",
@@ -95,11 +92,6 @@ return {
 
 				if server == "rust_analyzer" then
 					require("user.lsp.settings.rust")
-					goto continue
-				end
-
-				if server == "tsserver" then
-					require("user.lsp.settings.tsserver")
 					goto continue
 				end
 

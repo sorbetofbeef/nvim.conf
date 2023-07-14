@@ -15,12 +15,16 @@ else
 	theme = os.getenv("DARK_THEME")
 end
 
-local name
+local name = ""
 if os.getenv("DARK_THEME") == "catppuccin" then
 	name = "catppuccin"
 end
 
-return {
+if os.getenv("DARK_THEME") == "embark" then
+	name = "embark"
+end
+
+local config_object = {
 	os.getenv("THEME_GITHUB_PATH"),
 	lazy = false,
 	priority = 1000,
@@ -29,3 +33,9 @@ return {
 		vim.cmd("colorscheme " .. theme)
 	end,
 }
+
+if name ~= "" then
+	config_object.name = name
+end
+
+return config_object

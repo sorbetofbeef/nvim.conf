@@ -82,9 +82,6 @@ require("lazy").setup({
 		-- Neovim LuaDev
 		{ "folke/neodev.nvim" },
 		-- TypeScript
-		{
-			"jose-elias-alvarez/typescript.nvim",
-		},
 		{ "windwp/nvim-ts-autotag" },
 		{ "David-Kunz/markid" },
 		-- Git

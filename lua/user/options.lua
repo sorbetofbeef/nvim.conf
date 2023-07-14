@@ -70,7 +70,7 @@ vim.opt.pumblend = 10 -- Make popup window translucent
 vim.opt.pumheight = 20 -- Limit the amount of autocomplete items shown
 
 -- GUI Options
-vim.o.guifont = "PragmataPro Liga:h12"
+vim.o.guifont = "Cartograph CF:h9"
 vim.opt.linespace = 0
 
 -- Neovide Global Options --

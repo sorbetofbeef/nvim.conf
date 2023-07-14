@@ -409,17 +409,18 @@ M.ts_maps = function(bufnr)
 		p = {
 			name = "TypeScript",
 			R = { "", "which_key_ignore" },
-			d = { "<cmd>TypescriptRemoveUnused<cr>", "Remove Unused Imports" },
-			e = { "<cmd>TypescriptFixAll<cr>", "Fix Some" },
+			d = { "<cmd>TSToolsRemoveUnused<cr>", "Remove Unused Imports" },
+			e = { "<cmd>TSToolsFixAll<cr>", "Fix Some" },
 			["<C-R>"] = { "", "which_key_ignore" },
-			r = { "<cmd>TypescriptRenameFile<cr>", "Rename File" },
+			r = { "<cmd>TSToolsRenameFile<cr>", "Rename File" },
 			q = { "", "which_key_ignore" },
 			D = { "", "which_key_ignore" },
-			o = { "<cmd>TypescriptOrganizeImports<cr>", "Organize Imports" },
-			t = { "<cmd>TypescriptGoToSourceDefinition(winnr, opts)<cr>", "Go to Source" },
+			o = { "<cmd>TSToolsOrganizeImports<cr>", "Organize Imports" },
+			t = { "<cmd>TSToolsGoToSourceDefinition(winnr, opts)<cr>", "Go to Source" },
 			y = { "", "which_key_ignore" },
 			l = { "", "which_key_ignore" },
-			a = { "<cmd>TypescriptAddMissingImports<cr>", "Add Missing Imports" },
+
+			a = { ":TSToolsAddMissingImports<cr>", "Add Missing Imports" },
 		},
 	}
 
