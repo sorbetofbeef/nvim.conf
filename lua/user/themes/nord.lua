@@ -1,30 +1,25 @@
 local M = {}
 
 M.setup = function(variant)
-	vim.g.nord_contrast = true
-	vim.g.nord_borders = true
-	vim.g.nord_disable_background = false
-	vim.g.nord_italic = true
-	vim.g.nord_bold = true
-
-	require("headlines").setup({
-		markdown = {
-			headline_highlights = {
-				"Headline1",
-				"Headline2",
-				"Headline3",
-				"Headline4",
-				"Headline5",
-				"Headline6",
-			},
-			codeblock_highlight = "CodeBlock",
-			dash_highlight = "Dash",
-			quote_highlight = "Quote",
+	require("nord").setup({
+		transparent = false, -- Enable this to disable setting the background color
+		terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
+		diff = { mode = "bg" }, -- enables/disables colorful backgrounds when used in diff mode. values : [bg|fg]
+		borders = true, -- Enable the border between verticaly split windows visible
+		errors = { mode = "bg" }, -- Display mode for errors and diagnostics
+		-- values : [bg|fg|none]
+		styles = {
+			-- Style to be applied to different syntax groups
+			-- Value is any valid attr-list value for `:help nvim_set_hl`
+			comments = { italic = true },
+			keywords = {},
+			functions = {},
+			variables = {},
 		},
 	})
 
 	vim.opt.background = variant
-	require("nord").set()
+	vim.cmd([[colorscheme nord]])
 end
 
 return M

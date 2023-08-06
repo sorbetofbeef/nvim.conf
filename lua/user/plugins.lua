@@ -16,13 +16,12 @@ vim.g.maplocalleader = " "
 require("lazy").setup({
 	spec = {
 		{ import = "user.plugins.modules" },
-		{ import = "user.lsp.lsp-ui" },
+		-- { import = "user.lsp.lsp-ui" },
 		{ "nvim-lua/plenary.nvim" },
 		{ "moll/vim-bbye" },
 		{ "kkharji/sqlite.lua" },
-		-- { "stevearc/dressing.nvim", dependencies = { "MunifTanjim/nui.nvim" }, event = "VeryLazy" },
 		-- UI --
-		-- { "lukas-reineke/headlines.nvim" },
+		{ "lukas-reineke/headlines.nvim" },
 		{ "karb94/neoscroll.nvim" },
 		-- PopOvers/PopUps
 		{ "folke/trouble.nvim" },
@@ -31,15 +30,12 @@ require("lazy").setup({
 		{ "feline-nvim/feline.nvim" },
 		-- Overlays
 		{ "lukas-reineke/indent-blankline.nvim" },
-		-- { "kevinhwang91/nvim-bqf", ft = "qf" },
 		{
 			"junegunn/fzf",
 			build = function()
 				vim.fn["fzf#install"]()
 			end,
 		},
-		-- { "j-hui/fidget.nvim" },
-
 		--Icons
 		{ "nvim-tree/nvim-web-devicons" },
 		-- Colorschemes
@@ -47,8 +43,6 @@ require("lazy").setup({
 		-- Editing --
 		{ "ggandor/leap.nvim" },
 		{ "ahmedkhalf/project.nvim" },
-		-- { "akinsho/toggleterm.nvim" },
-
 		-- Mappings
 		{ "mg979/vim-visual-multi" },
 		-- Notes/Organization
@@ -64,11 +58,8 @@ require("lazy").setup({
 		},
 		{ "nvim-telescope/telescope-ui-select.nvim" },
 		{ "nvim-telescope/telescope-project.nvim" },
-		-- { "nvim-telescope/telescope-file-browser.nvim" },
 		{ "benfowler/telescope-luasnip.nvim" },
-
 		-- Development --
-		-- Diagnostics
 		-- JSON
 		{ "b0o/Schemastore.nvim" },
 		-- Rust
@@ -78,7 +69,6 @@ require("lazy").setup({
 		{ "ray-x/go.nvim" },
 		-- Flutter
 		{ "akinsho/flutter-tools.nvim" },
-		-- SQL
 		-- Neovim LuaDev
 		{ "folke/neodev.nvim" },
 		-- TypeScript
@@ -89,12 +79,6 @@ require("lazy").setup({
 		-- DAP
 		{ "jbyuki/one-small-step-for-vimkind" },
 		{ "theHamsta/nvim-dap-virtual-text" },
-		-- {
-		-- 	"SmiteshP/nvim-navic",
-		-- 	dependencies = "neovim/nvim-lspconfig",
-		-- },
-
-		-- { "Djancyp/outline", config = true },
 	},
 	defaults = {
 		-- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.

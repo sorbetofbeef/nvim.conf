@@ -133,9 +133,9 @@ local plug_maps = function()
 			p = { "<cmd>Telescope projects<CR>", "Find Projects" },
 			k = { "<cmd>Telescope keymaps<CR>", "Find Keymaps" },
 		},
-		m = { "<cmd>lua require('dropbar.api').pick()<CR>", "Dropbar Jump" },
+		-- m = { "<cmd>lua require('dropbar.api').pick()<CR>", "Dropbar Jump" },
 		-- Symbol Outline
-		o = { "<cmd>SymbolsOutline<CR>", "Symbols Panel" },
+		o = { "<cmd>Lspsaga outline<CR>", "Symbols Panel" },
 		-- DAP
 		d = {
 			name = "Debug",
@@ -188,11 +188,10 @@ local lsp_g_keymaps = function(bufnr)
 		buffer = bufnr,
 	}
 	local mappings = {
-		D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
-		d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
-		i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Implementation" },
-		r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
-		e = { "<cmd>Trouble document_diagnostics<CR>", "Diagnostics" },
+		d = { "<cmd>Lspsaga goto_definition<CR>", "Declaration" },
+		D = { "<cmd>Lspsaga peek_definition<CR>", "Definition" },
+		f = { "<cmd>Lspsaga finder ref+def+imp<CR>", "References" },
+		e = { "<cmd>Lspsaga show_workspace_diagnostics<CR>", "Diagnostics" },
 	}
 	wk.register(mappings, opts)
 end
@@ -204,9 +203,9 @@ local lsp_l_keymaps = function(bufnr)
 		buffer = bufnr,
 	}
 	local mappings = {
-		k = { "<cmd>LspUI diagnostic prev<cr>", "which_key_ignore" },
-		j = { "<cmd>LspUI diagnostic next<cr>", "which_key_ignore" },
-		["<Space>"] = { "<cmd>Trouble workspace_diagnostics<CR>", "which_key_ignore" },
+		k = { "<cmd>Lspsaga diagnostic_jump_prev<cr>", "which_key_ignore" },
+		j = { "<cmd>Lspsaga diagnostic_jump_next<cr>", "which_key_ignore" },
+		["<Space>"] = { "<cmd>Lspsaga show_workspace_diagnostics<CR>", "which_key_ignore" },
 		l = {
 			name = "Lsp Actions",
 			w = {
@@ -224,10 +223,11 @@ local lsp_l_keymaps = function(bufnr)
 			f = { "<cmd>lua vim.lsp.buf.format({async = true})<cr>", "Formatting" },
 			k = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
 			-- r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-			r = { "<cmd>LspUI rename<cr>", "Rename" },
+			r = { "<cmd>Lspsaga rename<cr>", "Rename in Buffer" },
+			R = { ":Lspsaga project_rename ", "Rename in Project" },
 			-- q = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Diagnostic List" },
 			-- a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
-			a = { "<cmd>LspUI code_action<cr>", "Code Action" },
+			a = { "<cmd>Lspsaga code_action<cr>", "Code Action" },
 		},
 	}
 	wk.register(mappings, opts)
@@ -365,7 +365,7 @@ local lsp_doc_mapping = function(bufnr)
 		buffer = bufnr,
 	}
 	local mappings = {
-		K = { "<cmd>LspUI hover<CR>", "Hover Docs" },
+		K = { "<cmd>Lspsaga hover_doc<CR>", "Hover Docs" },
 	}
 	wk.register(mappings, opts)
 end

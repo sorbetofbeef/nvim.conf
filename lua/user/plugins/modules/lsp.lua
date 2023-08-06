@@ -22,16 +22,15 @@ return {
 				"taplo",
 				"marksman",
 				"sqlls",
-				"emmet_ls",
 				"dockerls",
 				"vimls",
 				"graphql",
 				"svelte",
-				"tailwindcss",
 				"dartls",
 				"rust_analyzer",
 				"lua_ls",
 				"gopls",
+				"cssmodules_ls",
 			}
 
 			local mason_servers = {
@@ -42,15 +41,15 @@ return {
 				"bashls",
 				"jsonls",
 				"yamlls",
+				"vimls",
 				"taplo",
 				"marksman",
 				"sqlls",
-				"emmet_ls",
 				"dockerls",
 				"graphql",
 				"svelte",
-				"tailwindcss",
 				"gopls",
+				"cssmodules_ls",
 			}
 
 			require("mason").setup({})
@@ -79,6 +78,11 @@ return {
 					on_attach = handler.on_attach,
 					capabilities = handler.capabilities,
 				}
+
+				if server == "cssmodules_ls" then
+					local cssmodules_ls_opts = require("user.lsp.settings.cssmodules_ls")
+					opts = vim.tbl_deep_extend("force", cssmodules_ls_opts, opts)
+				end
 
 				if server == "lua_ls" then
 					local sumneko_opts = require("user.lsp.settings.sumneko_lua")
@@ -131,11 +135,12 @@ return {
 				"shellcheck",
 				"flake8",
 				"revive",
+				"prettier",
 			}
 
 			require("mason-null-ls").setup({
+				automatic_installation = true,
 				ensure_installed = null_install,
-				automatic_inststallation = true,
 			})
 
 			require("null-ls").setup()
